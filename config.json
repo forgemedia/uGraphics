@@ -1,0 +1,6 @@
+{
+    "project": "Gen3",
+    "defaults": {
+        "port": 3000
+    }
+}

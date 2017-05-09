@@ -8,7 +8,8 @@
     "babel-register": "^6.24.1",
     "express": "^4.15.2",
     "jspm": "^0.16.53",
-    "pug": "^2.0.0-rc.1"
+    "pug": "^2.0.0-rc.1",
+    "yargs": "^8.0.1"
   },
   "jspm": {
     "configFile": "assets/config.js",

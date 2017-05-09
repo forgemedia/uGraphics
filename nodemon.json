@@ -1,5 +1,11 @@
 {
-    "ext": "js es6",
+    "ext": "js es6 json",
     "watch": ".",
-    "ignore": ["assets", "jspm_packages", "node_modules"]
+    "ignore": [
+        "assets",
+        "jspm_packages",
+        "node_modules",
+        "package.json",
+        "nodemon.json"
+    ]
 }
