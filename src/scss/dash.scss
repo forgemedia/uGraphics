@@ -1,0 +1,16 @@
+@import 'bootstrap';
+
+body {
+    background: $gray-lighter;
+}
+
+#loading {
+    text-align: center;
+    color: $gray-light;
+}
+
+#contentCard {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top: none;
+}

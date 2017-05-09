@@ -1,15 +1,22 @@
+doctype html
 html
     head
         title #{product} | #{project}
         base(href='/')
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
         link(rel='stylesheet', href='/output/scss/dash.css')
     body
-        h1 #{product} (#{project})
-        ul
-            li: a(href='/dash/page/bug') Bug
-            li: a(href='/dash/page/test') Test
-        #content
-            h1#loading Loading, please wait...
+        nav.navbar.navbar-toggleable-md.navbar-inverse.bg-inverse: .container
+            button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse')
+                span.navbar-toggler-icon
+            a.navbar-brand(href='/dash')= product
+            .collapse.navbar-collapse
+                ul.navbar-nav.mr-auto#mainNav
+                    //- li.nav-item: a.nav-link(href='page/bug' data-navigo) Bug
+                    //- li.nav-item: a.nav-link(href='page/test' data-navigo) Test
+            a.navbar-brand(href='/dash')= project
+        .container: .card#contentCard: .card-block: #content
+            #loading: h1 Loading, please wait...
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')
         script System.import('/js/dash')

@@ -11,7 +11,12 @@
         "jspm_packages": "jspm_packages",
         "output": "output"
     },
-    "browserSupport": [
-        "Chrome > 40"
-    ]
+    "frontend": {
+        "browserSupport": [
+            "Chrome > 40"
+        ],
+        "sassIncludePaths": [
+            "node_modules/bootstrap/scss"
+        ]
+    }
 }

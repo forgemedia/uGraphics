@@ -11,7 +11,7 @@ import { Debug } from './server';
 // List PostCSS plugins
 let postCSSPlugins = [
     Cssnext({
-        browsers: Config.BrowserSupport
+        browsers: Config.frontend.browserSupport
     })
 ];
 if (Debug) postCSSPlugins.push(
@@ -26,7 +26,8 @@ export let Sass = app => {
         src: Path.join(__dirname, 'src', 'scss'),
         dest: Path.join(__dirname, 'output', 'scss'),
         prefix: '/output/scss',
-        response: false
+        response: false,
+        includePaths: Config.frontend.sassIncludePaths
     }));
     app.use(PostCSSMiddleware({
         src: req => Path.join(__dirname, 'output', 'scss', req.url),
