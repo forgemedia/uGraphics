@@ -1,11 +1,10 @@
-- let title = 'Forge Graphics Dashboard'
 html
     head
-        title= title
+        title #{product} | #{project}
         base(href='/')
         link(rel='stylesheet', href='/output/scss/dash.css')
     body
-        h1= title
+        h1 #{product} (#{project})
         ul
             li: a(href='/dash/page/bug') Bug
         #content

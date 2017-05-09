@@ -1,5 +1,8 @@
 {
-    "project": "Gen3",
+    "locals": {
+        "product": "Forge Graphics Dashboard",
+        "project": "Gen3"
+    },
     "defaults": {
         "port": 3000
     },

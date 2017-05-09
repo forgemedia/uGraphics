@@ -38,6 +38,7 @@ let settings = Yargs
 // Create an Express app, using Pug as the view engine
 var app = Express();
 app.set('view engine', 'pug');
+app.locals = Config.locals;
 
 StylesheetMiddleware.Sass(app);
 
