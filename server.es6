@@ -12,12 +12,12 @@ import Config from './config';
 import DashRouter from './dash.router';
 import * as StylesheetMiddleware from './stylesheet';
 
-let Debug = process.env.NODE_ENV == 'debug';
+let debug = process.env.NODE_ENV == 'debug';
 
 // -----------------------------------------------------------------------------
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
-Winston.level = Debug? 'debug' : 'info';
+Winston.level = debug? 'debug' : 'info';
 
 // Parse command line options with Yargs, taking defaults from config.json
 let settings = Yargs
@@ -43,8 +43,8 @@ StylesheetMiddleware.Sass(app);
 
 // - SERVER --------------------------------------------------------------------
 // Serve static directories
-for (let url of Config.publicDirs)
-    app.use(`/${url}`, Express.static(Path.join(__dirname, url)));
+for (let pub in Config.publicDirs)
+    app.use(`/${pub}`, Express.static(Path.join(__dirname, Config.publicDirs[pub])));
 
 // Use the dashboard router module to handle the dashboard view
 app.use(['/dash', '/dashboard'], DashRouter);
@@ -56,4 +56,4 @@ app.listen(settings.port, () => {
     Winston.debug('Debug enabled');
 });
 
-export default Debug;
+export default debug;

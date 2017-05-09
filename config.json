@@ -3,11 +3,11 @@
     "defaults": {
         "port": 3000
     },
-    "publicDirs": [
-        "assets",
-        "jspm_packages",
-        "output"
-    ],
+    "publicDirs": {
+        "js": "src/js",
+        "jspm_packages": "jspm_packages",
+        "output": "output"
+    },
     "browserSupport": [
         "Chrome > 40"
     ]
