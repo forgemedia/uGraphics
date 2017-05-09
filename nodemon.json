@@ -1,0 +1,5 @@
+{
+    "ext": "js es6",
+    "watch": ".",
+    "ignore": ["assets", "jspm_packages", "node_modules"]
+}
