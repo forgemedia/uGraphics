@@ -7,36 +7,29 @@ import Express from 'express';
 import Yargs from 'yargs';
 import Winston from 'winston-color';
 
-// Import Express middleware to compile/transform stylesheets
-import SassMiddleware from 'node-sass-middleware';
-import PostCSSMiddleware from 'postcss-middleware';
-
-// Import PostCSS plugins
-import Cssnext from 'postcss-cssnext';
-import Cssnano from 'cssnano';
-
 // Import config and modules from project
-import Config from './config.json';
+import Config from './config';
 import DashRouter from './dash.router';
+import * as StylesheetMiddleware from './stylesheet';
 
+let Debug = process.env.NODE_ENV == 'debug';
 
 // -----------------------------------------------------------------------------
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
-    let debug = process.env.NODE_ENV == 'debug';
-    Winston.level = debug? 'debug' : 'info';
+Winston.level = Debug? 'debug' : 'info';
 
-    // Parse command line options with Yargs, taking defaults from config.json
-    let settings = Yargs
-        .option('port', {
-            alias: 'p',
-            describe: 'Port to listen on',
-        type: 'number'
-    })
-    .default(Config.defaults)
-    .usage(`Forge Graphics Server (${Config.project})\nUsage: $0 [-p port]`)
-    .help().alias('h', 'help')
-    .argv;
+// Parse command line options with Yargs, taking defaults from config.json
+let settings = Yargs
+    .option('port', {
+        alias: 'p',
+        describe: 'Port to listen on',
+    type: 'number'
+})
+.default(Config.defaults)
+.usage(`Forge Graphics Server (${Config.project})\nUsage: $0 [-p port]`)
+.help().alias('h', 'help')
+.argv;
 
 
 // -----------------------------------------------------------------------------
@@ -46,30 +39,7 @@ import DashRouter from './dash.router';
 var app = Express();
 app.set('view engine', 'pug');
 
-// - STYLESHEET PROCESSING -----------------------------------------------------
-// List PostCSS plugins
-let postCSSPlugins = [
-    Cssnext({
-        browsers: Config.BrowserSupport
-    })
-];
-if (debug) postCSSPlugins.push(
-    Cssnano({
-        autoprefixer: false
-    })
-);
-
-// Use the stylesheet middleware 
-app.use(SassMiddleware({
-    src: Path.join(__dirname, 'src', 'scss'),
-    dest: Path.join(__dirname, 'output', 'scss'),
-    prefix: '/output/scss',
-    response: false
-}));
-app.use(PostCSSMiddleware({
-    src: req => Path.join(__dirname, 'output', 'scss', req.url),
-    plugins: postCSSPlugins
-}));
+StylesheetMiddleware.Sass(app);
 
 // - SERVER --------------------------------------------------------------------
 // Serve static directories
@@ -83,4 +53,7 @@ app.use(['/dash', '/dashboard'], DashRouter);
 app.listen(settings.port, () => {
     Winston.info(`Forge Graphics Dashboard ${Config.project}`)
     Winston.info(`Listening on port ${settings.port}`);
+    Winston.debug('Debug enabled');
 });
+
+export default Debug;
