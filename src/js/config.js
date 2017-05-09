@@ -17,9 +17,10 @@ System.config({
     "axios": "npm:axios@0.16.1",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
-    "cash-dom": "npm:cash-dom@1.3.5",
     "core-js": "npm:core-js@1.2.7",
+    "jquery": "npm:jquery@3.2.1",
     "navigo": "npm:navigo@4.7.1",
+    "rivets": "npm:rivets@0.9.6",
     "socket.io-client": "npm:socket.io-client@2.0.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -100,10 +101,6 @@ System.config({
     "npm:buffer@5.0.6": {
       "base64-js": "npm:base64-js@1.2.0",
       "ieee754": "npm:ieee754@1.1.8",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
-    },
-    "npm:cash-dom@1.3.5": {
-      "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:core-js@1.2.7": {
@@ -215,6 +212,11 @@ System.config({
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "string_decoder": "npm:string_decoder@1.0.0",
       "util-deprecate": "npm:util-deprecate@1.0.2"
+    },
+    "npm:rivets@0.9.6": {
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "sightglass": "npm:sightglass@0.2.6",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:socket.io-client@2.0.1": {
       "backo2": "npm:backo2@1.0.2",
