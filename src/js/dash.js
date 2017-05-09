@@ -7,6 +7,8 @@ import Axios from 'axios';
 import * as BugCtrl from './dash/bug';
 import * as TestCtrl from './dash/test';
 
+$('#loading').remove();
+
 let controllers = {
     bug: {
         name: 'Bug',
