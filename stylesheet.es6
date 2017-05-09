@@ -5,7 +5,7 @@ import SassMiddleware from 'node-sass-middleware';
 import PostCSSMiddleware from 'postcss-middleware';
 
 import Config from './config';
-import Debug from './server';
+import { Debug } from './server';
 
 // - STYLESHEET PROCESSING -----------------------------------------------------
 // List PostCSS plugins

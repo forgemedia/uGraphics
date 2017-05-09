@@ -20,6 +20,7 @@ System.config({
     "cash-dom": "npm:cash-dom@1.3.5",
     "core-js": "npm:core-js@1.2.7",
     "navigo": "npm:navigo@4.7.1",
+    "socket.io-client": "github:socketio/socket.io-client@2.0.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
