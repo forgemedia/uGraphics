@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import _ from 'lodash';
 import SocketIO from 'socket.io-client';
 import Navigo from 'navigo';
 import Axios from 'axios';
@@ -20,7 +21,6 @@ let controllers = {
 let bindings = {};
 
 let elem = $('#content');
-let defaultRoute = 'bug';
 
 let setRoute = id => {
     Axios.get(`/dash/templates/${id}`)
@@ -28,7 +28,7 @@ let setRoute = id => {
             elem.html(response.data);
             bindings[id] = controllers[id].controller.Bind(`#${id}Panel`);
         })
-        .catch(error => router.navigate(`/page/${defaultRoute}`));
+        .catch(error => router.navigate(`/page/${_.keys(controllers)[0]}`));
 };
 
 let router = new Navigo();

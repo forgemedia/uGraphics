@@ -19,6 +19,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.7",
     "jquery": "npm:jquery@3.2.1",
+    "lodash": "npm:lodash@4.17.4",
     "navigo": "npm:navigo@4.7.1",
     "rivets": "npm:rivets@0.9.6",
     "socket.io-client": "npm:socket.io-client@2.0.1",
