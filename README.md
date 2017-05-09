@@ -13,7 +13,7 @@ your platform, e.g. Homebrew on macOS or Chocolatey on Windows)
 `npm install -g jspm`)
 - Strongly recommended: Yarn, an alternative to the npm package manager (again,
 recommended to install this through e.g. `brew` or `choco`)
-- Recommended for development: nodemon (`npm install -g nodemon`)
+- For development: gulp (`npm install -g gulp-cli`)
 
 ### Installing packages
 
@@ -23,7 +23,8 @@ it installed), followed by `jspm install`
 ### Running the server
 
 - Run `node index` to run the server
-- Run `nodemon index.js` to watch for changes to essential files and reload
-the server (useful during development)
+- Run `gulp` to run the server with the debug environment variable,
+watch for changes to essential files and reload the server (useful during
+development)
 - You can use the option `-p` or `--port` to choose the port the server listens
 on (3000 by default)

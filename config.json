@@ -2,5 +2,13 @@
     "project": "Gen3",
     "defaults": {
         "port": 3000
-    }
+    },
+    "publicDirs": [
+        "assets",
+        "jspm_packages",
+        "output"
+    ],
+    "browserSupport": [
+        "Chrome > 40"
+    ]
 }
