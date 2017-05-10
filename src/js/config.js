@@ -17,6 +17,7 @@ System.config({
     "axios": "npm:axios@0.16.1",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
+    "bootstrap": "npm:bootstrap@4.0.0-alpha.6",
     "core-js": "npm:core-js@1.2.7",
     "jquery": "npm:jquery@3.2.1",
     "lodash": "npm:lodash@4.17.4",
@@ -87,6 +88,10 @@ System.config({
       "callsite": "npm:callsite@1.0.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:bootstrap@4.0.0-alpha.6": {
+      "jquery": "npm:jquery@3.2.1",
+      "tether": "github:HubSpot/tether@1.4.0"
     },
     "npm:browserify-zlib@0.1.4": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",

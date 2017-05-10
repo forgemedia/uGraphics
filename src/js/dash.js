@@ -5,6 +5,7 @@ import SocketIO from 'socket.io-client';
 import Navigo from 'navigo';
 import Axios from 'axios';
 import Rivets from 'rivets';
+import Bootstrap from 'bootstrap';
 
 // Custom module imports
 import * as BugCtrl from './dash/bug';

@@ -25,6 +25,7 @@
     "configFile": "src/js/config.js",
     "dependencies": {
       "axios": "npm:axios@^0.16.1",
+      "bootstrap": "npm:bootstrap@4.0.0-alpha.6",
       "jquery": "npm:jquery@^3.2.1",
       "lodash": "npm:lodash@^4.17.4",
       "navigo": "npm:navigo@^4.7.1",
