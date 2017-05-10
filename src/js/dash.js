@@ -16,7 +16,7 @@ let navbarElem = $('#mainNav');
 let contentElem = $('#content');
 
 // When loaded, remove the 'Loading' message
-$('#loading').remove();
+$('[data-remove-loaded]').each((i, v) => $(v).remove());
 
 // List the controllers
 let controllers = {
@@ -57,8 +57,8 @@ let setRoute = id => {
     // Remove the 'active' class for all navbar items
     // then add it to the current one
     // Very possibly a hack-y workaround for functionality I've not yet grasped
-    navbarElem.children('li').each((i, v) => $(v).removeClass('active'));
-    $(`#${id}Link`).addClass('active');
+    navbarElem.children('li').each((i, v) => $(v).children('a').removeClass('active'));
+    $(`#${id}Link a`).addClass('active');
 };
 
 // Create a router object

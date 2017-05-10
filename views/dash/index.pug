@@ -11,12 +11,13 @@ html
                 span.navbar-toggler-icon
             a.navbar-brand(href='/dash')= product
             .collapse.navbar-collapse
-                ul.navbar-nav.mr-auto#mainNav
-                    //- li.nav-item: a.nav-link(href='page/bug' data-navigo) Bug
-                    //- li.nav-item: a.nav-link(href='page/test' data-navigo) Test
+                ul.navbar-nav.mr-auto
             a.navbar-brand(href='/dash')= project
-        .container: .card#contentCard: .card-block: #content
-            #loading: h1 Loading, please wait...
+        .container: .card#contentCard
+            .card-header: ul.nav.nav-tabs.card-header-tabs#mainNav
+                li.nav-item(data-remove-loaded): a.nav-link.disabled(href='#') &nbsp;
+            .card-block: #content
+                #loading(data-remove-loaded): h1 Loading, please wait...
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')
         script System.import('/js/dash')
