@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
+import { IO } from '../dash';
 
 let dataStore = {
     showBug: false

@@ -70,3 +70,5 @@ router
 
 // Connect to the socket.io server
 let io = SocketIO.connect();
+
+export { io as IO };
