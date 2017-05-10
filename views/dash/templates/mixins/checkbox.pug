@@ -1,0 +1,5 @@
+mixin checkbox(label, bind, colour)
+    .btn-group(data-toggle='buttons')
+        label.btn(class=`btn-outline-${colour}`)
+            input(type='checkbox', rv-checked=bind)
+            |  #{label}
