@@ -1,15 +1,22 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
-import { IO } from '../cg';
+import SocketIOClient from 'socket.io-client';
 
-let dataStore = {
-    showBug: false
-};
+let IO = SocketIOClient.connect();
+
+let dataStore = {};
 
 let bind = el => Rivets.bind($(el), dataStore);
 
-$(() => $('body').show());
+$(() => {
+    IO.emit('bug:get');
+    $('body').show();
+});
 
-IO.on('bug:sync', msg => dataStore = msg);
+IO.on('bug:sync', msg => {
+    console.log(`bug:sync: ${JSON.stringify(msg)}`);
+    Object.assign(dataStore, msg);
+    console.log(JSON.stringify(dataStore));
+});
 
 export { bind as Bind };
