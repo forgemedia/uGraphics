@@ -12,3 +12,14 @@ body {
 #contentCard {
     margin-top: 20px;
 }
+
+footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    background: $gray;
+    color: $gray-lightest;
+    padding: 20px 0px;
+    margin-top: 20px;
+    border-top: 1px solid $gray;
+}

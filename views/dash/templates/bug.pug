@@ -1,3 +1,11 @@
 include mixins/checkbox
 #bugPanel
-    +checkbox('Show bug', 'showBug', 'danger')
+    .row
+        .col-md-4: .card
+            .card-block
+                h4.card-title The bug
+                p.card-text
+                 | The bug (or DOG) sits in the top left corner of the screen,
+                 | providing a logo to visually identify the broadcaster.
+            ul.list-group.list-group-flush
+                li.list-group-item: +checkbox('Show bug', 'showBug', 'danger')

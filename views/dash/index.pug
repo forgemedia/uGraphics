@@ -13,11 +13,16 @@ html
             .collapse.navbar-collapse
                 ul.navbar-nav.mr-auto
             a.navbar-brand(href='/dash')= project
+
         .container: .card#contentCard
             .card-header: ul.nav.nav-tabs.card-header-tabs#mainNav
                 li.nav-item(data-remove-loaded): a.nav-link.disabled(href='#') &nbsp;
             .card-block: #content
                 #loading(data-remove-loaded): h1 Loading, please wait...
+
+        footer: .container
+            span &copy; #{copyright}
+
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')
         script System.import('/js/dash')

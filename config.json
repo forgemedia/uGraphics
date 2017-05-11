@@ -1,7 +1,8 @@
 {
     "locals": {
         "product": "Forge Graphics Dashboard",
-        "project": "Gen3"
+        "project": "Gen3",
+        "copyright": "2017 Forge Media"
     },
     "defaults": {
         "port": 3000
