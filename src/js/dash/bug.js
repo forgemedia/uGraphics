@@ -9,7 +9,7 @@ let dataStore = {
 let proxy = new Proxy(dataStore, {
     set: function(target, property, value, receiver) {
         target[property] = value;
-        IO.emit('bug:sync', dataStore);
+        IO.emit('bug:sync', target);
     }
 });
 
