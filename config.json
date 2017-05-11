@@ -11,7 +11,7 @@
         "js": "src/js",
         "jspm_packages": "jspm_packages",
         "output": "output",
-        "fonts": "fonts"
+        "assets": "assets"
     },
     "frontend": {
         "browserSupport": [
