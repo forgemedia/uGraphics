@@ -5,8 +5,7 @@ import Env from 'gulp-env';
 Gulp.task('default', () => {
     Env({
         vars: {
-            NODE_ENV: 'debug',
-            DEBUG: 'express:*'
+            NODE_ENV: 'debug'
         }
     });
     Nodemon({
@@ -17,7 +16,8 @@ Gulp.task('default', () => {
             'jspm_packages',
             'node_modules',
             'package.json',
-            'nodemon.json'
+            'nodemon.json',
+            'src'
         ]
     })
 });

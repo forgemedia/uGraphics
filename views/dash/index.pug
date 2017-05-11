@@ -21,10 +21,9 @@ html
             .card-block: #content
                 #loading(data-remove-loaded): h1 Loading, please wait...
 
-        footer: .container
-            span
-                strong= product
-                |  &copy; #{copyright}
+        footer: .container: .row: span
+            strong= product
+            |  &copy; #{new Date().getFullYear()} #{copyright}
 
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')

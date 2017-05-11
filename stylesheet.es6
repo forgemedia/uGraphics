@@ -43,9 +43,7 @@ export let Styl = app => {
         compile: (str, path) => Stylus(str)
             .set('filename', path)
             .set('include css', true)
-            .set('paths', [
-                'node_modules/'
-            ])
+            .set('paths', Config.frontend.stylIncludePaths)
     }));
     app.use('/output/styl', PostCSSMiddleware({
         src: req => Path.join(__dirname, 'output', 'styl', req.url),

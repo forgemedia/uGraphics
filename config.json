@@ -2,7 +2,7 @@
     "locals": {
         "product": "Forge Graphics Server",
         "project": "Gen3",
-        "copyright": "2017 Forge Media"
+        "copyright": "Forge Media"
     },
     "defaults": {
         "port": 3000
@@ -10,7 +10,8 @@
     "publicDirs": {
         "js": "src/js",
         "jspm_packages": "jspm_packages",
-        "output": "output"
+        "output": "output",
+        "fonts": "fonts"
     },
     "frontend": {
         "browserSupport": [
@@ -18,6 +19,9 @@
         ],
         "sassIncludePaths": [
             "node_modules/bootstrap/scss"
+        ],
+        "stylIncludePaths": [
+            "node_modules/"
         ]
     },
     "sockets": [
