@@ -1,17 +1,30 @@
+// Package imports
 import SocketIO from 'socket.io-client';
 import Rivets from 'rivets';
 
+// Custom module imports
 import * as BugCtrl from './cg/bug';
 
+// A list of controllers`
 let controllers = {
     bug: BugCtrl
 };
 
+// A list of bindings (not currently used for anything, but may be used in future)
 let bindings = {};
 
+// Bind all the controllers
 for (let id in controllers)
     bindings[id] = controllers[id].Bind(`[fg-component='${id}']`);
 
+// Connect to sockets
 let io = SocketIO.connect();
 
+// When the document is ready ($()), show the body element,
+// which is hidden in CSS
+$(() => {
+    $('body').show();
+});
+
+// Export io (not currently working)
 export { io as IO };

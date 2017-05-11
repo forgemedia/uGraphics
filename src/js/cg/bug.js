@@ -10,7 +10,6 @@ let bind = el => Rivets.bind($(el), dataStore);
 
 $(() => {
     IO.emit('bug:get');
-    $('body').show();
 });
 
 IO.on('bug:sync', msg => {
