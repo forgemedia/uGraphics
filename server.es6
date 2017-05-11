@@ -8,6 +8,7 @@ import Express from 'express';
 import Yargs from 'yargs';
 import Winston from 'winston-color';
 import SocketIOServer from 'socket.io';
+import Moment from 'moment';
 
 // Import config and modules from project
 import Config from './config';
@@ -44,6 +45,8 @@ let server = HTTP.createServer(app);
 app.set('view engine', 'pug');
 app.locals = Config.locals;
 
+// Pass the app to functions that install middleware which processes SCSS
+// and Stylus stylesheets on-demand
 StylesheetMiddleware.Styl(app);
 StylesheetMiddleware.Sass(app);
 
@@ -56,19 +59,25 @@ for (let pub in Config.publicDirs)
 // Use the dashboard router module to handle the dashboard view
 app.use(['/dash', '/dashboard'], DashRouter);
 
+// Render the character generator when / is accessed
 app.get('/', (req, res) => res.render('cg/index'));
 
+// Handle anything else by sending a 404 error page and a 404 status code
 app.get('*', (req, res) => res.status(404).render('404'));
 
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 let io = SocketIOServer(server);
+// On any connection, handle it with the function defined in socketHandler.es6
 io.on('connection', SocketHandler);
 
 // Start the Express app listening on the specified port
 server.listen(settings.port, () => {
+    // Log some stuff
     Winston.info(`Forge Graphics Server (${Config.locals.product} - ${Config.locals.project})`)
     Winston.info(`Listening on port ${settings.port}`);
+    Winston.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
     Winston.debug('Debug enabled');
 });
 
+// Export some objects so other modules can use them
 export { debug as Debug, io as IO };
