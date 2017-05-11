@@ -1,0 +1,10 @@
+doctype html
+html
+    head
+        title #{project} CG
+        link(rel='stylesheet', href='/output/styl/cg.css')
+    body
+        include templates/bug
+        script(src='/jspm_packages/system.js')
+        script(src='/js/config.js')
+        script System.import('/js/cg')

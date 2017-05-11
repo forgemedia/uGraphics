@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title #{product} | #{project}
+        title #{product} Dashboard | #{project}
         base(href='/')
         meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
         link(rel='stylesheet', href='/output/scss/dash.css')
@@ -10,6 +10,7 @@ html
             button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse')
                 span.navbar-toggler-icon
             a.navbar-brand(href='/dash')= product
+                small  Dashboard
             .collapse.navbar-collapse
                 ul.navbar-nav.mr-auto
             a.navbar-brand(href='/dash')= project
@@ -21,7 +22,9 @@ html
                 #loading(data-remove-loaded): h1 Loading, please wait...
 
         footer: .container
-            span &copy; #{copyright}
+            span
+                strong= product
+                |  &copy; #{copyright}
 
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')

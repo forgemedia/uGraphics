@@ -44,6 +44,7 @@ let server = HTTP.createServer(app);
 app.set('view engine', 'pug');
 app.locals = Config.locals;
 
+StylesheetMiddleware.Styl(app);
 StylesheetMiddleware.Sass(app);
 
 // - SERVER --------------------------------------------------------------------
@@ -55,13 +56,17 @@ for (let pub in Config.publicDirs)
 // Use the dashboard router module to handle the dashboard view
 app.use(['/dash', '/dashboard'], DashRouter);
 
+app.get('/', (req, res) => res.render('cg/index'));
+
+app.get('*', (req, res) => res.status(404).render('404'));
+
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 let io = SocketIOServer(server);
 io.on('connection', SocketHandler);
 
 // Start the Express app listening on the specified port
 server.listen(settings.port, () => {
-    Winston.info(`Forge Graphics Dashboard ${Config.project}`)
+    Winston.info(`Forge Graphics Server (${Config.locals.product} - ${Config.locals.project})`)
     Winston.info(`Listening on port ${settings.port}`);
     Winston.debug('Debug enabled');
 });
