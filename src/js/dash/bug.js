@@ -4,8 +4,15 @@ import { IO } from '../dash';
 
 let dataStore = {
     showBug: false
-}
+};
 
-let bind = el => Rivets.bind($(el), dataStore);
+let proxy = new Proxy(dataStore, {
+    set: function(target, property, value, receiver) {
+        target[property] = value;
+        IO.emit('bug:sync', dataStore);
+    }
+});
+
+let bind = el => Rivets.bind($(el), proxy);
 
 export { bind as Bind };

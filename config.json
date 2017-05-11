@@ -18,5 +18,8 @@
         "sassIncludePaths": [
             "node_modules/bootstrap/scss"
         ]
-    }
+    },
+    "sockets": [
+        "bug"
+    ]
 }
