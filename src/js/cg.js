@@ -10,7 +10,7 @@ let controllers = {
 let bindings = {};
 
 for (let id in controllers)
-    bindings[id] = controllers[id].Bind(`#${id}Component`);
+    bindings[id] = controllers[id].Bind(`[fg-component='${id}']`);
 
 let io = SocketIO.connect();
 

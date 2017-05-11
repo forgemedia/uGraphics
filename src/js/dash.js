@@ -49,7 +49,7 @@ let setRoute = id => {
             // If successful, set the inner HTML of the content element
             // to the server's response, and add the binding to the list
             contentElem.html(response.data);
-            bindings[id] = controllers[id].controller.Bind(`#${id}Panel`);
+            bindings[id] = controllers[id].controller.Bind(`[fg-panel='${id}']`);
         })
         // Otherwise, go to the default route
         .catch(error => router.navigate(`/page/${defaultRoute}`));
