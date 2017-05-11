@@ -1,5 +1,5 @@
 mixin checkbox(label, bind, colour)
     .btn-group(data-toggle='buttons')
-        label.btn.btn-lg.btn-block-custom(class=`btn-outline-${colour}`)
+        label.btn.btn-lg.btn-block-custom(class=`btn-outline-${colour}`, rv-class-active=bind)
             input(type='checkbox', rv-checked=bind)
             |  #{label}

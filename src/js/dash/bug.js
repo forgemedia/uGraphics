@@ -1,18 +1,10 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
-import { IO } from '../dash';
 
-let dataStore = {
-    showBug: false
-};
+import DashController from './controller';
 
-let proxy = new Proxy(dataStore, {
-    set: function(target, property, value, receiver) {
-        target[property] = value;
-        IO.emit('bug:sync', target);
+export default class extends DashController {
+    constructor() {
+        super('bug');
     }
-});
-
-let bind = el => Rivets.bind($(el), proxy);
-
-export { bind as Bind };
+}

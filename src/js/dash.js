@@ -8,8 +8,7 @@ import Rivets from 'rivets';
 import Bootstrap from 'bootstrap';
 
 // Custom module imports
-import * as BugCtrl from './dash/bug';
-import * as TestCtrl from './dash/test';
+import BugCtrl from './dash/bug';
 
 // Page elements
 let navbarElem = $('#mainNav');
@@ -24,10 +23,10 @@ let controllers = {
         name: 'Bug',
         controller: BugCtrl
     },
-    test: {
-        name: 'Test',
-        controller: TestCtrl
-    }
+    // test: {
+    //     name: 'Test',
+    //     controller: TestCtrl
+    // }
 };
 
 // Add a navbar item for each controller
@@ -49,7 +48,7 @@ let setRoute = id => {
             // If successful, set the inner HTML of the content element
             // to the server's response, and add the binding to the list
             contentElem.html(response.data);
-            bindings[id] = controllers[id].controller.Bind(`[fg-panel='${id}']`);
+            bindings[id] = new controllers[id].controller(id);
         })
         // Otherwise, go to the default route
         .catch(error => router.navigate(`/page/${defaultRoute}`));

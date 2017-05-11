@@ -10,14 +10,15 @@ export default class CGController {
         this.io = SocketIOClient.connect();
 
         Rivets.bind(this.element, this.dataStore);
-        $(() => this.io.emit(`${this.name}:get`));
         
+        this.setSocketHandlers();
+        $(() => this.io.emit(`${this.name}:get`));
+    }
+    setSocketHandlers() {
         this.io.on(`${this.name}:sync`, msg => {
             Object.assign(this.dataStore, msg);
             this.syncSocket(msg);
         });
     }
-    syncSocket(msg) {
-
-    }
+    syncSocket(msg) {}
 }
