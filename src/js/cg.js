@@ -3,7 +3,7 @@ import SocketIO from 'socket.io-client';
 import Rivets from 'rivets';
 
 // Custom module imports
-import * as BugCtrl from './cg/bug';
+import BugCtrl from './cg/bug';
 
 // A list of controllers`
 let controllers = {
@@ -15,7 +15,7 @@ let bindings = {};
 
 // Bind all the controllers
 for (let id in controllers)
-    bindings[id] = controllers[id].Bind(`[fg-component='${id}']`);
+    bindings[id] = new controllers[id](id);
 
 // Connect to sockets
 let io = SocketIO.connect();
