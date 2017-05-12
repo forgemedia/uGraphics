@@ -1,0 +1,6 @@
+include textbox
+
+mixin copy(name, model)
+    .input-group
+        +textbox-copy(name, model)
+        span.input-group-btn: button.btn.btn-success(fg-copy-button=model) Set

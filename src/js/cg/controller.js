@@ -2,11 +2,14 @@ import $ from 'jquery';
 import SocketIOClient from 'socket.io-client';
 import Rivets from 'rivets';
 import _ from 'lodash';
+import fgAnimate from './animate.js';
+
+let dataStoreBacking = {};
 
 export default class CGController {
     constructor (id) {
         this.element = $(`[fg-component='${id}']`);
-        this.dataStore = {};
+        this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
         this.methods = {};
         this.name = id;
         this.io = SocketIOClient.connect();
@@ -27,6 +30,14 @@ export default class CGController {
             let id = msg.id;
             if (this.methods[id]) this.methods[id](msg.data);
         });
+    }
+    get dataStoreTraps() {
+        return {
+            set: function (target, property, value, receiver) {
+                target[property] = value;
+                $(`[fg-show='${property}`).each((i, v) => fgAnimate(v, value));
+            }
+        }
     }
     syncSocket(msg) {}
 }

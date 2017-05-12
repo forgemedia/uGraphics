@@ -7,12 +7,9 @@ html
         link(rel='stylesheet', href='/output/scss/dash.css')
     body
         nav.navbar.navbar-toggleable-md.navbar-inverse.bg-inverse: .container
-            button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse')
-                span.navbar-toggler-icon
             a.navbar-brand(href='/dash')= product
                 small  Dashboard
-            .collapse.navbar-collapse
-                ul.navbar-nav.mr-auto
+            .mr-auto
             a.navbar-brand(href='/dash')= project
 
         .container: .card#contentCard

@@ -1,25 +1,24 @@
 include mixins/checkbox
 include mixins/textbox
+include mixins/copy
 div(fg-panel='bug')
     .row
-        .col-md-4
+        .col
             .card
                 .card-block
-                    h4.card-title The bug
+                    h4.card-title Bug
                     p.card-text
                     | The bug (or DOG) sits in the top left corner of the screen,
                     | providing a logo to visually identify the broadcaster.
                 ul.list-group.list-group-flush
-                    li.list-group-item: +checkbox('Show bug', 'showBug', 'danger')
+                    li.list-group-item: +checkbox('Show bug', 'showBug')
 
-        .col-md-4
+        .col
             .card
                 .card-block
                     h4.card-title Hashtag
                     p.card-text
                     | Show a hashtag in the bottom left corner of the screen.
                 ul.list-group.list-group-flush
-                    li.list-group-item: form.form-inline
-                        +textbox('Hashtag', 'hashtag')
-                        button.mx-2.btn.btn-success() Set
-                    li.list-group-item: +checkbox('Show hashtag', 'showHashtag', 'danger')
+                    li.list-group-item: +copy('Hashtag', 'hashtag')
+                    li.list-group-item: +checkbox('Show hashtag', 'showHashtag')

@@ -20,6 +20,7 @@ export default class DashController {
         this.view = Rivets.bind(this.element, this.dataStore);
 
         this.setSocketHandlers();
+        this.setFunctions();
         $(() => {
             io.emit(`${name}:get`);
         });
@@ -42,6 +43,16 @@ export default class DashController {
                 return true;
             }
         }
+    }
+    copyValue(id) {
+        this.dataStore[id] = $(`[fg-copy='${id}'`).val();
+    }
+    setFunctions() {
+        this.element.find('[fg-copy-button]').each((i, v) => {
+            let elem = $(v);
+            let copyId = elem.attr('fg-copy-button');
+            elem.click(() => this.copyValue(copyId));
+        });
     }
     setSocketHandlers() {
         io.on(`${name}:sync`, msg => {

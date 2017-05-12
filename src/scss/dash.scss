@@ -1,7 +1,14 @@
 @import 'bootstrap';
 
+html {
+    height: 100%;
+}
+
 body {
     background: $gray-lighter;
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 100px;
 }
 
 #loading {
@@ -20,25 +27,16 @@ footer {
     background: $gray;
     color: $gray-lightest;
     padding: 15px 0px;
-    margin-top: 20px;
     border-top: 1px solid $gray-dark;
 }
 
 .custom-checkbox {
-    margin-top: 7px;
-    background: $gray-lighter;
-    padding: 5px;
-    padding-right: 10px;
-    border-radius: 5px;
-    border: 1px solid darken($gray-lighter, 10%);
+    margin: 0px;
 
     &, & > * {
         vertical-align: middle;
+        cursor: pointer;
         transition: border-color 0.2s linear, background 0.2s linear;
-    }
-
-    &:hover {
-        background: darken($gray-lighter, 5%);
     }
 
     input[type='checkbox'] {
