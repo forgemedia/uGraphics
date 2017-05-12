@@ -36,7 +36,7 @@ footer {
     &, & > * {
         vertical-align: middle;
         cursor: pointer;
-        transition: border-color 0.2s linear, background 0.2s linear;
+        transition: border-color 0.2s linear, background 0.2s linear, border-radius 0.2s ease-in-out;
     }
 
     input[type='checkbox'] {
@@ -55,6 +55,8 @@ footer {
         &:checked {
             background: $red;
             border: none;
+
+            border-radius: 50%;
 
             &:hover {
                 background: darken($red, 10%);
