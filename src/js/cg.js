@@ -3,7 +3,10 @@ import SocketIO from 'socket.io-client';
 import Rivets from 'rivets';
 
 // Custom module imports
+import FGShow from './cg/fgshow';
 import BugCtrl from './cg/bug';
+
+Rivets.binders.fgshow = FGShow;
 
 // A list of controllers
 let controllers = {
