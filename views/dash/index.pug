@@ -18,9 +18,19 @@ html
             .card-block: #content
                 #loading(data-remove-loaded): h1 Loading, please wait...
 
-        footer: .container: .row: span
-            strong= product
-            |  &copy; #{new Date().getFullYear()} #{copyright}
+        footer: .container
+            .row
+                .col-md-6: span
+                    strong= product
+                    |  &copy; #{new Date().getFullYear()} #{copyright}
+                .col-md-6.text-lg-right
+                    // - Please do not remove this copyright notice -
+                    span.m-0(style='font-size: 0.9rem;')
+                        small.text-muted
+                            strong  Forge Graphics Server
+                            |  | Built in Sheffield
+                            |  | &copy; 2017 Forge Media
+                    img.ml-3(src='/assets/img/forge.svg', style='height: 20px; opacity: 0.25;')
 
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')

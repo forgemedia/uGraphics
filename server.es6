@@ -73,7 +73,7 @@ io.on('connection', SocketHandler.HandleSocket);
 // Start the Express app listening on the specified port
 server.listen(settings.port, () => {
     // Log some stuff
-    Winston.info(`Forge Graphics Server (${Config.locals.product} - ${Config.locals.project})`)
+    Winston.info(`Forge Graphics Server Gen3 (${Config.locals.product} - ${Config.locals.project})`)
     Winston.info(`Listening on port ${settings.port}`);
     Winston.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
     Winston.debug('Debug enabled');
