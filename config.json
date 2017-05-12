@@ -13,6 +13,10 @@
         "output": "output",
         "assets": "assets"
     },
+    "log": {
+        "file": true,
+        "path": "fg.log"
+    },
     "frontend": {
         "browserSupport": [
             "Chrome > 40"

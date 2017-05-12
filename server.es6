@@ -6,7 +6,7 @@ import Path from 'path';
 import HTTP from 'http';
 import Express from 'express';
 import Yargs from 'yargs';
-import Winston from 'winston-color';
+import Winston from 'winston';
 import SocketIOServer from 'socket.io';
 import Moment from 'moment';
 
@@ -21,6 +21,10 @@ let debug = process.env.NODE_ENV == 'debug';
 // -----------------------------------------------------------------------------
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
+Winston.remove(Winston.transports.Console);
+Winston.add(Winston.transports.Console, { timestamp: true });
+if (Config.log.file) Winston.add(Winston.transports.File, { timestamp: true, filename: Config.log.path });
+
 Winston.level = debug? 'debug' : 'info';
 
 // Parse command line options with Yargs, taking defaults from config.json
@@ -28,12 +32,12 @@ let settings = Yargs
     .option('port', {
         alias: 'p',
         describe: 'Port to listen on',
-    type: 'number'
-})
-.default(Config.defaults)
-.usage(`Forge Graphics Server (${Config.project})\nUsage: $0 [-p port]`)
-.help().alias('h', 'help')
-.argv;
+        type: 'number'
+    })
+    .default(Config.defaults)
+    .usage(`Forge Graphics Server (${Config.project})\nUsage: $0 [-p port]`)
+    .help().alias('h', 'help')
+    .argv;
 
 
 // -----------------------------------------------------------------------------
@@ -67,8 +71,6 @@ app.get('*', (req, res) => res.status(404).render('404'));
 
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 let io = SocketIOServer(server);
-// On any connection, handle it with the function defined in socketHandler.es6
-io.on('connection', SocketHandler.HandleSocket);
 
 // Start the Express app listening on the specified port
 server.listen(settings.port, () => {
@@ -77,6 +79,11 @@ server.listen(settings.port, () => {
     Winston.info(`Listening on port ${settings.port}`);
     Winston.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
     Winston.debug('Debug enabled');
+
+    // On any connection, handle it with the function defined in socketHandler.es6
+    io.on('connection', SocketHandler.HandleSocket);
+
+    SocketHandler.SetTick();
 });
 
 // Export some objects so other modules can use them

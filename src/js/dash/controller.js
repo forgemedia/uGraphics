@@ -47,9 +47,12 @@ export default class DashController {
                 // Set the target's property to the value as normal
                 target[property] = value;
 
+                let obj = {};
+                obj[property] = value;
+
                 // Emit a socket message informing the server of changes
                 // and in turn causing it to sync other clients
-                io.emit(`${name}:sync`, target);
+                io.emit(`${name}:sync`, obj);
 
                 // Return true, indicating success
                 return true;

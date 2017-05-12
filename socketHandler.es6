@@ -1,4 +1,4 @@
-import Winston from 'winston-color';
+import Winston from 'winston';
 import { IO } from './server';
 import Config from './config';
 
@@ -21,6 +21,14 @@ let emitTrigger = (socketName, msg) => {
 
     // Log it
     Winston.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
+};
+
+let setTick = () => {
+    // Every ten seconds, emit a sync event for each socket
+    setTimeout(() => {
+        Winston.verbose('Tick');
+        for (let socketName of Config.sockets) emitSync(socketName);
+    }, 10000);
 };
 
 // Called in server.es6 when any connection is received
@@ -63,5 +71,9 @@ let handleSocket = socket => {
     }
 }
 
-// Might be useful in future
-export { handleSocket as HandleSocket, emitSync as EmitSync, emitTrigger as EmitTrigger };
+export {
+    handleSocket as HandleSocket,
+    emitSync as EmitSync,
+    emitTrigger as EmitTrigger,
+    setTick as SetTick
+};
