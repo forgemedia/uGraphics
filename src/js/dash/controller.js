@@ -35,15 +35,13 @@ export default class DashController {
     }
     get methodsStoreTraps() {
         return {
-
+            set: function(target, property, value, receiver) {
+                if (typeof value !== 'function') return false;
+                target[property] = value;
+                $(`[fg-click='${property}'`).click(target[property]);
+                return true;
+            }
         }
-    }
-    setMethods() {
-        $('[fg-click]').each((i, v) => {
-            let elem = $(v);
-            let method = elem.attr('fg-click');
-            elem.click(this.methods[method]);
-        });
     }
     setSocketHandlers() {
         io.on(`${name}:sync`, msg => {
