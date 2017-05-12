@@ -39,13 +39,13 @@ export default class DashController {
             set: function(target, property, value, receiver) {
                 if (typeof value !== 'function') return false;
                 target[property] = value;
-                $(`[fg-click='${property}'`).click(target[property]);
+                $(`[fg-click='${property}']`).click(target[property]);
                 return true;
             }
         }
     }
     copyValue(id) {
-        this.dataStore[id] = $(`[fg-copy='${id}'`).val();
+        this.dataStore[id] = $(`[fg-copy='${id}']`).val();
     }
     setFunctions() {
         this.element.find('[fg-copy-button]').each((i, v) => {
@@ -56,7 +56,12 @@ export default class DashController {
     }
     setSocketHandlers() {
         io.on(`${name}:sync`, msg => {
-            _.assign(dataStoreBacking, msg)
+            _.assign(dataStoreBacking, msg);
+            $(`[fg-copy]`).each((i, v) => {
+                let elem = $(v);
+                let model = elem.attr('fg-copy');
+                elem.val(this.dataStore[model]);
+            });
         });
     }
 }
