@@ -9,6 +9,7 @@ import Bootstrap from 'bootstrap';
 
 // Custom module imports
 import BugCtrl from './dash/bug';
+import MaintenanceCtrl from './dash/maintenance';
 
 // Page elements
 let navbarElem = $('#mainNav');
@@ -23,10 +24,10 @@ let controllers = {
         name: 'Bug',
         controller: BugCtrl
     },
-    // test: {
-    //     name: 'Test',
-    //     controller: TestCtrl
-    // }
+    maintenance: {
+        name: 'Maintenance',
+        controller: MaintenanceCtrl
+    }
 };
 
 // Add a navbar item for each controller

@@ -17,7 +17,6 @@ export default class DashController {
 
         this.setSocketHandlers();
         $(() => io.emit(`${name}:get`));
-        proxy.showBug = true;
     }
     get handler() {
         return {
