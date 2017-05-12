@@ -55,6 +55,11 @@ footer {
             border-color: darken($green, 10%);
         }
 
+        &:disabled {
+            background: $gray-lighter;
+            border: none;
+        }
+
         &:checked {
             background: $red;
             border: none;

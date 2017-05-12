@@ -20,4 +20,4 @@ div(fg-panel='bug')
                     | Show a hashtag in the bottom left corner of the screen.
                 ul.list-group.list-group-flush
                     li.list-group-item: +copy('Hashtag', 'hashtag', '#')
-                    li.list-group-item: +checkbox('Show hashtag', 'showHashtag')
+                    li.list-group-item: +checkbox('Show hashtag', 'showHashtag')(rv-enabled='hashtag')

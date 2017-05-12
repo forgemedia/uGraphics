@@ -1,4 +1,4 @@
 mixin checkbox(label, bind)
-    label.custom-checkbox&attributes(attributes)
-        input(type='checkbox', rv-checked=bind)
+    label.custom-checkbox
+        input(type='checkbox', rv-checked=bind)&attributes(attributes)
         |  #{label}
