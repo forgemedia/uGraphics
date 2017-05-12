@@ -5,7 +5,7 @@ import Rivets from 'rivets';
 // Custom module imports
 import BugCtrl from './cg/bug';
 
-// A list of controllers`
+// A list of controllers
 let controllers = {
     bug: BugCtrl
 };

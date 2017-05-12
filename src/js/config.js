@@ -24,6 +24,7 @@ System.config({
     "navigo": "npm:navigo@4.7.1",
     "rivets": "npm:rivets@0.9.6",
     "socket.io-client": "npm:socket.io-client@2.0.1",
+    "velocity": "github:julianshapiro/velocity@1.5.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
