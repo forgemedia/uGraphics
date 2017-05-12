@@ -16,7 +16,7 @@ html
             .card-header: ul.nav.nav-tabs.card-header-tabs#mainNav
                 li.nav-item(data-remove-loaded): a.nav-link.disabled(href='#') &nbsp;
             .card-block: #content
-                #loading(data-remove-loaded): h1 Loading, please wait...
+                #loading.mt-3(data-remove-loaded): h1 Loading, please wait...
 
         footer: .container
             .row
@@ -25,7 +25,7 @@ html
                     |  &copy; #{new Date().getFullYear()} #{copyright}
                 .col-md-6.text-lg-right
                     // - Please do not remove this copyright notice -
-                    span.m-0(style='font-size: 0.9rem;')
+                    span.m-0(style='font-size: 1rem;')
                         small.text-muted
                             strong  Forge Graphics Server
                             |  | Built in Sheffield

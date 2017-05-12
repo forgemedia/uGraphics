@@ -1,4 +1,6 @@
+@import './variables';
 @import 'bootstrap';
+@import './_acumin';
 
 html {
     height: 100%;
@@ -9,6 +11,7 @@ body {
     position: relative;
     min-height: 100%;
     padding-bottom: 100px;
+    font-family: 'Acumin Pro';
 }
 
 #loading {
