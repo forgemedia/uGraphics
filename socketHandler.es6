@@ -28,9 +28,14 @@ export default socket => {
             // can pick it up
             emitSync(socketName);
         });
-        socket.on(`${socketName}:get`, () =>{
+        socket.on(`${socketName}:get`, () => {
             Winston.debug(`Get  on ${socketName}:get`);
             emitSync(socketName);
         });
+        socket.on(`${socketName}:trigger`, msg => {
+            Winston.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
+        });
     }
+
+    socket.on('test', msg => Winston.debug(`Test socket: ${msg}`));
 }

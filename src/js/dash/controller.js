@@ -5,7 +5,8 @@ import _ from 'lodash';
 
 let io;
 let name;
-let dataStore = {};
+let dataStoreBacking = {};
+let methodsBacking = {};
 
 export default class DashController {
     constructor(id) {
@@ -14,13 +15,16 @@ export default class DashController {
         io = SocketIOClient.connect();
         this.io = io;
 
-        this.proxy = new Proxy(dataStore, this.handler);
-        this.view = Rivets.bind(this.element, this.proxy);
+        this.methods = new Proxy(methodsBacking, this.methodsStoreTraps);
+        this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
+        this.view = Rivets.bind(this.element, this.dataStore);
 
         this.setSocketHandlers();
-        $(() => io.emit(`${name}:get`));
+        $(() => {
+            io.emit(`${name}:get`);
+        });
     }
-    get handler() {
+    get dataStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
                 target[property] = value;
@@ -29,9 +33,21 @@ export default class DashController {
             }
         }
     }
+    get methodsStoreTraps() {
+        return {
+
+        }
+    }
+    setMethods() {
+        $('[fg-click]').each((i, v) => {
+            let elem = $(v);
+            let method = elem.attr('fg-click');
+            elem.click(this.methods[method]);
+        });
+    }
     setSocketHandlers() {
         io.on(`${name}:sync`, msg => {
-            _.assign(dataStore, msg)
+            _.assign(dataStoreBacking, msg)
         });
     }
 }

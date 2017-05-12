@@ -25,7 +25,8 @@
         ]
     },
     "sockets": [
-        "bug"
+        "bug",
+        "maintenance"
     ],
     "initDataStore": {
         "bug": {}
