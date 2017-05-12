@@ -8,6 +8,7 @@ export default class extends DashController {
     constructor() {
         super('maintenance');
         _.assign(this.methods, {
+            // Send a message triggering the reset of the character generator
             reset: () => this.io.emit('maintenance:trigger', { id: 'reset' })
         });
     }

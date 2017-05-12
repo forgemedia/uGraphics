@@ -14,7 +14,7 @@ import Moment from 'moment';
 import Config from './config';
 import DashRouter from './dash.router';
 import * as StylesheetMiddleware from './stylesheet';
-import SocketHandler from './socketHandler';
+import * as SocketHandler from './socketHandler';
 
 let debug = process.env.NODE_ENV == 'debug';
 
@@ -68,7 +68,7 @@ app.get('*', (req, res) => res.status(404).render('404'));
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 let io = SocketIOServer(server);
 // On any connection, handle it with the function defined in socketHandler.es6
-io.on('connection', SocketHandler);
+io.on('connection', SocketHandler.HandleSocket);
 
 // Start the Express app listening on the specified port
 server.listen(settings.port, () => {

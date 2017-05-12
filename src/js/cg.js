@@ -26,14 +26,19 @@ $(() => {
     $('body').show();
 });
 
+// When a maintenance trigger message is received...
 io.on('maintenance:trigger', msg => {
+    // Log it to the console
     console.log(`Received maintenance:trigger, ${msg}`);
+
+    // A switch for all of the possible trigger messages
     switch(msg.id) {
         case 'reset':
+            // Reset message: reload the page
             location.reload();
+            break;
+        default:
+            // Otherwise, do nothing
             break;
     }
 });
-
-// Export io (not currently working)
-export { io as IO };
