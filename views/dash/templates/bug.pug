@@ -3,7 +3,7 @@ include mixins/textbox
 include mixins/copy
 div(fg-panel='bug')
     .row
-        .col
+        .col-md-4
             .card
                 .card-block
                     h4.card-title Bug
@@ -13,12 +13,12 @@ div(fg-panel='bug')
                 ul.list-group.list-group-flush
                     li.list-group-item: +checkbox('Show bug', 'showBug')
 
-        .col
+        .col-md-4
             .card
                 .card-block
                     h4.card-title Hashtag
                     p.card-text
                     | Show a hashtag in the bottom left corner of the screen.
                 ul.list-group.list-group-flush
-                    li.list-group-item: +copy('Hashtag', 'hashtag')
+                    li.list-group-item: +copy('Hashtag', 'hashtag', '#')
                     li.list-group-item: +checkbox('Show hashtag', 'showHashtag')
