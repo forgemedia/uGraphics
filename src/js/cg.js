@@ -5,6 +5,9 @@ import Rivets from 'rivets';
 // Custom module imports
 import BugCtrl from './cg/bug';
 
+// Hide all elements with an fg-show attribute to begin with
+$('[fg-show]').each((i, v) => $(v).hide());
+
 // A list of controllers
 let controllers = {
     bug: BugCtrl
