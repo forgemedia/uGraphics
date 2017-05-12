@@ -1,2 +1,10 @@
 div(fg-panel='maintenance')
-    span Abc
+    .row
+        .col-md-4: .card
+            .card-block
+                h4.card-title Reset
+                p.card-text
+                    | Resets the character generator if it fails. You should attempt
+                    | to remove all graphics from the screen before using.
+            ul.list-group.list-group-flush
+                li.list-group-item: button.btn.btn-danger() Reset

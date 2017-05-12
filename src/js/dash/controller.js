@@ -1,18 +1,20 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
 import SocketIOClient from 'socket.io-client';
+import _ from 'lodash';
 
 let io;
 let name;
+let dataStore = {};
 
 export default class DashController {
     constructor(id) {
         this.element = $(`[fg-panel='${id}']`);
         name = id;
-        this.dataStore = {};
         io = SocketIOClient.connect();
-        this.proxy = new Proxy(this.dataStore, this.handler);
+        this.io = io;
 
+        this.proxy = new Proxy(dataStore, this.handler);
         this.view = Rivets.bind(this.element, this.proxy);
 
         this.setSocketHandlers();
@@ -29,7 +31,7 @@ export default class DashController {
     }
     setSocketHandlers() {
         io.on(`${name}:sync`, msg => {
-            Object.assign(this.dataStore, msg)
+            _.assign(dataStore, msg)
         });
     }
 }

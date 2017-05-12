@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import SocketIOClient from 'socket.io-client';
 import Rivets from 'rivets';
+import _ from 'lodash';
 
 export default class CGController {
     constructor (id) {
@@ -16,7 +17,7 @@ export default class CGController {
     }
     setSocketHandlers() {
         this.io.on(`${this.name}:sync`, msg => {
-            Object.assign(this.dataStore, msg);
+            _.assign(this.dataStore, msg);
             this.syncSocket(msg);
         });
     }
