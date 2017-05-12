@@ -7,6 +7,7 @@ export default class CGController {
     constructor (id) {
         this.element = $(`[fg-component='${id}']`);
         this.dataStore = {};
+        this.methods = {};
         this.name = id;
         this.io = SocketIOClient.connect();
 
@@ -17,8 +18,14 @@ export default class CGController {
     }
     setSocketHandlers() {
         this.io.on(`${this.name}:sync`, msg => {
+            console.log(`Received ${this.name}:sync, ${msg}`);
             _.assign(this.dataStore, msg);
             this.syncSocket(msg);
+        });
+        this.io.on(`${this.name}:trigger`, msg => {
+            console.log(`Received ${this.name}: trigger, ${msg}`);
+            let id = msg.id;
+            if (this.methods[id]) this.methods[id](msg.data);
         });
     }
     syncSocket(msg) {}

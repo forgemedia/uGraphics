@@ -29,5 +29,14 @@ $(() => {
     $('body').show();
 });
 
+io.on('maintenance:trigger', msg => {
+    console.log(`Received maintenance:trigger, ${msg}`);
+    switch(msg.id) {
+        case 'reset':
+            location.reload();
+            break;
+    }
+});
+
 // Export io (not currently working)
 export { io as IO };

@@ -9,6 +9,6 @@ export default class extends DashController {
         super('maintenance');
         _.assign(this.methods, {
             reset: () => this.io.emit('maintenance:trigger', { id: 'reset' })
-        })
+        });
     }
 }

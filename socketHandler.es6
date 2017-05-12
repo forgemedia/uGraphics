@@ -8,7 +8,12 @@ let dataStore = Config.initDataStore;
 let emitSync = socketName => {
     IO.emit(`${socketName}:sync`, dataStore[socketName]);
     Winston.debug(`Emitted ${socketName}:sync: ${JSON.stringify(dataStore[socketName])}`);
-}
+};
+
+let emitTrigger = (socketName, msg) => {
+    IO.emit(`${socketName}:trigger`, msg);
+    Winston.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
+};
 
 // Called in server.es6 when any connection is received
 export default socket => {
@@ -34,6 +39,7 @@ export default socket => {
         });
         socket.on(`${socketName}:trigger`, msg => {
             Winston.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
+            emitTrigger(socketName, msg);
         });
     }
 
