@@ -1,0 +1,11 @@
+-
+    var inputAttributes = {
+        autocomplete: 'off',
+        autocorrect: 'off',
+        autocapitalize: 'off',
+        spellcheck: 'false',
+        type: 'text'
+    }
+
+mixin textbox(placeholder, model)
+    input.form-control(rv-value=model, placeholder=placeholder)&attributes(inputAttributes)
