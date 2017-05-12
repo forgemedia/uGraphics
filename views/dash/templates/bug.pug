@@ -1,10 +1,11 @@
 include mixins/checkbox
 include mixins/textbox
 include mixins/copy
+include mixins/card
 div(fg-panel='bug')
     .container
         .card-columns
-            .card
+            +live-card('showBug')
                 .card-block
                     h4.card-title Bug
                     p.card-text
@@ -13,7 +14,7 @@ div(fg-panel='bug')
                 ul.list-group.list-group-flush
                     li.list-group-item: +checkbox('Show bug', 'showBug')
 
-            .card
+            +live-card('showHashtag')
                 .card-block
                     h4.card-title Hashtag
                     p.card-text

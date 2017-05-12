@@ -33,8 +33,19 @@ footer {
     border-top: 1px solid $gray-dark;
 }
 
+.bg-fade {
+    transition: background 0.2s linear, color 0.2s linear;
+}
+
+.card-live {
+    background-color: $red;
+    color: $white;
+}
+
 .custom-checkbox {
     margin: 0px;
+    width: 100%;
+    color: $black;
 
     &, & > * {
         vertical-align: middle;
