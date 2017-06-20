@@ -17,7 +17,8 @@ Gulp.task('default', () => {
             'node_modules',
             'package.json',
             'nodemon.json',
+            'gulpfile.babel.js',
             'src'
         ]
-    })
+    });
 });

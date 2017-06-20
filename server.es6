@@ -9,6 +9,7 @@ import Yargs from 'yargs';
 import Winston from 'winston';
 import SocketIOServer from 'socket.io';
 import Moment from 'moment';
+import _ from 'lodash';
 
 // Import config and modules from project
 import Config from './config';
@@ -22,7 +23,7 @@ let debug = process.env.NODE_ENV == 'debug';
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
 Winston.remove(Winston.transports.Console);
-Winston.add(Winston.transports.Console, { timestamp: true });
+Winston.add(Winston.transports.Console, { timestamp: true, colorize: true });
 if (Config.log.file) Winston.add(Winston.transports.File, { timestamp: true, filename: Config.log.path });
 
 Winston.level = debug? 'debug' : 'info';
@@ -47,7 +48,7 @@ let settings = Yargs
 let app = Express();
 let server = HTTP.createServer(app);
 app.set('view engine', 'pug');
-app.locals = Config.locals;
+app.locals = _.assign(Config.locals, { debug: debug });
 
 // Pass the app to functions that install middleware which processes SCSS
 // and Stylus stylesheets on-demand

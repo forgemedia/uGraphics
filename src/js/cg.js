@@ -4,6 +4,7 @@ import Rivets from 'rivets';
 
 // Custom module imports
 import BugCtrl from './cg/bug';
+import LowerThirdsCtrl from './cg/lowerThirds';
 
 // Hide all elements with an fg-show attribute to begin with
 $('[fg-show]').each((i, v) => $(v).hide());

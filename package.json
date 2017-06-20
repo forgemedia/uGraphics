@@ -13,6 +13,7 @@
     "gulp-env": "^0.4.0",
     "gulp-nodemon": "^2.2.1",
     "jspm": "^0.16.53",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "node-sass-middleware": "^0.11.0",
     "postcss-cssnext": "^2.10.0",
