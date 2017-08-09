@@ -69,7 +69,7 @@ let handleSocket = socket => {
             emitTrigger(socketName, msg);
         });
     }
-}
+};
 
 export {
     handleSocket as HandleSocket,
