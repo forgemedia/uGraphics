@@ -28,8 +28,6 @@ const Config = JSON.parse(FS.readFileSync('./config.json').toString());
 Winston.configure({
     level: debug? 'debug' : 'info'
 });
-
-Winston.remove(Winston.transports.Console);
 Winston.add(Winston.transports.Console, { timestamp: true, colorize: true });
 if (Config.log.file) Winston.add(Winston.transports.File, { timestamp: true, filename: Config.log.path });
 
