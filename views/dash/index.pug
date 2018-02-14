@@ -1,3 +1,4 @@
+- let year = new Date().getFullYear()
 doctype html
 html
     head
@@ -22,14 +23,13 @@ html
             .row
                 .col-md-6: span
                     strong= product
-                    |  &copy; #{new Date().getFullYear()} #{copyright}
+                    |  &copy; #{year} #{copyright}
                 .col-md-6.text-lg-right
-                    // - Please do not remove this copyright notice -
                     span.m-0(style='font-size: 1rem;')
                         small.text-muted
                             strong  Forge Graphics Server
-                            |  | Built in Sheffield
-                            |  | &copy; 2017 Forge Media
+                            |  | Made in Sheffield
+                            |  | &copy; 2016–#{year} Forge
                     a.ml-3#footerLink(href='http://forgetoday.com/tv', target='_blank')
                         img(src='/assets/img/forge.svg', style='height: 20px;')
 

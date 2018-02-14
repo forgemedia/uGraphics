@@ -5,3 +5,11 @@ include mixins/card
 div(fg-panel='bug')
     .container
         .card-columns
+            .card.bg-fade
+                .card-block
+                    h4.card-title Test1
+                    p.card-text
+                    | Lorem ipsum dolor sit amet
+                    | and lorem ipsum dolor sit amet
+                ul.list-group.list-group-flush
+                    li.list-group-item: +textbox('Text', 'lt1text')

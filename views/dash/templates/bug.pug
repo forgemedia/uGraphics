@@ -13,6 +13,9 @@ div(fg-panel='bug')
                     | providing a logo to visually identify the broadcaster.
                 ul.list-group.list-group-flush
                     li.list-group-item: +checkbox('Show bug', 'showBug')
+                    li.list-group-item: +radio('Radio 1', 'blank', 'exampleRadios', 'exampleRadios1')
+                    li.list-group-item: +radio('Radio 2', 'blank', 'exampleRadios', 'exampleRadios2')
+                    li.list-group-item: +radio('Radio 3', 'blank', 'exampleRadios', 'exampleRadios3')
 
             +live-card('showHashtag')
                 .card-block

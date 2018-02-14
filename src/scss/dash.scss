@@ -50,7 +50,7 @@ footer {
     color: $white;
 }
 
-.custom-checkbox {
+.custom-checkbox, .custom-radio {
     margin: 0px;
     width: 100%;
     color: $black;
@@ -61,12 +61,19 @@ footer {
         transition: border-color 0.2s linear, background 0.2s linear, border-radius 0.2s ease-in-out;
     }
 
+    input[type='radio'] {
+        border-radius: 50%;
+    }
+
     input[type='checkbox'] {
+        border-radius: 2px;
+    }
+
+    input[type='checkbox'], input[type='radio'] {
         appearance: none;
         width: 28px;
         height: 28px;
         border: 2px solid $green;
-        border-radius: 2px;
         margin-right: 5px;
         outline: none;
 
@@ -82,8 +89,6 @@ footer {
         &:checked {
             background: $red;
             border: none;
-
-            border-radius: 50%;
 
             &:hover {
                 background: darken($red, 10%);
