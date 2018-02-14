@@ -17,8 +17,7 @@ Gulp.task('default', () => {
             'jspm_packages',
             'node_modules',
             'package.json',
-            'nodemon.json',
-            'gulpfile.babel.js',
+            'gulpfile.js',
             'src'
         ]
     });
