@@ -3,7 +3,7 @@ mixin checkbox(label, bind)
         input(type='checkbox', rv-checked=bind)&attributes(attributes)
         |  #{label}
 
-mixin radio(label, bind, grouping, name)
+mixin radio(label, bind, name)
     label.custom-radio
-        input(type='radio', name=grouping, value=name, id=name)&attributes(attributes)
+        input(type='radio', name=bind, value=name, id=name, rv-checked=bind)&attributes(attributes)
         |  #{label}
