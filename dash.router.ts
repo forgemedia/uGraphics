@@ -1,5 +1,5 @@
 // Import the Express module
-import Express from 'express';
+import * as Express from 'express';
 
 // Create an Express router
 let router = Express.Router();

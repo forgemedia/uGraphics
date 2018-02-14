@@ -1,6 +1,6 @@
-import Gulp from 'gulp';
-import Nodemon from 'gulp-nodemon';
-import Env from 'gulp-env';
+let Gulp = require('gulp');
+let Nodemon = require('gulp-nodemon');
+let Env = require('gulp-env');
 
 Gulp.task('default', () => {
     Env({
@@ -9,8 +9,9 @@ Gulp.task('default', () => {
         }
     });
     Nodemon({
-        ext: 'js es6 json',
+        ext: 'ts json',
         watch: '.',
+        exec: 'ts-node',
         ignore: [
             'assets',
             'jspm_packages',

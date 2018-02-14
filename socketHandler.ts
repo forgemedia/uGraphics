@@ -1,6 +1,7 @@
-import Winston from 'winston';
+import * as Winston from 'winston';
 import { IO } from './server';
-import Config from './config';
+import * as FS from 'fs';
+const Config = JSON.parse(FS.readFileSync('./config.json').toString());
 
 // Store all the datas
 let dataStore = Config.initDataStore;

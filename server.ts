@@ -1,32 +1,37 @@
+#!/usr/bin/env ts-node
 // -----------------------------------------------------------------------------
 // - IMPORTS -------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Import modules from npm/node
-import Path from 'path';
-import HTTP from 'http';
-import Express from 'express';
-import Yargs from 'yargs';
-import Winston from 'winston';
-import SocketIOServer from 'socket.io';
-import Moment from 'moment';
-import _ from 'lodash';
+import * as Path from 'path';
+import * as HTTP from 'http';
+import * as Express from 'express';
+import * as Yargs from 'yargs';
+import * as Winston from 'winston';
+import * as SocketIOServer from 'socket.io';
+import * as Moment from 'moment';
+import * as _ from 'lodash';
+import * as FS from 'fs';
 
 // Import config and modules from project
-import Config from './config';
 import DashRouter from './dash.router';
 import * as StylesheetMiddleware from './stylesheet';
 import * as SocketHandler from './socketHandler';
 
 let debug = process.env.NODE_ENV == 'debug';
 
+const Config = JSON.parse(FS.readFileSync('./config.json').toString());
+
 // -----------------------------------------------------------------------------
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
+Winston.configure({
+    level: debug? 'debug' : 'info'
+});
+
 Winston.remove(Winston.transports.Console);
 Winston.add(Winston.transports.Console, { timestamp: true, colorize: true });
 if (Config.log.file) Winston.add(Winston.transports.File, { timestamp: true, filename: Config.log.path });
-
-Winston.level = debug? 'debug' : 'info';
 
 // Parse command line options with Yargs, taking defaults from config.json
 let settings = Yargs

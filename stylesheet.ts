@@ -1,12 +1,14 @@
-import Path from 'path';
-import Cssnext from 'postcss-cssnext';
-import Cssnano from 'cssnano';
-import SassMiddleware from 'node-sass-middleware';
-import PostCSSMiddleware from 'postcss-middleware';
-import Stylus from 'stylus';
+import * as Path from 'path';
+import * as Cssnext from 'postcss-cssnext';
+import * as Cssnano from 'cssnano';
+import * as SassMiddleware from 'node-sass-middleware';
+import * as PostCSSMiddleware from 'postcss-middleware';
+import * as Stylus from 'stylus';
+import * as FS from 'fs';
 
-import Config from './config';
 import { Debug } from './server';
+
+const Config = JSON.parse(FS.readFileSync('./config.json').toString());
 
 // - STYLESHEET PROCESSING -----------------------------------------------------
 // List PostCSS plugins
