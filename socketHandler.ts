@@ -10,12 +10,12 @@ for (let socket of Config.sockets)
     dataStore[socket] = Config.initDataStore[socket] || {};
 
 // Called when a state for a component needs to be emitted
-let emitSync = socketName => {
+let emitSync = (socketName, delta?) => {
     // Emit it over socket
-    IO.emit(`${socketName}:sync`, dataStore[socketName]);
+    IO.emit(`${socketName}:sync`, delta || dataStore[socketName]);
 
     // Log it
-    Winston.debug(`Emitted ${socketName}:sync: ${JSON.stringify(dataStore[socketName])}`);
+    Winston.debug(`Emitted ${socketName}:sync: ${delta? JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
 };
 
 // Called when a trigger message needs to be emitted
@@ -48,12 +48,11 @@ let handleSocket = socket => {
             // Log it
             Winston.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
 
-            // Set dataStore[socketName] to the object received
-            // dataStore[socketName] = msg;
+            // Assign the received message into the respective data store
             _.assign(dataStore[socketName], msg);
 
             // Emit it again on the same socket so other clients can pick it up
-            emitSync(socketName);
+            emitSync(socketName, msg);
         });
 
         // When a get message is received...
