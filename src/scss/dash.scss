@@ -93,6 +93,10 @@ footer {
             &:hover {
                 background: darken($red, 10%);
             }
+
+            &:disabled {
+                background: $gray-light;
+            }
         }
     }
 }
