@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import Rivets from 'rivets';
-import _ from 'lodash';
+import * as Rivets from 'rivets';
+import * as _ from 'lodash';
 
 import CGController from './controller';
 

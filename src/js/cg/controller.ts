@@ -1,8 +1,8 @@
 import $ from 'jquery';
-import SocketIOClient from 'socket.io-client';
-import Rivets from 'rivets';
-import _ from 'lodash';
-import fgAnimate from './animate.js';
+import * as SocketIOClient from 'socket.io-client';
+import * as Rivets from 'rivets';
+import * as _ from 'lodash';
+import fgAnimate from './animate';
 
 // The data store backing object, which is written to through a proxy object
 // so that assignments can be trapped

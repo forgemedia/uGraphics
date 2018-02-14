@@ -1,6 +1,7 @@
 // Package imports
-import SocketIO from 'socket.io-client';
-import Rivets from 'rivets';
+import * as SocketIO from 'socket.io-client';
+import * as Rivets from 'rivets';
+import $ from 'jquery';
 
 // Custom module imports
 import BugCtrl from './cg/bug';

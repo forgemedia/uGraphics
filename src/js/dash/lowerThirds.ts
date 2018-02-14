@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Rivets from 'rivets';
+import * as Rivets from 'rivets';
 
 import DashController from './controller';
 

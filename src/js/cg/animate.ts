@@ -1,5 +1,7 @@
 import $ from 'jquery';
-import Velocity from 'velocity';
+import * as Velocity from 'velocity';
+
+Velocity.patch($, false);
 
 // Acceptable fg-properties for animations and their default values
 let propDescriptor = {

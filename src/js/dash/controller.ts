@@ -1,7 +1,7 @@
 import $ from 'jquery';
-import Rivets from 'rivets';
-import SocketIOClient from 'socket.io-client';
-import _ from 'lodash';
+import * as Rivets from 'rivets';
+import * as SocketIOClient from 'socket.io-client';
+import * as _ from 'lodash';
 
 let io;
 let name;

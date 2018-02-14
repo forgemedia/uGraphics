@@ -35,19 +35,30 @@
   "jspm": {
     "configFile": "src/js/config.js",
     "dependencies": {
+      "@types/jquery": "npm:@types/jquery@^3.3.0",
+      "@types/rivets": "npm:@types/rivets@^0.9.0",
       "axios": "npm:axios@^0.16.1",
       "bootstrap": "npm:bootstrap@4.0.0",
+      "core-js": "npm:core-js@^1.1.4",
       "jquery": "npm:jquery@^3.2.1",
       "lodash": "npm:lodash@^4.17.4",
       "navigo": "npm:navigo@^4.7.1",
       "rivets": "npm:rivets@^0.9.6",
       "socket.io-client": "npm:socket.io-client@^2.0.1",
+      "ts": "github:frankwallis/plugin-typescript@^9.0.0",
+      "ts-runtime": "npm:babel-runtime@^5.8.24",
+      "typescript": "npm:typescript@^2.7.1",
       "velocity": "github:julianshapiro/velocity@^2.0.1"
     },
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
-    }
+    "devDependencies": {}
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.0",
+    "@types/rivets": "^0.9.0",
+    "axios": "^0.16.1",
+    "jquery": "^3.2.1",
+    "navigo": "^4.7.1",
+    "rivets": "^0.9.6",
+    "socket.io-client": "^2.0.1"
   }
 }
