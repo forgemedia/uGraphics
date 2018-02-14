@@ -1,10 +1,13 @@
 import * as Winston from 'winston';
 import { IO } from './server';
 import * as FS from 'fs';
+import * as _ from 'lodash';
 const Config = JSON.parse(FS.readFileSync('./config.json').toString());
 
 // Store all the datas
-let dataStore = Config.initDataStore;
+let dataStore = {};
+for (let socket of Config.sockets)
+    dataStore[socket] = Config.initDataStore[socket] || {};
 
 // Called when a state for a component needs to be emitted
 let emitSync = socketName => {
@@ -25,14 +28,14 @@ let emitTrigger = (socketName, msg) => {
 };
 
 let setTick = () => {
-    // Every ten seconds, emit a sync event for each socket
-    setTimeout(() => {
+    // Every n seconds, emit a sync event for each socket
+    setInterval(() => {
         Winston.verbose('Tick');
         for (let socketName of Config.sockets) emitSync(socketName);
     }, 10000);
 };
 
-// Called in server.es6 when any connection is received
+// Called in server.ts when any connection is received
 let handleSocket = socket => {
     // Get the IP address that's connecting and log it
     let address = socket.request.connection.remoteAddress;
@@ -46,7 +49,8 @@ let handleSocket = socket => {
             Winston.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
 
             // Set dataStore[socketName] to the object received
-            dataStore[socketName] = msg;
+            // dataStore[socketName] = msg;
+            _.assign(dataStore[socketName], msg);
 
             // Emit it again on the same socket so other clients can pick it up
             emitSync(socketName);

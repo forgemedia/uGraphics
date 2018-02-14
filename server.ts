@@ -84,7 +84,7 @@ server.listen(settings.port, () => {
     Winston.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
     Winston.debug('Debug enabled');
 
-    // On any connection, handle it with the function defined in socketHandler.es6
+    // On any connection, handle it with the function defined in socketHandler.ts
     io.on('connection', SocketHandler.HandleSocket);
 
     SocketHandler.SetTick();

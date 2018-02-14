@@ -11,7 +11,7 @@ Gulp.task('default', () => {
     Nodemon({
         ext: 'ts json',
         watch: '.',
-        exec: 'ts-node server',
+        exec: 'ts-node --inspect server',
         ignore: [
             'assets',
             'jspm_packages',
