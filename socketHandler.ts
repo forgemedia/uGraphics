@@ -15,7 +15,7 @@ let emitSync = (socketName, delta?) => {
     IO.emit(`${socketName}:sync`, delta || dataStore[socketName]);
 
     // Log it
-    Winston.debug(`Emitted ${socketName}:sync: ${delta? JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
+    Winston.debug(`Emitted ${socketName}:sync: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
 };
 
 // Called when a trigger message needs to be emitted
