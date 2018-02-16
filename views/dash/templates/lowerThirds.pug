@@ -2,7 +2,7 @@ include mixins/checkbox
 include mixins/textbox
 include mixins/copy
 include mixins/card
-div(fg-panel='bug')
+div(fg-panel='lowerThirds')
     .container
         .card-columns
             .card.bg-fade
@@ -12,4 +12,5 @@ div(fg-panel='bug')
                     | Lorem ipsum dolor sit amet
                     | and lorem ipsum dolor sit amet
                 ul.list-group.list-group-flush
-                    li.list-group-item: +textbox('Text', 'lt1text')
+                    li.list-group-item: +textbox-group-copy('Text 1', 'lt1', 'text1')
+                    li.list-group-item: button.btn.btn-danger(fg-copy-button-group='lt1') Trigger

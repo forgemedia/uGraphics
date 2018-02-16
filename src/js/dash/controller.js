@@ -12,6 +12,8 @@ let methodsBacking = {};
 
 export default class DashController {
     constructor(id) {
+        console.log(`${id}: constructing controller`);
+
         // The relevant element is one with an fg-panel attribute corresponding
         // to this controller's name/id
         this.element = $(`[fg-panel='${id}']`);
@@ -86,6 +88,8 @@ export default class DashController {
 
     // Function to copy a value from an fg-copy element to the main state data store
     copyValue(id) {
+        console.log(`${name}: copying value ${id}`);
+
         // Does what it says on the tin
         this.dataStore[id] = $(`[fg-copy='${id}']`).val();
     }
@@ -93,19 +97,58 @@ export default class DashController {
     // Function that sets up all buttons with an fg-copy-button attribute
     // to copy the corresponding value using the copyValue function above
     setCopyButtons() {
+        console.log(`${name}: setting copy buttons`);
+
+        // For singular copy buttons
         this.element.find('[fg-copy-button]').each((i, v) => {
+            // Find the element and get the name of the field it'll copy
             let elem = $(v);
             let copyId = elem.attr('fg-copy-button');
-            elem.click(() => this.copyValue(copyId));
+
+            console.log(`${name}: found fg-copy-button for copyId ${copyId}`);
+            elem.click(() => {
+                console.log(`${name}: fg-copy-button clicked for copyId ${copyId}`);
+                
+                // On click, copy the field
+                this.copyValue(copyId);
+            });
         });
+
+        this.element.find('[fg-copy-button-group]').each((i, v) => {
+            // Find the element and get the name of the group it copies
+            let elem = $(v);
+            let copyGroup = elem.attr('fg-copy-button-group');
+
+            console.log(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);
+            elem.click(() => {
+                // On click
+                console.log(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);
+
+                // Find all inputs that share that group
+                this.element.find(`[fg-copy-group="${copyGroup}"]`).each((ia, va) => {
+                    // Find the element and get the name of the copy field it's bound to
+                    let elem_a = $(va);
+                    let copyId = elem_a.attr('fg-copy');
+
+                    console.log(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`)
+                    // Copy the field
+                    this.copyValue(copyId);
+                });
+            });
+        });
+    }
+
+    // Send a trigger message with id, data
+    trigger(id, data) {
+        console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`)
+        this.io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
     }
 
     // Function that sets up socket message handler functions
     setSocketHandlers() {
         // When a sync message is received...
         io.on(`${name}:sync`, msg => {
-            // Send a log to the console for debugging purposes
-            console.log(`Received ${name}:sync, ${msg}`);
+            console.log(`${name}: received sync, ${JSON.stringify(msg)}`);
 
             // Use _.assign to merge the received state into the local data store
             _.assign(dataStoreBacking, msg);

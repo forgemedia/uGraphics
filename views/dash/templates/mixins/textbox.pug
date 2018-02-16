@@ -12,3 +12,6 @@ mixin textbox(placeholder, model)
 
 mixin textbox-copy(placeholder, model)
     input.form-control(fg-copy=model, placeholder=placeholder)&attributes(inputAttributes)&attributes(attributes)
+
+mixin textbox-group-copy(placeholder, group, model)
+    input.form-control(fg-copy=model, fg-copy-group=group, placeholder=placeholder)&attributes(inputAttributes)&attributes(attributes)
