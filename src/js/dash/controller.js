@@ -136,6 +136,28 @@ export default class DashController {
                 });
             });
         });
+
+        this.element.find('[fg-trigger-button-group]').each((i, v) => {
+            // Find the element and get the name of the trigger group it beliongs to
+            let elem = $(v);
+            let triggerGroup = elem.attr('fg-trigger-button-group');
+
+            console.log(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);
+            elem.click(() => {
+                let data = {};
+                console.log(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);
+
+                this.element.find(`[fg-trigger-group="${triggerGroup}"]`).each((ia, va) => {
+                    let elem_a = $(va);
+                    let triggerId = elem_a.attr('fg-trigger');
+
+                    console.log(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);
+                    data[triggerId] = $(`[fg-trigger='${triggerId}']`).val();
+                });
+
+                this.trigger(triggerGroup, data);
+            });
+        });
     }
 
     // Send a trigger message with id, data
