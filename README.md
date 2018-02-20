@@ -1,6 +1,6 @@
 # Forge Graphics Server G3 - a beginners' technical overview
 
-The application starts at `index.js` - read the comments there for a walkthrough
+The application starts at `server.ts` - read the comments there for a walkthrough
 of how it works under the hood
 
 ## Developing and running the graphics server
@@ -14,6 +14,7 @@ your platform, e.g. Homebrew on macOS or Chocolatey on Windows)
 - Strongly recommended: Yarn, an alternative to the npm package manager (again,
 recommended to install this through e.g. `brew` or `choco`)
 - For development: gulp (`npm install -g gulp-cli`)
+- NPM global packages: `ts-node` `typescript` `node-gyp` (including `npm i -g --production windows-build-tools` on Windows)
 
 ### Installing packages
 
@@ -22,7 +23,7 @@ it installed), followed by `jspm install`
 
 ### Running the server
 
-- Run `node index` to run the server
+- Run `ts-node server` to run the server
 - Run `gulp` to run the server with the debug environment variable,
 watch for changes to essential files and reload the server (useful during
 development)
