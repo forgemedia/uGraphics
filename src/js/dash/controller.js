@@ -35,7 +35,7 @@ export default class DashController {
         
         // Set up buttons that handle copying values of fg-copy elements
         // into the main state data store
-        this.setCopyButtons();
+        this.setButtons();
 
         // When the document's ready ($()), emit a 'get' socket message that will
         // cause the server to emit a sync message with the component's state
@@ -96,8 +96,8 @@ export default class DashController {
 
     // Function that sets up all buttons with an fg-copy-button attribute
     // to copy the corresponding value using the copyValue function above
-    setCopyButtons() {
-        console.log(`${name}: setting copy buttons`);
+    setButtons() {
+        console.log(`${name}: setting buttons`);
 
         // For singular copy buttons
         this.element.find('[fg-copy-button]').each((i, v) => {
@@ -134,6 +134,18 @@ export default class DashController {
                     // Copy the field
                     this.copyValue(copyId);
                 });
+            });
+        });
+
+        this.element.find('[fg-trigger]').each((i, v) => {
+            let elem = $(v);
+            let triggerId = elem.attr('fg-trigger');
+
+            console.log(`${name}: found fg-trigger for triggerId ${triggerId}`);
+            elem.click(() => {
+                console.log(`${name}: fg-trigger clicked for triggerId ${triggerId}`);
+
+                this.trigger(triggerId);
             });
         });
     }
