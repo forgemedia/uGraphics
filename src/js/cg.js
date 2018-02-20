@@ -11,7 +11,8 @@ $('[fg-show]').each((i, v) => $(v).hide());
 
 // A list of controllers
 let controllers = {
-    bug: BugCtrl
+    bug: BugCtrl,
+    lowerThirds: LowerThirdsCtrl
 };
 
 // A list of bindings (not currently used for anything, but may be used in future)
@@ -33,7 +34,7 @@ $(() => {
 // When a maintenance trigger message is received...
 io.on('maintenance:trigger', msg => {
     // Log it to the console
-    console.log(`Received maintenance:trigger, ${msg}`);
+    console.log(`received maintenance:trigger, ${msg}`);
 
     // A switch for all of the possible trigger messages
     switch(msg.id) {
