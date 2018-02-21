@@ -4,6 +4,8 @@ import Rivets from 'rivets';
 import _ from 'lodash';
 import fgAnimate from './animate.js';
 
+// TODO: automated animation without having to define animation methods for each controller
+
 // The data store backing object, which is written to through a proxy object
 // so that assignments can be trapped
 let dataStoreBacking = {};
