@@ -4,8 +4,9 @@ html
         title #{project} CG
         link(rel='stylesheet', href='/output/styl/cg.css')
     body(class=debug? 'debug':'')
-        include templates/bug
-        include templates/lowerThirds
+        #character-generator
+            include templates/bug
+            include templates/lowerThirds
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')
         script System.import('/js/cg')

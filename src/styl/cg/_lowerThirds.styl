@@ -1,16 +1,23 @@
 @require '_variables';
 
+$lt_background = $gradient_tb-su_blue
+
 [fg-component=lowerThirds]
+    width 100%
+
     #lt1
+        // Metrics
         position absolute
-        margin-left $margin-x
-        margin-right $margin-x
+        width 100%
+        padding 1.3vh 2vw 1vh 2vw
         bottom $margin-y
-        width $width-x
-        padding 1.5vh 1.5vw 1vh 1.5vw
-        background #0abef0
+
+        // Style
+        background $lt_background
+        border-radius 0.5vw
+        box-shadow $shadow_standard
 
         span[fg-trigger-data="lt1_text1"]
             font-size 5vh
             font-weight bold
-            color #ffffff
+            color white
