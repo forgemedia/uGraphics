@@ -43,7 +43,6 @@ let settings = Yargs
     .help().alias('h', 'help')
     .argv;
 
-
 // -----------------------------------------------------------------------------
 // - EXPRESS APP ---------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -58,7 +57,9 @@ app.locals = _.assign(Config.locals, { debug: debug });
 StylesheetMiddleware.Styl(app);
 StylesheetMiddleware.Sass(app);
 
+// -----------------------------------------------------------------------------
 // - SERVER --------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Serve static directories
 for (let pub in Config.publicDirs)
     app.use(`/${pub}`,
@@ -73,7 +74,9 @@ app.get('/', (req, res) => res.render('cg/index'));
 // Handle anything else by sending a 404 error page and a 404 status code
 app.get('*', (req, res) => res.status(404).render('404'));
 
+// -----------------------------------------------------------------------------
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
+// -----------------------------------------------------------------------------
 let io = SocketIOServer(server);
 
 // Start the Express app listening on the specified port
