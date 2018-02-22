@@ -4,8 +4,6 @@ import Rivets from 'rivets';
 import _ from 'lodash';
 import fgAnimate from './animate.js';
 
-// TODO: automated animation without having to define animation methods for each controller
-
 // The data store backing object, which is written to through a proxy object
 // so that assignments can be trapped
 let dataStoreBacking = {};
@@ -32,13 +30,13 @@ export default class CGController {
         Rivets.bind(this.element, this.dataStore);
         
         // Call the method to set up the handlers that handle socket messages
-        this.setSocketHandlers();
+        this.cgSetSocketHandlers();
 
         $(() => this.io.emit(`${this.name}:get`));
     }
 
     // Function that sets up socket message handler functions
-    setSocketHandlers() {
+    cgSetSocketHandlers() {
         // When a sync message is received...
         this.io.on(`${this.name}:sync`, msg => {
             // Send a log to the console for debugging purposes
@@ -56,28 +54,20 @@ export default class CGController {
             // Keep a record of the event id contained in the msg object
             let id = msg.id;
 
-            // If there's a corresponding method, execute it, passing
+            // If there's a suitable element to animate, trigger the animation for
+            // that element
+            let elementToAnimate = $(`[fg-trigger-anim='${id}']`);
+            if (elementToAnimate) this.cgTriggerAnimate(
+                id,
+                elementToAnimate,
+                msg.data,
+                elementToAnimate.attr('fg-anim-duration') || 5000
+            );
+
+            // Otherwise, if there's a corresponding method, execute it, passing
             // the data contained in the msg object as the only argument
-            if (this.methods[id]) this.methods[id](msg.data);
+            else if (this.methods[id]) this.methods[id](msg.data);
         });
-    }
-
-    // Traps that handle accessing the data store backing object
-    get dataStoreTraps() {
-        return {
-            // On assignment
-            set: function (target, property, value, receiver) {
-                // Assign the value to the target object's property as usual
-                target[property] = value;
-
-                // Animate any DOM element that has an fg-show attribute
-                // that binds it to this property
-                $(`[fg-show='${property}`).each((i, v) => fgAnimate(v, value));
-
-                // Return true, indicating success
-                return true;
-            }
-        }
     }
 
     // Function to automate various parts of graphic when a trigger
@@ -119,5 +109,23 @@ export default class CGController {
             fgAnimate(elem, false);
             inProgress[id] = false;
         }, hideDelay);
+    }
+
+    // Traps that handle accessing the data store backing object
+    get dataStoreTraps() {
+        return {
+            // On assignment
+            set: function (target, property, value, receiver) {
+                // Assign the value to the target object's property as usual
+                target[property] = value;
+
+                // Animate any DOM element that has an fg-show attribute
+                // that binds it to this property
+                $(`[fg-show='${property}`).each((i, v) => fgAnimate(v, value));
+
+                // Return true, indicating success
+                return true;
+            }
+        }
     }
 }
