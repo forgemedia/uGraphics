@@ -3,8 +3,8 @@ import Rivets from 'rivets';
 import SocketIOClient from 'socket.io-client';
 import _ from 'lodash';
 
-let io;
 let name;
+let io;
 
 // Backing objects that are written to through proxies
 let dataStoreBacking = {};
@@ -19,7 +19,6 @@ export default class DashController {
         this.element = $(`[fg-panel='${id}']`);
         name = id;
         io = SocketIOClient.connect();
-        this.io = io;
 
         // Proxies that write to the backing store objects above using
         // traps defined below
@@ -183,14 +182,14 @@ export default class DashController {
     // Send a trigger message with id, data
     trigger(id, data) {
         console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);
-        this.io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
+        io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
     }
 
     // Function that sets up socket message handler functions
     setSocketHandlers() {
         // When a sync message is received...
-        io.on(`${name}:sync`, msg => {
-            console.log(`${name}: received sync, ${JSON.stringify(msg)}`);
+        io.on(`${name}:synf`, msg => {
+            console.log(`${name}: received synf, ${JSON.stringify(msg)}`);
 
             // Use _.assign to merge the received state into the local data store
             _.assign(dataStoreBacking, msg);

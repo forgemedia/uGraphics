@@ -15,7 +15,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "cssnano": "^3.10.0",
     "express": "^4.15.2",
-    "gulp": "gulpjs/gulp@next",
+    "gulp": "^4.0.0",
     "gulp-env": "^0.4.0",
     "gulp-nodemon": "^2.2.1",
     "jspm": "^0.16.53",
@@ -28,7 +28,7 @@
     "postcss-middleware": "^1.1.3",
     "pug": "^2.0.0-rc.1",
     "shelljs": "^0.8.1",
-    "socket.io": "^2.0.1",
+    "socket.io": "^2.0.4",
     "stylus": "^0.54.5",
     "winston": "^2.4.0",
     "yargs": "^8.0.1"
@@ -42,7 +42,7 @@
       "lodash": "npm:lodash@^4.17.4",
       "navigo": "npm:navigo@^4.7.1",
       "rivets": "npm:rivets@^0.9.6",
-      "socket.io-client": "npm:socket.io-client@^2.0.1",
+      "socket.io-client": "npm:socket.io-client@^2.0.4",
       "velocity": "github:julianshapiro/velocity@^2.0.1"
     },
     "devDependencies": {

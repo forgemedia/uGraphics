@@ -38,9 +38,9 @@ export default class CGController {
     // Function that sets up socket message handler functions
     cgSetSocketHandlers() {
         // When a sync message is received...
-        this.io.on(`${this.name}:sync`, msg => {
+        this.io.on(`${this.name}:synf`, msg => {
             // Send a log to the console for debugging purposes
-            console.log(`${this.name}: received ${this.name}:sync, ${JSON.stringify(msg)}`);
+            console.log(`${this.name}: received ${this.name}:synf, ${JSON.stringify(msg)}`);
 
             // Use _.assign to merge the received state into the local data store
             _.assign(this.dataStore, msg);
