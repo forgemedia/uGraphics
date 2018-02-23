@@ -3,8 +3,8 @@ import SocketIO from 'socket.io-client';
 import Rivets from 'rivets';
 
 // Custom module imports
-import BugCtrl from './cg/bug';
-import LowerThirdsCtrl from './cg/lowerThirds';
+import BugCtrl from './cg/bug.cgc.js';
+import LowerThirdsCtrl from './cg/lowerThirds.cgc.js';
 
 console.log('cg: begin');
 

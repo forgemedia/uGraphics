@@ -1,9 +1,8 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
 import _ from 'lodash';
-import fgAnimate from './animate.js';
 
-import CGController from './controller';
+import CGController from './cgController';
 
 export default class extends CGController {
     constructor() {

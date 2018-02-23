@@ -2,7 +2,7 @@ import $ from 'jquery';
 import SocketIOClient from 'socket.io-client';
 import Rivets from 'rivets';
 import _ from 'lodash';
-import fgAnimate from './animate.js';
+import fgAnimate from './cgAnimate.js';
 
 // The data store backing object, which is written to through a proxy object
 // so that assignments can be trapped
@@ -122,7 +122,7 @@ export default class CGController {
 
                 // Animate any DOM element that has an fg-show attribute
                 // that binds it to this property
-                $(`[fg-show='${property}`).each((i, v) => fgAnimate(v, value));
+                $(`[fg-show='${property}]`).each((i, v) => fgAnimate(v, value));
 
                 // Return true, indicating success
                 console.log(`${name}: data store trap for ${property} complete`);
