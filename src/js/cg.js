@@ -3,8 +3,7 @@ import SocketIO from 'socket.io-client';
 import Rivets from 'rivets';
 
 // Custom module imports
-import BugCtrl from './cg/bug.cgc.js';
-import LowerThirdsCtrl from './cg/lowerThirds.cgc.js';
+import CGController from './cg/cgController.js';
 
 console.log('cg: begin');
 
@@ -13,18 +12,17 @@ console.log(`cg: hiding all [fg-show] elements`);
 $('[fg-show]').each((i, v) => $(v).hide());
 
 // A list of controllers
-let controllers = {
-    bug: BugCtrl,
-    lowerThirds: LowerThirdsCtrl
-};
+let controllers = [
+    'bug',
+    'lowerThirds'
+];
 
-// A list of bindings (not currently used for anything, but may be used in future)
 let bindings = {};
 
 // Bind all the controllers
-for (let id in controllers) {
+for (let id of controllers) {
     console.log(`cg: setting binding for id ${id} to new controller for ${id}`);
-    bindings[id] = new controllers[id](id);
+    bindings[id] = new CGController(id);
 }
 
 // Connect to sockets
