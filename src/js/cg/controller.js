@@ -116,6 +116,7 @@ export default class CGController {
         return {
             // On assignment
             set: function (target, property, value, receiver) {
+                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);
                 // Assign the value to the target object's property as usual
                 target[property] = value;
 
@@ -124,6 +125,7 @@ export default class CGController {
                 $(`[fg-show='${property}`).each((i, v) => fgAnimate(v, value));
 
                 // Return true, indicating success
+                console.log(`${name}: data store trap for ${property} complete`);
                 return true;
             }
         }

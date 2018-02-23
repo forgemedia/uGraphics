@@ -6,7 +6,10 @@ import Rivets from 'rivets';
 import BugCtrl from './cg/bug';
 import LowerThirdsCtrl from './cg/lowerThirds';
 
+console.log('cg: begin');
+
 // Hide all elements with an fg-show attribute to begin with
+console.log(`cg: hiding all [fg-show] elements`);
 $('[fg-show]').each((i, v) => $(v).hide());
 
 // A list of controllers
@@ -19,15 +22,19 @@ let controllers = {
 let bindings = {};
 
 // Bind all the controllers
-for (let id in controllers)
+for (let id in controllers) {
+    console.log(`cg: setting binding for id ${id} to new controller for ${id}`);
     bindings[id] = new controllers[id](id);
+}
 
 // Connect to sockets
+console.log('cg: connecting socket.io');
 let io = SocketIO.connect();
 
 // When the document is ready ($()), show the body element,
 // which is hidden in CSS
 $(() => {
+    console.log('cg: document ready, showing body');
     $('body').show();
 });
 

@@ -46,6 +46,7 @@ export default class DashController {
     get dataStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
+                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);
                 // Set the target's property to the value as normal
                 target[property] = value;
 
@@ -57,6 +58,7 @@ export default class DashController {
                 io.emit(`${name}:sync`, obj);
 
                 // Return true, indicating success
+                console.log(`${name}: data store trap for ${property} complete`);
                 return true;
             }
         };
@@ -66,9 +68,13 @@ export default class DashController {
     get methodsStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
+                console.log(`${name}: methods store trap, setting property ${property} to value ${value}`);
                 // If the value assigned is not a function, return false,
                 // indicating failure
-                if (typeof value !== 'function') return false;
+                if (typeof value !== 'function') {
+                    console.log(`${name}: methods store trap: ${value} is not a function`);
+                    return false;
+                }
 
                 // Set the target's property to the value as normal
                 target[property] = value;
@@ -78,9 +84,11 @@ export default class DashController {
                 // disable any click event handler that is in place
                 // and add a new click event handler pointing to
                 // the new method
-                $(`[fg-click='${property}']`).off('click').click(target[property]);
+                $(`[fg-click='${property}']`).off('click').click(target[property]).each(
+                    n=> console.log(`${name}: reassigning click handler for ${n}`));
 
                 // Return true, indicating success
+                console.log(`${name}: methods store trap for ${property} complete`);
                 return true;
             }
         };
