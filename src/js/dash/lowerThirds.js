@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
 
-import DashController from './dashController';
+import DashController from './controller';
 
 export default class extends DashController {
     constructor() {
-        super('maintenance');
+        super('lowerThirds');
     }
 }
