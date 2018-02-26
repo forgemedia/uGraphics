@@ -68,6 +68,8 @@ for (let pub in Config.publicDirs)
 // Use the dashboard router module to handle the dashboard view
 app.use(['/dash', '/dashboard'], DashRouter);
 
+app.get('/test', (req, res) => res.render('test'));
+
 // Render the character generator when / is accessed
 app.get('/', (req, res) => res.render('cg/index'));
 

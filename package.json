@@ -48,10 +48,14 @@
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
+      "chai": "npm:chai@^4.1.2",
+      "core-js": "npm:core-js@^1.1.4",
+      "mocha": "npm:mocha@^5.0.1"
     }
   },
   "devDependencies": {
+    "mocha-phantomjs": "^4.1.0",
+    "mocha-phantomjs-core": "^2.1.2",
     "ts-node": "^4.1.0",
     "typescript": "^2.7.2"
   }
