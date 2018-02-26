@@ -5,6 +5,7 @@ let Nodemon = require('gulp-nodemon');
 let Env = require('gulp-env');
 let Sass = require('gulp-sass');
 let PostCSS = require('gulp-postcss');
+let TypeScript = require('gulp-typescript');
 
 let Cssnext = require('postcss-cssnext');
 let Cssnano = require('cssnano');
@@ -48,9 +49,20 @@ Gulp.task('rundbg', () => {
             'node_modules',
             'package.json',
             'gulpfile.js',
-            'src'
+            'src',
+            'output'
         ]
     });
+});
+
+Gulp.task('typescript', () => {
+    return Gulp.src('./*.ts')
+        .pipe(TypeScript({
+            target: 'ES5',
+            moduleResolution: 'node',
+            removeComments: true
+        }))
+        .pipe(Gulp.dest('.'));
 });
 
 Gulp.task('build', Gulp.parallel('dashcss'));

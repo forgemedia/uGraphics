@@ -2,3 +2,8 @@ jspm_packages/
 node_modules/
 output/
 fg.log
+assets/css/
+server.js
+dash.router.js
+socketHandler.js
+stylesheet.js
