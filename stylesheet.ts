@@ -1,7 +1,6 @@
 import * as Path from 'path';
 import * as Cssnext from 'postcss-cssnext';
 import * as Cssnano from 'cssnano';
-import * as SassMiddleware from 'node-sass-middleware';
 import * as PostCSSMiddleware from 'postcss-middleware';
 import * as Stylus from 'stylus';
 import * as FS from 'fs';
@@ -22,21 +21,6 @@ if (Debug) postCSSPlugins.push(
         autoprefixer: false
     })
 );
-
-export let Sass = app => {
-    // Use the stylesheet middleware
-    app.use(SassMiddleware({
-        src: Path.join(__dirname, 'src', 'scss'),
-        dest: Path.join(__dirname, 'output', 'scss'),
-        prefix: '/output/scss',
-        response: false,
-        includePaths: Config.frontend.sassIncludePaths
-    }));
-    app.use('/output/scss', PostCSSMiddleware({
-        src: req => Path.join(__dirname, 'output', 'scss', req.url),
-        plugins: postCSSPlugins
-    }));
-}
 
 export let Styl = app => {
     app.use(Stylus.middleware({
