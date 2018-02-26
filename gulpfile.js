@@ -6,6 +6,7 @@ let Env = require('gulp-env');
 let Sass = require('gulp-sass');
 let PostCSS = require('gulp-postcss');
 let TypeScript = require('gulp-typescript');
+let Clean = require('gulp-clean');
 
 let Cssnext = require('postcss-cssnext');
 let Cssnano = require('cssnano');
@@ -62,7 +63,16 @@ Gulp.task('typescript', () => {
             moduleResolution: 'node',
             removeComments: true
         }))
-        .pipe(Gulp.dest('.'));
+        .pipe(Gulp.dest('output/'));
+});
+
+Gulp.task('clean', () => {
+    return Gulp.src([
+        'output/',
+        '*.log',
+        'server-*',
+        'assets/css/'
+    ], { read: false, allowEmpty: true }).pipe(Clean());
 });
 
 Gulp.task('build', Gulp.parallel('dashcss'));
