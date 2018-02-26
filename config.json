@@ -14,7 +14,7 @@
         "assets": "assets"
     },
     "log": {
-        "file": true,
+        "file": false,
         "path": "fg.log"
     },
     "frontend": {
