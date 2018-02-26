@@ -5,6 +5,8 @@ of how it works under the hood
 
 ## Developing and running the graphics server
 
+See below for Windows instructions
+
 ### Prerequisite software
 
 - Node.js (download at nodejs.org, or using a package manager for
@@ -29,3 +31,21 @@ watch for changes to essential files and reload the server (useful during
 development)
 - You can use the option `-p` or `--port` to choose the port the server listens
 on (3000 by default)
+
+## Steps to make the thing work on Windows, from scratch
+
+- Open cmd/powershell
+- Install chocolatey from chocolatey.org
+- `choco install -y git nodejs yarn`
+- Close the cmd/powershell and open it again
+- `npm i -g typescript ts-node node-gyp gulp-cli` (can leave `gulp-cli` out if not developing)
+- `npm i -g --production windows-build-tools`
+- `npm config set --global msvs_version 2015`
+- Close the cmd/powershell and open it again
+- Make sure you're in the directory you want to be in
+- `git clone <repository>`
+- `cd <repository>`
+- `yarn`
+- `jspm i`
+- Run it using `ts-node server`
+- Run it in debug mode using `gulp`
