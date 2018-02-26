@@ -5,7 +5,7 @@ import * as PostCSSMiddleware from 'postcss-middleware';
 import * as Stylus from 'stylus';
 import * as FS from 'fs';
 
-import { Debug } from './server';
+import { CWD, Debug } from './server';
 
 const Config = JSON.parse(FS.readFileSync('./config.json').toString());
 
@@ -24,15 +24,15 @@ if (Debug) postCSSPlugins.push(
 
 export let Styl = app => {
     app.use(Stylus.middleware({
-        src: Path.join(__dirname, 'src'),
-        dest: Path.join(__dirname, 'output'),
+        src: Path.join(CWD, 'src'),
+        dest: Path.join(CWD, 'output'),
         compile: (str, path) => Stylus(str)
             .set('filename', path)
             .set('include css', true)
             .set('paths', Config.frontend.stylIncludePaths)
     }));
     app.use('/output/styl', PostCSSMiddleware({
-        src: req => Path.join(__dirname, 'output', 'styl', req.url),
+        src: req => Path.join(CWD, 'output', 'styl', req.url),
         plugins: postCSSPlugins
     }));
 }

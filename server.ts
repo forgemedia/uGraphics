@@ -12,14 +12,15 @@ import * as SocketIOServer from 'socket.io';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import * as FS from 'fs';
+import 'pug'; // So that pkg works
 
 // Import config and modules from project
 import DashRouter from './dash.router';
 import * as StylesheetMiddleware from './stylesheet';
 import * as SocketHandler from './socketHandler';
 
-let debug = process.env.NODE_ENV == 'debug';
-
+const debug = process.env.NODE_ENV == 'debug';
+const cwd = process.cwd();
 const Config = JSON.parse(FS.readFileSync('./config.json').toString());
 
 // -----------------------------------------------------------------------------
@@ -62,7 +63,7 @@ StylesheetMiddleware.Styl(app);
 // Serve static directories
 for (let pub in Config.publicDirs)
     app.use(`/${pub}`,
-        Express.static(Path.join(__dirname, Config.publicDirs[pub])));
+        Express.static(Path.join(cwd, Config.publicDirs[pub])));
 
 // Use the dashboard router module to handle the dashboard view
 app.use(['/dash', '/dashboard'], DashRouter);
@@ -93,4 +94,4 @@ server.listen(settings.port, () => {
 });
 
 // Export some objects so other modules can use them
-export { debug as Debug, io as IO };
+export { debug as Debug, io as IO, cwd as CWD };
