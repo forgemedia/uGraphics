@@ -18,6 +18,7 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "bootstrap": "npm:bootstrap@4.0.0-alpha.6",
+    "buffer": "github:jspm/nodelibs-buffer@0.1.1",
     "core-js": "npm:core-js@1.2.7",
     "jquery": "npm:jquery@3.2.1",
     "lodash": "npm:lodash@4.17.4",
@@ -29,7 +30,7 @@ System.config({
       "assert": "npm:assert@1.4.1"
     },
     "github:jspm/nodelibs-buffer@0.1.1": {
-      "buffer": "npm:buffer@5.0.6"
+      "buffer": "npm:buffer@5.1.0"
     },
     "github:jspm/nodelibs-events@0.1.1": {
       "events": "npm:events@1.0.2"
@@ -105,8 +106,8 @@ System.config({
     "npm:buffer-shims@1.0.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1"
     },
-    "npm:buffer@5.0.6": {
-      "base64-js": "npm:base64-js@1.2.0",
+    "npm:buffer@5.1.0": {
+      "base64-js": "npm:base64-js@1.2.3",
       "ieee754": "npm:ieee754@1.1.8"
     },
     "npm:core-js@1.2.7": {

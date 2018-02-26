@@ -1,8 +1,38 @@
+'use strict';
+
 let Gulp = require('gulp');
 let Nodemon = require('gulp-nodemon');
 let Env = require('gulp-env');
+let Sass = require('gulp-sass');
+let PostCSS = require('gulp-postcss');
 
-Gulp.task('default', () => {
+let Cssnext = require('postcss-cssnext');
+let Cssnano = require('cssnano');
+
+let FS = require('fs');
+
+const Config = JSON.parse(FS.readFileSync('./config.json').toString());
+
+Gulp.task('dashcss', () => {
+    return Gulp.src('./src/scss/dash.scss')
+        .pipe(Sass({
+            prefix: '/css',
+            includePaths: Config.frontend.sassIncludePaths
+        }))
+        .pipe(PostCSS([
+            Cssnext({
+                browsers: Config.frontend.browserSupport
+            }),
+            Cssnano({
+                autoprefixer: false
+            })
+        ]))
+        .pipe(Gulp.dest('./assets/css/'));
+});
+
+Gulp.task('watchscss', () => Gulp.watch('./src/scss/dash.scss', Gulp.series('dashcss')));
+
+Gulp.task('rundbg', () => {
     Env({
         vars: {
             NODE_ENV: 'debug'
@@ -22,3 +52,9 @@ Gulp.task('default', () => {
         ]
     });
 });
+
+Gulp.task('build', Gulp.parallel('dashcss'));
+
+Gulp.task('debug', Gulp.series('build', Gulp.parallel('watchscss', 'rundbg')));
+
+Gulp.task('default', Gulp.series('debug'));

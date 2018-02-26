@@ -55,7 +55,6 @@ app.locals = _.assign(Config.locals, { debug: debug });
 // Pass the app to functions that install middleware which processes SCSS
 // and Stylus stylesheets on-demand
 StylesheetMiddleware.Styl(app);
-StylesheetMiddleware.Sass(app);
 
 // -----------------------------------------------------------------------------
 // - SERVER --------------------------------------------------------------------

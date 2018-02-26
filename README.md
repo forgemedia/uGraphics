@@ -38,10 +38,7 @@ on (3000 by default)
 - Install chocolatey from chocolatey.org
 - `choco install -y git nodejs yarn`
 - Close the cmd/powershell and open it again
-- `npm i -g typescript ts-node node-gyp gulp-cli` (can leave `gulp-cli` out if not developing)
-- `npm i -g --production windows-build-tools`
-- `npm config set --global msvs_version 2015`
-- Close the cmd/powershell and open it again
+- `npm i -g typescript ts-node gulp-cli` (can leave `gulp-cli` out if not developing)
 - Make sure you're in the directory you want to be in
 - `git clone <repository>`
 - `cd <repository>`
