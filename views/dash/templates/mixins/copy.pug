@@ -3,6 +3,6 @@ include textbox
 mixin copy(name, model, addon)
     .input-group
         if addon
-            span.input-group-addon= addon
+            .input-group-prepend: .input-group-text= addon
         +textbox-copy(name, model)
-        span.input-group-btn: button.btn.btn-success(fg-copy-button=model) Set
+        span.input-group-append: button.btn.btn-success(fg-copy-button=model) Set

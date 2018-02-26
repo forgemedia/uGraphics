@@ -6,7 +6,7 @@ div(fg-panel='bug')
     .container
         .card-columns
             +live-card('showBug')
-                .card-block
+                .card-body
                     h4.card-title Bug
                     p.card-text
                     | The bug (or DOG) sits in the top left corner of the screen,
@@ -18,7 +18,7 @@ div(fg-panel='bug')
                             +radio(Path.basename(item), 'bugLogo', '/' + item)(rv-disabled='showBug' class='mt-1 mb-1')
 
             +live-card('showHashtag')
-                .card-block
+                .card-body
                     h4.card-title Hashtag
                     p.card-text
                     | Show a hashtag in the bottom left corner of the screen.
@@ -27,7 +27,7 @@ div(fg-panel='bug')
                     li.list-group-item: +checkbox('Show hashtag', 'showHashtag')(rv-enabled='hashtag')
             
             +live-card('showArbitrary')
-                .card-block
+                .card-body
                     h4.card-title Arbitrary text
                     p.card-text
                     | Show an arbitrary string of text in the bottom right

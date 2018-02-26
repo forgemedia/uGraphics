@@ -30,7 +30,7 @@ Gulp.task('dashcss', () => {
         .pipe(Gulp.dest('./assets/css/'));
 });
 
-Gulp.task('watchscss', () => Gulp.watch('./src/scss/dash.scss', Gulp.series('dashcss')));
+Gulp.task('watchscss', () => Gulp.watch('./src/scss/*.scss', Gulp.series('dashcss')));
 
 Gulp.task('rundbg', () => {
     Env({
