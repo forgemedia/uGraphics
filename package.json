@@ -58,7 +58,6 @@
     "gulp-nodemon": "^2.2.1",
     "gulp-postcss": "^7.0.1",
     "gulp-sass": "^3.1.0",
-    "node-sass": "4.5.3",
     "ts-node": "^4.1.0",
     "typescript": "^2.7.2"
   }
