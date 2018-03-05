@@ -77,7 +77,14 @@ app.get('*', (req, res) => res.status(404).render('404'));
 // -----------------------------------------------------------------------------
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 // -----------------------------------------------------------------------------
-let io = SocketIOServer(server);
+let io = SocketIOServer(server, {
+    wsEngine: "ws"
+});
+
+// if (/^win/.test(process.platform)) {
+//     Winston.info('Starting uws bug-hack interval under Windows');
+//     setInterval(() => {}, 50);
+// }
 
 // Start the Express app listening on the specified port
 server.listen(settings.port, () => {
