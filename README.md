@@ -30,6 +30,9 @@ development)
 - You can use the option `-p` or `--port` to choose the port the server listens
 on (3000 by default)
 
+### Generating documentation
+To generate documentation, use [ESDoc](https://esdoc.org).
+
 ## Steps to make the thing work on Windows, from scratch
 
 - Open cmd/powershell

@@ -1,0 +1,19 @@
+{
+    "source": ".",
+    "includes": ["\\.js$"],
+    "excludes": [
+        "node_modules/*",
+        "jspm_packages/*",
+        "docs/*",
+        "index.js",
+        "gulpfile.js",
+        "src/js/config.js"
+    ],
+    "destination": "./docs",
+    "plugins": [
+        { "name": "esdoc-standard-plugin",
+        "option": {
+            "unexportedIdentifier": { "enable": true }
+        }}
+    ]
+}

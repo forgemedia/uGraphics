@@ -37,7 +37,8 @@ Winston.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`
 
 // Parse command line options with Yargs, taking defaults from config.json
 Winston.silly(`Parsing command-line options`);
-let settings = Yargs
+/** The command-line arguments as read in with Yargs */
+let argv = Yargs
     .option('port', {
         alias: 'p',
         describe: 'Port to listen on',
@@ -53,7 +54,9 @@ let settings = Yargs
 // -----------------------------------------------------------------------------
 // Create an Express app, using Pug as the view engine
 Winston.silly(`Configuring Express app`);
+/** The Express app powering the dashboard and character generator */
 let app = Express();
+/** The HTTP server that serves up app */
 let server = HTTP.createServer(app);
 app.set('view engine', 'pug');
 app.locals = _.assign(Config.locals, { debug: debug });
@@ -85,6 +88,7 @@ app.get('*', (req, res) => res.status(404).render('404'));
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 // -----------------------------------------------------------------------------
 Winston.silly(`Configuring socket.io server`);
+/** The socket.io real-time communications server */
 let io = SocketIOServer(server, {
     wsEngine: "ws"
 });
@@ -95,9 +99,9 @@ let io = SocketIOServer(server, {
 // }
 
 // Start the Express app listening on the specified port
-server.listen(settings.port, () => {
+server.listen(argv.port, () => {
     // Log some stuff
-    Winston.info(`Listening on port ${settings.port}`);
+    Winston.info(`Listening on port ${argv.port}`);
     Winston.debug('Debug enabled');
 
     // On any connection, handle it with the function defined in socketHandler.ts

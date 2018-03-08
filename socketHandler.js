@@ -4,12 +4,19 @@ import FS from 'fs';
 import _ from 'lodash';
 import Config from './config';
 
-// Store all the datas
+/**
+ * The central/master sync data store for all of the components
+ * @type {Object}
+ */
 let dataStore = {};
 for (let socket of Config.sockets)
     dataStore[socket] = Config.initDataStore[socket] || {};
 
-// Called when a state for a component needs to be emitted
+/**
+ * Emits a sync state for the named component
+ * @param {string} socketName The name of the component
+ * @param {Object} [delta] If present, will emit only this as a delta object
+ */
 let emitSynf = (socketName, delta) => {
     // Emit it over socket
     IO.emit(`${socketName}:synf`, delta || dataStore[socketName]);
@@ -18,7 +25,11 @@ let emitSynf = (socketName, delta) => {
     Winston.debug(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
 };
 
-// Called when a trigger message needs to be emitted
+/**
+ * Emits a trigger message for the named component
+ * @param {string} socketName The name of the component
+ * @param {Object} msg The object to emit as accompanying data
+ */
 let emitTrigger = (socketName, msg) => {
     // Emit it over socket
     IO.emit(`${socketName}:trigger`, msg);
@@ -27,6 +38,7 @@ let emitTrigger = (socketName, msg) => {
     Winston.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
 };
 
+/** Sets up a ten-second tick interval to keep the system in sync */
 let setTick = () => {
     // Every n seconds, emit a sync event for each socket
     setInterval(() => {
@@ -35,7 +47,10 @@ let setTick = () => {
     }, 10000);
 };
 
-// Called in server.ts when any connection is received
+/**
+ * Called whenever a socket needs to be handled
+ * @param {socket} socket The socket that needs to be handled
+ */
 let handleSocket = socket => {
     // Get the IP address that's connecting and log it
     let address = socket.request.connection.remoteAddress;
