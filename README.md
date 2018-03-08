@@ -46,3 +46,23 @@ on (3000 by default)
 - `jspm i`
 - Run it using `ts-node server`
 - Run it in debug mode using `gulp`
+
+## Files and directories
+```
+/.vscode - Visual Studio Code configuration
+/assets - Static assets
+    /assets/css - Static CSS stylesheets
+    /assets/fonts - Webfont files
+    /assets/img - Images (including SVG)
+/src - Client-side source files
+    /src/js - Client-side JavaScript (dash and character generator)
+        - config.js - SystemJS config
+    /src/scss - SCSS stylesheets for the dashboard (Gulp compiles these to the /assets/css directory)
+    /src/styl - Stylus stylesheets for the character generator (the server compiles these live)
+/views - Pug files (compiled to HTML live by the server)
+/*.ts - Server source
+/gulpfile.js - Gulp tasks
+/package.json - Package configuration
+/yarn.lock - Yarn package manager lockfile
+/config.json - Server configuration
+```
