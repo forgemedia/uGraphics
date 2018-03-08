@@ -1,8 +1,8 @@
-import * as Winston from 'winston';
+import Winston from 'winston';
 import { IO } from './server';
-import * as FS from 'fs';
-import * as _ from 'lodash';
-const Config = JSON.parse(FS.readFileSync('./config.json').toString());
+import FS from 'fs';
+import _ from 'lodash';
+import Config from './config';
 
 // Store all the datas
 let dataStore = {};
@@ -10,7 +10,7 @@ for (let socket of Config.sockets)
     dataStore[socket] = Config.initDataStore[socket] || {};
 
 // Called when a state for a component needs to be emitted
-let emitSynf = (socketName, delta?) => {
+let emitSynf = (socketName, delta) => {
     // Emit it over socket
     IO.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 

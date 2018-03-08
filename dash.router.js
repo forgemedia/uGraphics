@@ -1,8 +1,8 @@
 // Import the Express module
-import * as Express from 'express';
-import * as Shell from 'shelljs';
-import * as _ from 'lodash';
-import * as Path from 'path';
+import Express from 'express';
+import Shell from 'shelljs';
+import _ from 'lodash';
+import Path from 'path';
 
 // Create an Express router
 let router = Express.Router();

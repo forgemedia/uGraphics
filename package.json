@@ -12,12 +12,13 @@
     "@types/stylus": "^0.48.29",
     "@types/winston": "^2.3.8",
     "@types/yargs": "^11.0.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
     "bootstrap": "4",
     "caniuse-db": "^1.0.30000652",
     "cssnano": "^3.10.0",
     "express": "^4.15.2",
     "gulp-clean": "^0.4.0",
-    "gulp-typescript": "^4.0.1",
     "jquery": "^3.3.1",
     "jspm": "^0.16.53",
     "jspm-github": "0.13.18",
@@ -57,8 +58,6 @@
     "gulp-env": "^0.4.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-postcss": "^7.0.1",
-    "gulp-sass": "^3.1.0",
-    "ts-node": "^4.1.0",
-    "typescript": "^2.7.2"
+    "gulp-sass": "^3.1.0"
   }
 }

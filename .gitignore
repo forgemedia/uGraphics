@@ -3,8 +3,4 @@ node_modules/
 output/
 *.log
 assets/css/
-server.js
-dash.router.js
-socketHandler.js
-stylesheet.js
 server-*

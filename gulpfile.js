@@ -5,7 +5,6 @@ let Nodemon = require('gulp-nodemon');
 let Env = require('gulp-env');
 let Sass = require('gulp-sass');
 let PostCSS = require('gulp-postcss');
-let TypeScript = require('gulp-typescript');
 let Clean = require('gulp-clean');
 
 let Cssnext = require('postcss-cssnext');
@@ -13,7 +12,7 @@ let Cssnano = require('cssnano');
 
 let FS = require('fs');
 
-const Config = JSON.parse(FS.readFileSync('./config.json').toString());
+let Config = require('./config');
 
 Gulp.task('dashcss', () => {
     return Gulp.src('./src/scss/dash.scss')
@@ -41,9 +40,9 @@ Gulp.task('rundbg', () => {
         }
     });
     Nodemon({
-        ext: 'ts json',
+        ext: 'js es6 json',
         watch: '.',
-        exec: 'ts-node server',
+        exec: 'node index',
         ignore: [
             'assets',
             'jspm_packages',
@@ -54,16 +53,6 @@ Gulp.task('rundbg', () => {
             'output'
         ]
     });
-});
-
-Gulp.task('typescript', () => {
-    return Gulp.src('./*.ts')
-        .pipe(TypeScript({
-            target: 'ES5',
-            moduleResolution: 'node',
-            removeComments: true
-        }))
-        .pipe(Gulp.dest('output/'));
 });
 
 Gulp.task('clean', () => {

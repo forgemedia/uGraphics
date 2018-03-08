@@ -1,17 +1,20 @@
-#!/usr/bin/env ts-node
 // -----------------------------------------------------------------------------
 // - IMPORTS -------------------------------------------------------------------
 // -----------------------------------------------------------------------------
+console.log('Server entry point');
+import Config from './config';
+import { CWD as cwd, Debug as debug } from './shared';
+
 // Import modules from npm/node
-import * as Path from 'path';
-import * as HTTP from 'http';
-import * as Express from 'express';
-import * as Yargs from 'yargs';
-import * as Winston from 'winston';
-import * as SocketIOServer from 'socket.io';
-import * as Moment from 'moment';
-import * as _ from 'lodash';
-import * as FS from 'fs';
+import Path from 'path';
+import HTTP from 'http';
+import Express from 'express';
+import Yargs from 'yargs';
+import Winston from 'winston';
+import SocketIOServer from 'socket.io';
+import Moment from 'moment';
+import _ from 'lodash';
+import FS from 'fs';
 import 'pug'; // So that pkg works
 
 // Import config and modules from project
@@ -19,20 +22,21 @@ import DashRouter from './dash.router';
 import * as StylesheetMiddleware from './stylesheet';
 import * as SocketHandler from './socketHandler';
 
-const debug = process.env.NODE_ENV == 'debug';
-const cwd = process.cwd();
-const Config = JSON.parse(FS.readFileSync('./config.json').toString());
-
 // -----------------------------------------------------------------------------
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
+console.log('Imports complete, configuring Winston');
 Winston.configure({
-    level: debug? 'debug' : 'info'
+    level: debug? 'silly' : 'info'
 });
 Winston.add(Winston.transports.Console, { timestamp: true, colorize: true });
 if (Config.log.file) Winston.add(Winston.transports.File, { timestamp: true, filename: Config.log.path });
 
+Winston.info(`Forge Graphics Server Gen3 (${Config.locals.product} - ${Config.locals.project})`)
+Winston.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
+
 // Parse command line options with Yargs, taking defaults from config.json
+Winston.silly(`Parsing command-line options`);
 let settings = Yargs
     .option('port', {
         alias: 'p',
@@ -48,6 +52,7 @@ let settings = Yargs
 // - EXPRESS APP ---------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Create an Express app, using Pug as the view engine
+Winston.silly(`Configuring Express app`);
 let app = Express();
 let server = HTTP.createServer(app);
 app.set('view engine', 'pug');
@@ -55,12 +60,14 @@ app.locals = _.assign(Config.locals, { debug: debug });
 
 // Pass the app to functions that install middleware which processes SCSS
 // and Stylus stylesheets on-demand
+Winston.silly(`Configuring Stylus middleware`);
 StylesheetMiddleware.Styl(app);
 
 // -----------------------------------------------------------------------------
 // - SERVER --------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Serve static directories
+Winston.silly(`Configuring server routes`);
 for (let pub in Config.publicDirs)
     app.use(`/${pub}`,
         Express.static(Path.join(cwd, Config.publicDirs[pub])));
@@ -77,6 +84,7 @@ app.get('*', (req, res) => res.status(404).render('404'));
 // -----------------------------------------------------------------------------
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 // -----------------------------------------------------------------------------
+Winston.silly(`Configuring socket.io server`);
 let io = SocketIOServer(server, {
     wsEngine: "ws"
 });
@@ -89,9 +97,7 @@ let io = SocketIOServer(server, {
 // Start the Express app listening on the specified port
 server.listen(settings.port, () => {
     // Log some stuff
-    Winston.info(`Forge Graphics Server Gen3 (${Config.locals.product} - ${Config.locals.project})`)
     Winston.info(`Listening on port ${settings.port}`);
-    Winston.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
     Winston.debug('Debug enabled');
 
     // On any connection, handle it with the function defined in socketHandler.ts
@@ -100,5 +106,6 @@ server.listen(settings.port, () => {
     SocketHandler.SetTick();
 });
 
-// Export some objects so other modules can use them
-export { debug as Debug, io as IO, cwd as CWD };
+export {
+    io as IO
+};
