@@ -1,5 +1,3 @@
-# Forge Graphics Server G3 - a beginners' technical overview
-
 The application starts at `server.ts` - read the comments there for a walkthrough
 of how it works under the hood
 

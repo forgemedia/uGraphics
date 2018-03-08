@@ -1,7 +1,7 @@
 jspm_packages/
 node_modules/
 output/
-fg.log
+*.log
 assets/css/
 server.js
 dash.router.js
