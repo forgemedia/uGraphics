@@ -41,9 +41,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-animate">animate</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html">CGController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -58,8 +59,10 @@ import SocketIO from &apos;socket.io-client&apos;;
 import Rivets from &apos;rivets&apos;;
 
 // Custom module imports
-import BugCtrl from &apos;./bug.cgctrl&apos;;
-import LowerThirdsCtrl from &apos;./lowerThirds.cgctrl&apos;;
+import BugCtrl from &apos;./controllers/bug&apos;;
+import LowerThirdsCtrl from &apos;./controllers/lowerThirds&apos;;
+
+import Clock from &apos;./modules/clock&apos;;
 
 console.log(&apos;cg: begin&apos;);
 
@@ -76,6 +79,11 @@ let controllers = {
 /** A store of binding objects */
 let bindings = {};
 
+/** A list of module functions */
+let modules = [
+    Clock
+];
+
 // Bind all the controllers
 for (let id in controllers) {
     console.log(`cg: setting binding for id ${id} to new controller for ${id}`);
@@ -86,6 +94,9 @@ for (let id in controllers) {
 console.log(&apos;cg: connecting socket.io&apos;);
 /** The socket.io client */
 let io = SocketIO.connect();
+
+// Really dumb way to do modules
+for (let module of modules) module();
 
 // When the document is ready ($()), show the body element,
 // which is hidden in CSS

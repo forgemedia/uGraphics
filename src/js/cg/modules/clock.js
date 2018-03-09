@@ -2,10 +2,14 @@ import $ from 'jquery';
 import _ from 'lodash';
 import Moment from 'moment';
 
+/** Sets up and returns an interval that updates the text of all elements
+ * with an fg-clock attribute to the current time, every second
+ * @return {Number} The ID of the timer that was set
+ */
 export default () => {
     // Tick every second
     let tickFn = () => {
-        $('[fg-clock').each((i, v) => { 
+        $('[fg-clock]').each((i, v) => { 
             let el = $(v);
             el.text(() => Moment().format(el.attr('fg-clock-format') || 'HH:MM'));
         });

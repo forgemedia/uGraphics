@@ -8,8 +8,7 @@
         "index.js",
         "gulpfile.js",
         "src/js/config.js",
-        "\\.cgctrl.js",
-        "\\.dashctrl.js"
+        "controllers/*"
     ],
     "destination": "./docs",
     "plugins": [

@@ -1,8 +1,8 @@
 window.esdocSearchIndex = [
   [
     "ugraphics/ugraphics/src/js/cg/cgcontroller.js~cgcontroller",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html",
-    "<span>CGController</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/cg/cgcontroller.js</span>",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html",
+    "<span>CGController</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/cg/cgController.js</span>",
     "class"
   ],
   [
@@ -13,8 +13,8 @@ window.esdocSearchIndex = [
   ],
   [
     "ugraphics/ugraphics/src/js/dash/dashcontroller.js~dashcontroller",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html",
-    "<span>DashController</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/dash/dashcontroller.js</span>",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html",
+    "<span>DashController</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/dash/dashController.js</span>",
     "class"
   ],
   [
@@ -30,16 +30,22 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "ugraphics/ugraphics/src/js/cg/animate.js~animate",
-    "function/index.html#static-function-animate",
-    "<span>animate</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/cg/animate.js</span>",
-    "function"
-  ],
-  [
     "ugraphics/ugraphics/server.js~app",
     "variable/index.html#static-variable-app",
     "<span>app</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/server.js</span>",
     "variable"
+  ],
+  [
+    "ugraphics/ugraphics/src/js/cg/cganimate.js~cganimate",
+    "function/index.html#static-function-cgAnimate",
+    "<span>cgAnimate</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/cg/cgAnimate.js</span>",
+    "function"
+  ],
+  [
+    "ugraphics/ugraphics/src/js/cg/modules/clock.js~clock",
+    "function/index.html#static-function-clock",
+    "<span>clock</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/cg/modules/clock.js</span>",
+    "function"
   ],
   [
     "ugraphics/ugraphics/sockethandler.js~datastore",
@@ -396,76 +402,82 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "ugraphics/src/js/cg/animate.js",
-    "file/ugraphics/src/js/cg/animate.js.html",
-    "ugraphics/src/js/cg/animate.js",
-    "file"
-  ],
-  [
     "ugraphics/src/js/cg/cg.js",
     "file/ugraphics/src/js/cg/cg.js.html",
     "ugraphics/src/js/cg/cg.js",
     "file"
   ],
   [
+    "ugraphics/src/js/cg/cganimate.js",
+    "file/ugraphics/src/js/cg/cgAnimate.js.html",
+    "ugraphics/src/js/cg/cgAnimate.js",
+    "file"
+  ],
+  [
     "ugraphics/src/js/cg/cgcontroller.js",
-    "file/ugraphics/src/js/cg/cgcontroller.js.html",
-    "ugraphics/src/js/cg/cgcontroller.js",
+    "file/ugraphics/src/js/cg/cgController.js.html",
+    "ugraphics/src/js/cg/cgController.js",
     "file"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#cgsetsockethandlers",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-method-cgSetSocketHandlers",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#cgSetSocketHandlers",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-method-cgSetSocketHandlers",
+    "ugraphics/src/js/cg/cgController.js~CGController#cgSetSocketHandlers",
     "method"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#cgtriggeranimate",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-method-cgTriggerAnimate",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#cgTriggerAnimate",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-method-cgTriggerAnimate",
+    "ugraphics/src/js/cg/cgController.js~CGController#cgTriggerAnimate",
     "method"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#constructor",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-constructor-constructor",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#constructor",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-constructor-constructor",
+    "ugraphics/src/js/cg/cgController.js~CGController#constructor",
     "method"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#datastore",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-dataStore",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#dataStore",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-dataStore",
+    "ugraphics/src/js/cg/cgController.js~CGController#dataStore",
     "member"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#datastoretraps",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-get-dataStoreTraps",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#dataStoreTraps",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-get-dataStoreTraps",
+    "ugraphics/src/js/cg/cgController.js~CGController#dataStoreTraps",
     "member"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#element",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-element",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#element",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-element",
+    "ugraphics/src/js/cg/cgController.js~CGController#element",
     "member"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#io",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-io",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#io",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-io",
+    "ugraphics/src/js/cg/cgController.js~CGController#io",
     "member"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#methods",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-methods",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#methods",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-methods",
+    "ugraphics/src/js/cg/cgController.js~CGController#methods",
     "member"
   ],
   [
     "ugraphics/src/js/cg/cgcontroller.js~cgcontroller#name",
-    "class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-name",
-    "ugraphics/src/js/cg/cgcontroller.js~CGController#name",
+    "class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-name",
+    "ugraphics/src/js/cg/cgController.js~CGController#name",
     "member"
+  ],
+  [
+    "ugraphics/src/js/cg/modules/clock.js",
+    "file/ugraphics/src/js/cg/modules/clock.js.html",
+    "ugraphics/src/js/cg/modules/clock.js",
+    "file"
   ],
   [
     "ugraphics/src/js/dash/dash.js",
@@ -475,74 +487,74 @@ window.esdocSearchIndex = [
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js",
-    "file/ugraphics/src/js/dash/dashcontroller.js.html",
-    "ugraphics/src/js/dash/dashcontroller.js",
+    "file/ugraphics/src/js/dash/dashController.js.html",
+    "ugraphics/src/js/dash/dashController.js",
     "file"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#constructor",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-constructor-constructor",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#constructor",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-constructor-constructor",
+    "ugraphics/src/js/dash/dashController.js~DashController#constructor",
     "method"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#copyvalue",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-copyValue",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#copyValue",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-copyValue",
+    "ugraphics/src/js/dash/dashController.js~DashController#copyValue",
     "method"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#datastore",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-dataStore",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#dataStore",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-dataStore",
+    "ugraphics/src/js/dash/dashController.js~DashController#dataStore",
     "member"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#datastoretraps",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-get-dataStoreTraps",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#dataStoreTraps",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-get-dataStoreTraps",
+    "ugraphics/src/js/dash/dashController.js~DashController#dataStoreTraps",
     "member"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#element",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-element",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#element",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-element",
+    "ugraphics/src/js/dash/dashController.js~DashController#element",
     "member"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#methods",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-methods",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#methods",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-methods",
+    "ugraphics/src/js/dash/dashController.js~DashController#methods",
     "member"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#methodsstoretraps",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-get-methodsStoreTraps",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#methodsStoreTraps",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-get-methodsStoreTraps",
+    "ugraphics/src/js/dash/dashController.js~DashController#methodsStoreTraps",
     "member"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#setbuttons",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-setButtons",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#setButtons",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-setButtons",
+    "ugraphics/src/js/dash/dashController.js~DashController#setButtons",
     "method"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#setsockethandlers",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-setSocketHandlers",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#setSocketHandlers",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-setSocketHandlers",
+    "ugraphics/src/js/dash/dashController.js~DashController#setSocketHandlers",
     "method"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#trigger",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-trigger",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#trigger",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-trigger",
+    "ugraphics/src/js/dash/dashController.js~DashController#trigger",
     "method"
   ],
   [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#view",
-    "class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-view",
-    "ugraphics/src/js/dash/dashcontroller.js~DashController#view",
+    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-view",
+    "ugraphics/src/js/dash/dashController.js~DashController#view",
     "member"
   ],
   [

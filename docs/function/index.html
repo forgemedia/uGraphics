@@ -41,9 +41,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-animate">animate</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html">CGController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -96,13 +97,43 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-animate">animate</a></span></span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
         </p>
       </div>
       <div>
         
         
         <div data-ice="description"><p>Animate an element according to its properties</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Sets up and returns an interval that updates the text of all elements
+with an fg-clock attribute to the current time, every second</p>
 </div>
       </div>
     </td>
@@ -294,22 +325,22 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-animate">
+  <h3 data-ice="anchor" id="static-function-cgAnimate">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span class="code" data-ice="name">animate</span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
+    <span class="code" data-ice="name">cgAnimate</span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/cg/animate.js.html#lineNumber79">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/cg/cgAnimate.js.html#lineNumber80">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import animate from &apos;<span><a href="file/ugraphics/src/js/cg/animate.js.html#lineNumber79">ugraphics/ugraphics/src/js/cg/animate.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import cgAnimate from &apos;<span><a href="file/ugraphics/src/js/cg/cgAnimate.js.html#lineNumber80">ugraphics/ugraphics/src/js/cg/cgAnimate.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Animate an element according to its properties</p>
@@ -327,7 +358,7 @@
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">element</td>
-      <td data-ice="type" class="code"><span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-element">element</a></span></td>
+      <td data-ice="type" class="code"><span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-element">element</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The element</p>
 </td>
@@ -345,6 +376,64 @@
 </div>
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-clock">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">clock</span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/cg/modules/clock.js.html#lineNumber9">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import clock from &apos;<span><a href="file/ugraphics/src/js/cg/modules/clock.js.html#lineNumber9">ugraphics/ugraphics/src/js/cg/modules/clock.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>Sets up and returns an interval that updates the text of all elements
+with an fg-clock attribute to the current time, every second</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The ID of the timer that was set</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
 
   
 

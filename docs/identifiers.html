@@ -41,9 +41,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-animate">animate</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html">CGController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -431,7 +432,7 @@
           <span data-ice="kind-icon" class="kind-class">C</span>
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html">CGController</a></span></span>
         </p>
       </div>
       <div>
@@ -460,13 +461,53 @@
           <span data-ice="kind-icon" class="kind-function">F</span>
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-animate">animate</a></span></span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
         </p>
       </div>
       <div>
         
         
         <div data-ice="description"><p>Animate an element according to its properties</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+    </div>
+<div data-ice="dirSummaryWrap">
+      <h2 data-ice="dirPath" id="src-js-cg-modules">src/js/cg/modules</h2>
+      <div data-ice="dirSummary"><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">summary</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-function">F</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Sets up and returns an interval that updates the text of all elements
+with an fg-clock attribute to the current time, every second</p>
 </div>
       </div>
     </td>
@@ -499,7 +540,7 @@
           <span data-ice="kind-icon" class="kind-class">C</span>
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span>
         </p>
       </div>
       <div>
@@ -523,6 +564,7 @@
   <div class="identifier-dir-tree" data-ice="dirTreeWrap">
     <div class="identifier-dir-tree-header">Directories</div>
     <div class="identifier-dir-tree-content" data-ice="dirTree"><div style="padding-left: 2em"><a href="#src-js-cg">cg</a></div>
+<div style="padding-left: 3em"><a href="#src-js-cg-modules">modules</a></div>
 <div style="padding-left: 2em"><a href="#src-js-dash">dash</a></div></div>
   </div>
 </div>

@@ -41,21 +41,22 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-animate">animate</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgController.js~CGController.html">CGController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import DashController from &apos;<span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber20">ugraphics/ugraphics/src/js/dash/dashcontroller.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import DashController from &apos;<span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber20">ugraphics/ugraphics/src/js/dash/dashController.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber20">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber20">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -109,7 +110,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
         </p>
       </div>
       <div>
@@ -144,7 +145,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-dataStore">dataStore</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-dataStore">dataStore</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -173,7 +174,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-get-dataStoreTraps">dataStoreTraps</a></span></span><span class="code" data-ice="signature">: {&quot;set&quot;: <span>*</span>}</span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-get-dataStoreTraps">dataStoreTraps</a></span></span><span class="code" data-ice="signature">: {&quot;set&quot;: <span>*</span>}</span>
         </p>
       </div>
       <div>
@@ -203,7 +204,7 @@ handle access to the data store backing object</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-element">element</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-element">element</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -233,7 +234,7 @@ has an <code>fg-panel</code> attribute corresponding to the ID of the controller
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-methods">methods</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-methods">methods</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -262,7 +263,7 @@ has an <code>fg-panel</code> attribute corresponding to the ID of the controller
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-get-methodsStoreTraps">methodsStoreTraps</a></span></span><span class="code" data-ice="signature">: {&quot;set&quot;: <span>*</span>}</span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-get-methodsStoreTraps">methodsStoreTraps</a></span></span><span class="code" data-ice="signature">: {&quot;set&quot;: <span>*</span>}</span>
         </p>
       </div>
       <div>
@@ -292,7 +293,7 @@ to handle access to the method store backing object</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-member-view">view</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-view">view</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -329,7 +330,7 @@ which uses the data store proxy as its data model</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-copyValue">copyValue</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-copyValue">copyValue</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
         </p>
       </div>
       <div>
@@ -358,14 +359,14 @@ which uses the data store proxy as its data model</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-setButtons">setButtons</a></span></span><span class="code" data-ice="signature">()</span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-setButtons">setButtons</a></span></span><span class="code" data-ice="signature">()</span>
         </p>
       </div>
       <div>
         
         
         <div data-ice="description"><p>Sets up all the controller&apos;s elements with an <code>fg-copy-button</code> attribute
-to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-copyValue">copyValue</a></span></p>
+to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-copyValue">copyValue</a></span></p>
 </div>
       </div>
     </td>
@@ -388,7 +389,7 @@ to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-setSocketHandlers">setSocketHandlers</a></span></span><span class="code" data-ice="signature">()</span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-setSocketHandlers">setSocketHandlers</a></span></span><span class="code" data-ice="signature">()</span>
         </p>
       </div>
       <div>
@@ -417,7 +418,7 @@ to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-trigger">trigger</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-trigger">trigger</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
         </p>
       </div>
       <div>
@@ -454,7 +455,7 @@ to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber24">source</a></span></span>
     </span>
   </h3>
 
@@ -517,7 +518,7 @@ to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber38">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber38">source</a></span></span>
     </span>
   </h3>
 
@@ -561,7 +562,7 @@ to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber60">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber60">source</a></span></span>
     </span>
   </h3>
 
@@ -606,7 +607,7 @@ handle access to the data store backing object</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
@@ -651,7 +652,7 @@ has an <code>fg-panel</code> attribute corresponding to the ID of the controller
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber35">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber35">source</a></span></span>
     </span>
   </h3>
 
@@ -695,7 +696,7 @@ has an <code>fg-panel</code> attribute corresponding to the ID of the controller
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber84">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber84">source</a></span></span>
     </span>
   </h3>
 
@@ -740,7 +741,7 @@ to handle access to the method store backing object</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber43">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber43">source</a></span></span>
     </span>
   </h3>
 
@@ -788,7 +789,7 @@ which uses the data store proxy as its data model</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber117">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber117">source</a></span></span>
     </span>
   </h3>
 
@@ -849,7 +850,7 @@ which uses the data store proxy as its data model</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber128">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber128">source</a></span></span>
     </span>
   </h3>
 
@@ -857,7 +858,7 @@ which uses the data store proxy as its data model</p>
   
   
   <div data-ice="description"><p>Sets up all the controller&apos;s elements with an <code>fg-copy-button</code> attribute
-to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html#instance-method-copyValue">copyValue</a></span></p>
+to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-method-copyValue">copyValue</a></span></p>
 </div>
 
   
@@ -894,7 +895,7 @@ to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber214">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber214">source</a></span></span>
     </span>
   </h3>
 
@@ -938,7 +939,7 @@ to copy the corresponding value using <span><a href="class/ugraphics/src/js/dash
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashcontroller.js.html#lineNumber208">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/src/js/dash/dashController.js.html#lineNumber208">source</a></span></span>
     </span>
   </h3>
 

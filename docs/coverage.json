@@ -1,7 +1,7 @@
 {
   "coverage": "100%",
-  "expectCount": 57,
-  "actualCount": 57,
+  "expectCount": 59,
+  "actualCount": 59,
   "files": {
     "ugraphics/dashrouter.js": {
       "expectCount": 1,
@@ -23,19 +23,24 @@
       "actualCount": 5,
       "undocumentLines": []
     },
-    "ugraphics/src/js/cg/animate.js": {
+    "ugraphics/src/js/cg/cg.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "ugraphics/src/js/cg/cgAnimate.js": {
       "expectCount": 6,
       "actualCount": 6,
       "undocumentLines": []
     },
-    "ugraphics/src/js/cg/cg.js": {
-      "expectCount": 3,
-      "actualCount": 3,
-      "undocumentLines": []
-    },
-    "ugraphics/src/js/cg/cgcontroller.js": {
+    "ugraphics/src/js/cg/cgController.js": {
       "expectCount": 12,
       "actualCount": 12,
+      "undocumentLines": []
+    },
+    "ugraphics/src/js/cg/modules/clock.js": {
+      "expectCount": 1,
+      "actualCount": 1,
       "undocumentLines": []
     },
     "ugraphics/src/js/dash/dash.js": {
@@ -43,7 +48,7 @@
       "actualCount": 8,
       "undocumentLines": []
     },
-    "ugraphics/src/js/dash/dashcontroller.js": {
+    "ugraphics/src/js/dash/dashController.js": {
       "expectCount": 14,
       "actualCount": 14,
       "undocumentLines": []

@@ -2,44 +2,56 @@
 
 $bug-logo-width = 8vw
 $bug-logo-padding-right = 1vw
-$bug-total-width = $margin-x + $bug-logo-width + $bug-logo-padding-right
+$bug-total-width = $margin-x + $bug-logo-width
 
 $bugsegment-height = 6vh
 
 [fg-component=bug]
     .bugsegment
-        background $grey1
         position absolute
         top $margin-y
         height $bugsegment-height
 
+        .segbg
+            position absolute
+            z-index -1
+            width 120%
+            height 100%
+            transform skewX(-22deg) translateX(-10%)
+
     #bug
+        background $grey1
         padding-left $margin-x
         z-index 1
 
-    #clock
-        padding-left $bug-total-width
-        padding-right $bug-logo-padding-right
-        z-index 0
+        #logo
+            height 100%
+            position relative
+            width $bug-logo-width
+            img
+                opacity 0.75
+                margin auto
+                padding-right $bug-logo-padding-right
+                position absolute
+                top 0
+                bottom 0
+                width 100%
 
+    #clock
+        margin-left $bug-total-width
+        width 10vw
+        z-index 0
+        text-align center
+        background $grey9
+        
         span
-            color #ffffff
+            position relative
+            margin 0 auto
+            color $grey1
             font-size: 4.5vh
             line-height $bugsegment-height 
             font-weight bold
 
-    #logo
-        height 100%
-        position relative
-        width $bug-logo-width
-        img
-            opacity 0.75
-            margin auto
-            padding-right $bug-logo-padding-right
-            position absolute
-            top 0
-            bottom 0
-            width 100%
 
     #hashtag, #arbitrary
         color #ffffff

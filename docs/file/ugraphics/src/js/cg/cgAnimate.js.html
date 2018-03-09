@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">ugraphics/stylesheet.js | ugraphics</title>
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">ugraphics/src/js/cg/cgAnimate.js | ugraphics</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -49,47 +49,118 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/stylesheet.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Path from &apos;path&apos;;
-import Cssnext from &apos;postcss-cssnext&apos;;
-import Cssnano from &apos;cssnano&apos;;
-import PostCSSMiddleware from &apos;postcss-middleware&apos;;
-import Stylus from &apos;stylus&apos;;
-import FS from &apos;fs&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/src/js/cg/cgAnimate.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;;
+import Velocity from &apos;velocity&apos;;
 
-import Config from &apos;./config&apos;;
-import { Debug, CWD } from &apos;./shared&apos;;
+// TODO: automate animation of child elements
 
-// - STYLESHEET PROCESSING -----------------------------------------------------
-/** The plugins that PostCSS should use when postprocessing */
-let postCSSPlugins = [
-    Cssnext({
-        browsers: Config.frontend.browserSupport
-    })
-];
-if (Debug) postCSSPlugins.push(
-    Cssnano({
-        autoprefixer: false
-    })
-);
+/** Acceptable fg-properties for animations and their default values */
+let propDescriptor = {
+    opacity: 1,
+    duration: 400,
+    easing: &apos;swing&apos;,
+    translateX: &apos;200px&apos;,
+    delay: 0
+};
 
 /**
- * Sets up an Express app to serve up compiled and postprocessed Stylus stylesheets
- * @param {express} app The app to be configured
+ * Get properties from an element 
+ * @param {element} v The element to get properties from 
  */
-export let Styl = app =&gt; {
-    app.use(Stylus.middleware({
-        src: Path.join(CWD, &apos;src&apos;),
-        dest: Path.join(CWD, &apos;output&apos;),
-        compile: (str, path) =&gt; Stylus(str)
-            .set(&apos;filename&apos;, path)
-            .set(&apos;include css&apos;, true)
-            .set(&apos;paths&apos;, Config.frontend.stylIncludePaths)
-    }));
-    app.use(&apos;/output/styl&apos;, PostCSSMiddleware({
-        src: req =&gt; Path.join(CWD, &apos;output&apos;, &apos;styl&apos;, req.url),
-        plugins: postCSSPlugins
-    }));
+let getProps = v =&gt; {
+    let props = {};
+    for (let prop in propDescriptor) {
+        props[prop] = v.attr(`fg-${prop}`) || propDescriptor[prop];
+        props[`${prop}-in`] = v.attr(`fg-${prop}-in`) || props[prop];
+        props[`${prop}-out`] = v.attr(`fs-${prop}-out`) || props[out];
+    }
+    console.log(`animate: the pre-program props (classic) are ${JSON.stringify(props)}`);
+    return props;
+};
+
+/**
+ * Gets animation properties for an element, given the element and whether it&apos;s animating in or out
+ * @param {element} v The element
+ * @param {boolean} show The element will show (if false, will hide)
+ */
+let getPropsInOut = (v, show) =&gt; {
+    let props = {};
+    for (let prop in propDescriptor)
+        props[prop] = v.attr(`fg-${prop}`) || v.attr(`fg-${prop}-${show? &apos;in&apos; : &apos;out&apos;}`) || propDescriptor[prop];
+    console.log(`animate: the pre-program props (inOut, show ${show}) are ${JSON.stringify(props)}`);
+    return props;
+};
+
+// TODO: rename animation program functions so that they have a clear naming pattern
+
+/** Animation program: fade */
+let apr_fade = (v, show) =&gt; {
+    console.log(`animate: fading (${show})`);
+    let p = getPropsInOut(v, show);
+    v.velocity({
+        opacity: show? p.opacity : 0
+    }, {
+        easing: &apos;linear&apos;,
+        duration: p.duration,
+        delay: p.delay
+    });
+};
+
+/**
+ * Animation program: slide from left
+ */
+let apr_slide_x = (v, show) =&gt; {
+    console.log(`animate: sliding x (${show})`);
+    let p = getPropsInOut(v, show);
+    let easingType = &apos;Cubic&apos;
+    v.velocity({
+        opacity: show? p.opacity : 0,
+        translate: show? &quot;0px&quot; : `${p.translateX}`
+    }, {
+        easing: show? `easeOut${easingType}` : `easeIn${easingType}`,
+        duration: p.duration,
+        delay: p.delay
+    });
+};
+
+/**
+ * Animate an element according to its properties
+ * @param {element} element The element
+ * @param {boolean} show The element will show (if false, will hide)
+ */
+export default (element, show) =&gt; {
+    console.log(`animate: ${element} (${show})`);
+    // Get a jQuery object for the element
+    let elem = $(element);
+
+    // Get the fg-anim animation program for each element, or &apos;none&apos; if there is
+    // no fg-anim attribute
+    let animationProgram = &apos;&apos;;
+    let animInAttr = elem.attr(&apos;fg-anim-in&apos;);
+    let animOutAttr = elem.attr(&apos;fg-anim-out&apos;);
+
+    if (show &amp;&amp; animInAttr) animationProgram = animInAttr;
+    else if (!show &amp;&amp; animOutAttr) animationProgram = animOutAttr;
+    else animationProgram = elem.attr(&apos;fg-anim&apos;) || &apos;none&apos;;
+    console.log(`animate: the animation program is ${animationProgram}`);
+
+    // Make sure the element is actually visible
+    elem.show();
+
+    // A switch for the animation program
+    switch (animationProgram) {
+        case &apos;fade&apos;:
+            apr_fade(elem, show);
+            break;
+        case &apos;slide-x&apos;:
+            apr_slide_x(elem, show);
+            break;
+        case &apos;none&apos;:
+        default:
+            elem.toggle(show);
+            break;
+    }
 }
 </code></pre>
 

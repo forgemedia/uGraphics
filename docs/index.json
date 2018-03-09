@@ -897,10 +897,10 @@
   {
     "__docId__": 64,
     "kind": "file",
-    "name": "ugraphics/src/js/cg/animate.js",
-    "content": "import $ from 'jquery';\nimport Velocity from 'velocity';\n\n// TODO: automate animation of child elements\n\n/** Acceptable fg-properties for animations and their default values */\nlet propDescriptor = {\n    opacity: 1,\n    duration: 400,\n    easing: 'swing',\n    delay: 0\n};\n\n/**\n * Get properties from an element \n * @param {element} v The element to get properties from \n */\nlet getProps = v => {\n    let props = {};\n    for (let prop in propDescriptor) {\n        props[prop] = v.attr(`fg-${prop}`) || propDescriptor[prop];\n        props[`${prop}-in`] = v.attr(`fg-${prop}-in`) || props[prop];\n        props[`${prop}-out`] = v.attr(`fs-${prop}-out`) || props[out];\n    }\n    console.log(`animate: the pre-program props (classic) are ${JSON.stringify(props)}`);\n    return props;\n};\n\n/**\n * Gets animation properties for an element, given the element and whether it's animating in or out\n * @param {element} v The element\n * @param {boolean} show The element will show (if false, will hide)\n */\nlet getPropsInOut = (v, show) => {\n    let props = {};\n    for (let prop in propDescriptor)\n        props[prop] = v.attr(`fg-${prop}`) || v.attr(`fg-${prop}-${show? 'in' : 'out'}`) || propDescriptor[prop];\n    console.log(`animate: the pre-program props (inOut, show ${show}) are ${JSON.stringify(props)}`);\n    return props;\n};\n\n// TODO: rename animation program functions so that they have a clear naming pattern\n\n/** Animation program: fade */\nlet apr_fade = (v, show) => {\n    console.log(`animate: fading (${show})`);\n    let p = getPropsInOut(v, show);\n    v.velocity({\n        opacity: show? p.opacity : 0\n    }, {\n        easing: 'linear',\n        duration: p.duration,\n        delay: show? p['delay-in'] : p['delay-out']\n    });\n};\n\n/**\n * Animation program: slide from left\n * @experimental Currently broken\n */\nlet apr_slide_left = (v, show) => {\n    console.log(`animate: sliding from left (${show})`);\n    let p = getPropsInOut(v, show);\n    let easingType = 'Quad'\n    v.velocity({\n        opacity: show? p.opacity : 0\n    }, {\n        easing: show? `easeOut${easingType}` : `easeIn${easingType}`,\n        duration: p.duration,\n        delay: show? p['delay-in'] : p['delay-out']\n    });\n};\n\n/**\n * Animate an element according to its properties\n * @param {element} element The element\n * @param {boolean} show The element will show (if false, will hide)\n */\nexport default (element, show) => {\n    console.log(`animate: ${element} (${show})`);\n    // Get a jQuery object for the element\n    let elem = $(element);\n\n    // Get the fg-anim animation program for each element, or 'none' if there is\n    // no fg-anim attribute\n    let animationProgram = '';\n    let animInAttr = elem.attr('fg-anim-in');\n    let animOutAttr = elem.attr('fg-anim-out');\n\n    if (show && animInAttr) animationProgram = animInAttr;\n    else if (!show && animOutAttr) animationProgram = animOutAttr;\n    else animationProgram = elem.attr('fg-anim') || 'none';\n    console.log(`animate: the animation program is ${animationProgram}`);\n\n    // Make sure the element is actually visible\n    elem.show();\n\n    // A switch for the animation program\n    switch (animationProgram) {\n        case 'fade':\n            apr_fade(elem, show);\n            break;\n        case 'slide-left':\n            apr_slide_left(elem, show);\n            break;\n        case 'none':\n        default:\n            elem.toggle(show);\n            break;\n    }\n}\n",
+    "name": "ugraphics/src/js/cg/cg.js",
+    "content": "// -----------------------------------\n// - Character generator entry point\n// -----------------------------------\n\n// Package imports\nimport SocketIO from 'socket.io-client';\nimport Rivets from 'rivets';\n\n// Custom module imports\nimport BugCtrl from './controllers/bug';\nimport LowerThirdsCtrl from './controllers/lowerThirds';\n\nimport Clock from './modules/clock';\n\nconsole.log('cg: begin');\n\n// Hide all elements with an fg-show attribute to begin with\nconsole.log(`cg: hiding all [fg-show] elements`);\n$('[fg-show]').each((i, v) => $(v).hide());\n\n/** A store of controller objects */\nlet controllers = {\n    bug: BugCtrl,\n    lowerThirds: LowerThirdsCtrl\n};\n\n/** A store of binding objects */\nlet bindings = {};\n\n/** A list of module functions */\nlet modules = [\n    Clock\n];\n\n// Bind all the controllers\nfor (let id in controllers) {\n    console.log(`cg: setting binding for id ${id} to new controller for ${id}`);\n    bindings[id] = new controllers[id](id);\n}\n\n// Connect to sockets\nconsole.log('cg: connecting socket.io');\n/** The socket.io client */\nlet io = SocketIO.connect();\n\n// Really dumb way to do modules\nfor (let module of modules) module();\n\n// When the document is ready ($()), show the body element,\n// which is hidden in CSS\n$(() => {\n    console.log('cg: document ready, showing body');\n    $('body').show();\n});\n\n// When a maintenance trigger message is received...\nio.on('maintenance:trigger', msg => {\n    // Log it to the console\n    console.log(`received maintenance:trigger, ${msg}`);\n\n    // A switch for all of the possible trigger messages\n    switch(msg.id) {\n        case 'reset':\n            // Reset message: reload the page\n            location.reload();\n            break;\n        default:\n            // Otherwise, do nothing\n            break;\n    }\n});\n",
     "static": true,
-    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/cg/animate.js",
+    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/cg/cg.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -908,38 +908,129 @@
   {
     "__docId__": 65,
     "kind": "variable",
-    "name": "propDescriptor",
-    "memberof": "ugraphics/src/js/cg/animate.js",
+    "name": "controllers",
+    "memberof": "ugraphics/src/js/cg/cg.js",
     "static": true,
-    "longname": "ugraphics/src/js/cg/animate.js~propDescriptor",
+    "longname": "ugraphics/src/js/cg/cg.js~controllers",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/animate.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cg.js",
     "importStyle": null,
-    "description": "Acceptable fg-properties for animations and their default values",
-    "lineNumber": 7,
+    "description": "A store of controller objects",
+    "lineNumber": 22,
     "type": {
       "types": [
-        "{\"opacity\": number, \"duration\": number, \"easing\": string, \"delay\": *}"
+        "{\"bug\": *, \"lowerThirds\": *}"
       ]
     },
     "ignore": true
   },
   {
     "__docId__": 66,
+    "kind": "variable",
+    "name": "bindings",
+    "memberof": "ugraphics/src/js/cg/cg.js",
+    "static": true,
+    "longname": "ugraphics/src/js/cg/cg.js~bindings",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/src/js/cg/cg.js",
+    "importStyle": null,
+    "description": "A store of binding objects",
+    "lineNumber": 28,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "variable",
+    "name": "modules",
+    "memberof": "ugraphics/src/js/cg/cg.js",
+    "static": true,
+    "longname": "ugraphics/src/js/cg/cg.js~modules",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/src/js/cg/cg.js",
+    "importStyle": null,
+    "description": "A list of module functions",
+    "lineNumber": 31,
+    "type": {
+      "types": [
+        "undefined[]"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "variable",
+    "name": "io",
+    "memberof": "ugraphics/src/js/cg/cg.js",
+    "static": true,
+    "longname": "ugraphics/src/js/cg/cg.js~io",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/src/js/cg/cg.js",
+    "importStyle": null,
+    "description": "The socket.io client",
+    "lineNumber": 44,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "file",
+    "name": "ugraphics/src/js/cg/cgAnimate.js",
+    "content": "import $ from 'jquery';\nimport Velocity from 'velocity';\n\n// TODO: automate animation of child elements\n\n/** Acceptable fg-properties for animations and their default values */\nlet propDescriptor = {\n    opacity: 1,\n    duration: 400,\n    easing: 'swing',\n    translateX: '200px',\n    delay: 0\n};\n\n/**\n * Get properties from an element \n * @param {element} v The element to get properties from \n */\nlet getProps = v => {\n    let props = {};\n    for (let prop in propDescriptor) {\n        props[prop] = v.attr(`fg-${prop}`) || propDescriptor[prop];\n        props[`${prop}-in`] = v.attr(`fg-${prop}-in`) || props[prop];\n        props[`${prop}-out`] = v.attr(`fs-${prop}-out`) || props[out];\n    }\n    console.log(`animate: the pre-program props (classic) are ${JSON.stringify(props)}`);\n    return props;\n};\n\n/**\n * Gets animation properties for an element, given the element and whether it's animating in or out\n * @param {element} v The element\n * @param {boolean} show The element will show (if false, will hide)\n */\nlet getPropsInOut = (v, show) => {\n    let props = {};\n    for (let prop in propDescriptor)\n        props[prop] = v.attr(`fg-${prop}`) || v.attr(`fg-${prop}-${show? 'in' : 'out'}`) || propDescriptor[prop];\n    console.log(`animate: the pre-program props (inOut, show ${show}) are ${JSON.stringify(props)}`);\n    return props;\n};\n\n// TODO: rename animation program functions so that they have a clear naming pattern\n\n/** Animation program: fade */\nlet apr_fade = (v, show) => {\n    console.log(`animate: fading (${show})`);\n    let p = getPropsInOut(v, show);\n    v.velocity({\n        opacity: show? p.opacity : 0\n    }, {\n        easing: 'linear',\n        duration: p.duration,\n        delay: p.delay\n    });\n};\n\n/**\n * Animation program: slide from left\n */\nlet apr_slide_x = (v, show) => {\n    console.log(`animate: sliding x (${show})`);\n    let p = getPropsInOut(v, show);\n    let easingType = 'Cubic'\n    v.velocity({\n        opacity: show? p.opacity : 0,\n        translate: show? \"0px\" : `${p.translateX}`\n    }, {\n        easing: show? `easeOut${easingType}` : `easeIn${easingType}`,\n        duration: p.duration,\n        delay: p.delay\n    });\n};\n\n/**\n * Animate an element according to its properties\n * @param {element} element The element\n * @param {boolean} show The element will show (if false, will hide)\n */\nexport default (element, show) => {\n    console.log(`animate: ${element} (${show})`);\n    // Get a jQuery object for the element\n    let elem = $(element);\n\n    // Get the fg-anim animation program for each element, or 'none' if there is\n    // no fg-anim attribute\n    let animationProgram = '';\n    let animInAttr = elem.attr('fg-anim-in');\n    let animOutAttr = elem.attr('fg-anim-out');\n\n    if (show && animInAttr) animationProgram = animInAttr;\n    else if (!show && animOutAttr) animationProgram = animOutAttr;\n    else animationProgram = elem.attr('fg-anim') || 'none';\n    console.log(`animate: the animation program is ${animationProgram}`);\n\n    // Make sure the element is actually visible\n    elem.show();\n\n    // A switch for the animation program\n    switch (animationProgram) {\n        case 'fade':\n            apr_fade(elem, show);\n            break;\n        case 'slide-x':\n            apr_slide_x(elem, show);\n            break;\n        case 'none':\n        default:\n            elem.toggle(show);\n            break;\n    }\n}\n",
+    "static": true,
+    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/cg/cgAnimate.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 70,
+    "kind": "variable",
+    "name": "propDescriptor",
+    "memberof": "ugraphics/src/js/cg/cgAnimate.js",
+    "static": true,
+    "longname": "ugraphics/src/js/cg/cgAnimate.js~propDescriptor",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgAnimate.js",
+    "importStyle": null,
+    "description": "Acceptable fg-properties for animations and their default values",
+    "lineNumber": 7,
+    "type": {
+      "types": [
+        "{\"opacity\": number, \"duration\": number, \"easing\": string, \"translateX\": string, \"delay\": *}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 71,
     "kind": "function",
     "name": "getProps",
-    "memberof": "ugraphics/src/js/cg/animate.js",
+    "memberof": "ugraphics/src/js/cg/cgAnimate.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/src/js/cg/animate.js~getProps",
+    "longname": "ugraphics/src/js/cg/cgAnimate.js~getProps",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/animate.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgAnimate.js",
     "importStyle": null,
     "description": "Get properties from an element ",
-    "lineNumber": 18,
+    "lineNumber": 19,
     "params": [
       {
         "nullable": null,
@@ -960,20 +1051,20 @@
     "ignore": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 72,
     "kind": "function",
     "name": "getPropsInOut",
-    "memberof": "ugraphics/src/js/cg/animate.js",
+    "memberof": "ugraphics/src/js/cg/cgAnimate.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/src/js/cg/animate.js~getPropsInOut",
+    "longname": "ugraphics/src/js/cg/cgAnimate.js~getPropsInOut",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/animate.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgAnimate.js",
     "importStyle": null,
     "description": "Gets animation properties for an element, given the element and whether it's animating in or out",
-    "lineNumber": 34,
+    "lineNumber": 35,
     "params": [
       {
         "nullable": null,
@@ -1004,20 +1095,20 @@
     "ignore": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 73,
     "kind": "function",
     "name": "apr_fade",
-    "memberof": "ugraphics/src/js/cg/animate.js",
+    "memberof": "ugraphics/src/js/cg/cgAnimate.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/src/js/cg/animate.js~apr_fade",
+    "longname": "ugraphics/src/js/cg/cgAnimate.js~apr_fade",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/animate.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgAnimate.js",
     "importStyle": null,
     "description": "Animation program: fade",
-    "lineNumber": 45,
+    "lineNumber": 46,
     "params": [
       {
         "name": "v",
@@ -1036,21 +1127,20 @@
     "ignore": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 74,
     "kind": "function",
-    "name": "apr_slide_left",
-    "memberof": "ugraphics/src/js/cg/animate.js",
+    "name": "apr_slide_x",
+    "memberof": "ugraphics/src/js/cg/cgAnimate.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/src/js/cg/animate.js~apr_slide_left",
+    "longname": "ugraphics/src/js/cg/cgAnimate.js~apr_slide_x",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/animate.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgAnimate.js",
     "importStyle": null,
     "description": "Animation program: slide from left",
     "lineNumber": 61,
-    "experimental": "Currently broken",
     "params": [
       {
         "name": "v",
@@ -1069,20 +1159,20 @@
     "ignore": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 75,
     "kind": "function",
-    "name": "animate",
-    "memberof": "ugraphics/src/js/cg/animate.js",
+    "name": "cgAnimate",
+    "memberof": "ugraphics/src/js/cg/cgAnimate.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/src/js/cg/animate.js~animate",
+    "longname": "ugraphics/src/js/cg/cgAnimate.js~cgAnimate",
     "access": "public",
     "export": true,
-    "importPath": "ugraphics/ugraphics/src/js/cg/animate.js",
-    "importStyle": "animate",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgAnimate.js",
+    "importStyle": "cgAnimate",
     "description": "Animate an element according to its properties",
-    "lineNumber": 79,
+    "lineNumber": 80,
     "params": [
       {
         "nullable": null,
@@ -1108,97 +1198,26 @@
     "return": null
   },
   {
-    "__docId__": 71,
-    "kind": "file",
-    "name": "ugraphics/src/js/cg/cg.js",
-    "content": "// -----------------------------------\n// - Character generator entry point\n// -----------------------------------\n\n// Package imports\nimport SocketIO from 'socket.io-client';\nimport Rivets from 'rivets';\n\n// Custom module imports\nimport BugCtrl from './bug.cgctrl';\nimport LowerThirdsCtrl from './lowerThirds.cgctrl';\n\nconsole.log('cg: begin');\n\n// Hide all elements with an fg-show attribute to begin with\nconsole.log(`cg: hiding all [fg-show] elements`);\n$('[fg-show]').each((i, v) => $(v).hide());\n\n/** A store of controller objects */\nlet controllers = {\n    bug: BugCtrl,\n    lowerThirds: LowerThirdsCtrl\n};\n\n/** A store of binding objects */\nlet bindings = {};\n\n// Bind all the controllers\nfor (let id in controllers) {\n    console.log(`cg: setting binding for id ${id} to new controller for ${id}`);\n    bindings[id] = new controllers[id](id);\n}\n\n// Connect to sockets\nconsole.log('cg: connecting socket.io');\n/** The socket.io client */\nlet io = SocketIO.connect();\n\n// When the document is ready ($()), show the body element,\n// which is hidden in CSS\n$(() => {\n    console.log('cg: document ready, showing body');\n    $('body').show();\n});\n\n// When a maintenance trigger message is received...\nio.on('maintenance:trigger', msg => {\n    // Log it to the console\n    console.log(`received maintenance:trigger, ${msg}`);\n\n    // A switch for all of the possible trigger messages\n    switch(msg.id) {\n        case 'reset':\n            // Reset message: reload the page\n            location.reload();\n            break;\n        default:\n            // Otherwise, do nothing\n            break;\n    }\n});\n",
-    "static": true,
-    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/cg/cg.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 72,
-    "kind": "variable",
-    "name": "controllers",
-    "memberof": "ugraphics/src/js/cg/cg.js",
-    "static": true,
-    "longname": "ugraphics/src/js/cg/cg.js~controllers",
-    "access": "public",
-    "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/cg.js",
-    "importStyle": null,
-    "description": "A store of controller objects",
-    "lineNumber": 20,
-    "type": {
-      "types": [
-        "{\"bug\": *, \"lowerThirds\": *}"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 73,
-    "kind": "variable",
-    "name": "bindings",
-    "memberof": "ugraphics/src/js/cg/cg.js",
-    "static": true,
-    "longname": "ugraphics/src/js/cg/cg.js~bindings",
-    "access": "public",
-    "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/cg.js",
-    "importStyle": null,
-    "description": "A store of binding objects",
-    "lineNumber": 26,
-    "type": {
-      "types": [
-        "{}"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 74,
-    "kind": "variable",
-    "name": "io",
-    "memberof": "ugraphics/src/js/cg/cg.js",
-    "static": true,
-    "longname": "ugraphics/src/js/cg/cg.js~io",
-    "access": "public",
-    "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/cg.js",
-    "importStyle": null,
-    "description": "The socket.io client",
-    "lineNumber": 37,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 75,
-    "kind": "file",
-    "name": "ugraphics/src/js/cg/cgcontroller.js",
-    "content": "import $ from 'jquery';\nimport SocketIOClient from 'socket.io-client';\nimport Rivets from 'rivets';\nimport _ from 'lodash';\nimport fgAnimate from './animate.js';\n\n/** The data store backing object */\nlet dataStoreBacking = {};\n\n/** Graphics that are currently in progress */\nlet inProgress = {};\n\n/**\n * Character generator controller class\n */\nexport default class CGController {\n    /**\n     * @param {string} id The ID of the controller\n     */\n    constructor (id) {\n        /** The element that will contain the contents of the controller template -\n         * has an `fg-component` attribute corresponding to the ID of the controller\n         */\n        this.element = $(`[fg-component='${id}']`);\n\n        /** A proxy that writes to the data store backing */\n        this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);\n\n        /** Methods that are called when trigger messages are received */\n        this.methods = {};\n\n        /** The ID of the controller */\n        this.name = id;\n        /** The socket.io client */\n        this.io = SocketIOClient.connect();\n\n        // Bind the controller to the element, using the data store proxy\n        // as the data model\n        Rivets.bind(this.element, this.dataStore);\n        \n        // Call the method to set up the handlers that handle socket messages\n        this.cgSetSocketHandlers();\n\n        $(() => this.io.emit(`${this.name}:get`));\n    }\n\n    /** Sets up socket message handler functions for the controller */\n    cgSetSocketHandlers() {\n        // When a sync message is received...\n        this.io.on(`${this.name}:synf`, msg => {\n            // Send a log to the console for debugging purposes\n            console.log(`${this.name}: received ${this.name}:synf, ${JSON.stringify(msg)}`);\n\n            // Use _.assign to merge the received state into the local data store\n            _.assign(this.dataStore, msg);\n        });\n\n        // When a trigger message is received...\n        this.io.on(`${this.name}:trigger`, msg => {\n            // Send a log to the console for debugging purposes\n            console.log(`${this.name}: received ${this.name}: trigger, ${JSON.stringify(msg)}`);\n\n            // Keep a record of the event id contained in the msg object\n            let id = msg.id;\n\n            // If there's a suitable element to animate, trigger the animation for\n            // that element\n            let elementToAnimate = $(`[fg-trigger-anim='${id}']`);\n            if (elementToAnimate) this.cgTriggerAnimate(\n                id,\n                elementToAnimate,\n                msg.data,\n                elementToAnimate.attr('fg-anim-duration') || 5000\n            );\n\n            // Otherwise, if there's a corresponding method, execute it, passing\n            // the data contained in the msg object as the only argument\n            else if (this.methods[id]) this.methods[id](msg.data);\n        });\n    }\n\n    /** Automates various parts of a graphic animation when a trigger group\n     * is received\n     * @param {string} id The ID of the animation\n     * @param {element} elem The element to animate\n     * @param {Object} data The data used in the animation\n     * @param {Number} [hideDelay=5000] The duration of the animation before hiding the element, in ms\n     * @param {function} [customFn=()=>{}] A custom function to execute\n     */\n    cgTriggerAnimate (\n        id,\n        elem,\n        data,\n        hideDelay = 5000,\n        customFn = () => {}\n    ) {\n        // Return if the delay's less than 200 ms or there\n        // is a marker saying this graphic is currently\n        // in progress\n        if (hideDelay < 200 || inProgress[id]) {\n            console.log(`${this.name}: the graphic ${id} is currently in progress`);\n            return;\n        }\n\n        // Otherwise, start by marking this graphic as in progress\n        inProgress[id] = true;\n\n        console.log(`${this.name}: cgTriggerAnimate for id ${id}, hideDelay ${hideDelay}`);\n\n        // Automatically set the values of relevant DOM elements\n        for (let item in data) {\n            $(`[fg-trigger-data='${item}']`).text(data[item]);\n        }\n\n        // Animate the element in\n        fgAnimate(elem, true);\n\n        // Execute any custom code\n        customFn();\n\n        // After the specified delay, animate the element out and\n        // unmark the graphic as being in progress\n        setTimeout(() => {\n            fgAnimate(elem, false);\n            inProgress[id] = false;\n        }, hideDelay);\n    }\n\n    /** Trap functions used by the data store proxy to\n     * handle access to the data store backing object\n     */\n    get dataStoreTraps() {\n        return {\n            // On assignment\n            set: function (target, property, value, receiver) {\n                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);\n                // Assign the value to the target object's property as usual\n                target[property] = value;\n\n                // Animate any DOM element that has an fg-show attribute\n                // that binds it to this property\n                $(`[fg-show='${property}`).each((i, v) => fgAnimate(v, value));\n\n                // Return true, indicating success\n                console.log(`${name}: data store trap for ${property} complete`);\n                return true;\n            }\n        }\n    }\n}\n",
-    "static": true,
-    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/cg/cgcontroller.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
     "__docId__": 76,
+    "kind": "file",
+    "name": "ugraphics/src/js/cg/cgController.js",
+    "content": "import $ from 'jquery';\nimport SocketIOClient from 'socket.io-client';\nimport Rivets from 'rivets';\nimport _ from 'lodash';\nimport cgAnimate from './cgAnimate.js';\n\n/** The data store backing object */\nlet dataStoreBacking = {};\n\n/** Graphics that are currently in progress */\nlet inProgress = {};\n\n/**\n * Character generator controller class\n */\nexport default class CGController {\n    /**\n     * @param {string} id The ID of the controller\n     */\n    constructor (id) {\n        /** The element that will contain the contents of the controller template -\n         * has an `fg-component` attribute corresponding to the ID of the controller\n         */\n        this.element = $(`[fg-component='${id}']`);\n\n        /** A proxy that writes to the data store backing */\n        this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);\n\n        /** Methods that are called when trigger messages are received */\n        this.methods = {};\n\n        /** The ID of the controller */\n        this.name = id;\n        /** The socket.io client */\n        this.io = SocketIOClient.connect();\n\n        // Bind the controller to the element, using the data store proxy\n        // as the data model\n        Rivets.bind(this.element, this.dataStore);\n        \n        // Call the method to set up the handlers that handle socket messages\n        this.cgSetSocketHandlers();\n\n        $(() => this.io.emit(`${this.name}:get`));\n    }\n\n    /** Sets up socket message handler functions for the controller */\n    cgSetSocketHandlers() {\n        // When a sync message is received...\n        this.io.on(`${this.name}:synf`, msg => {\n            // Send a log to the console for debugging purposes\n            console.log(`${this.name}: received ${this.name}:synf, ${JSON.stringify(msg)}`);\n\n            // Use _.assign to merge the received state into the local data store\n            _.assign(this.dataStore, msg);\n        });\n\n        // When a trigger message is received...\n        this.io.on(`${this.name}:trigger`, msg => {\n            // Send a log to the console for debugging purposes\n            console.log(`${this.name}: received ${this.name}: trigger, ${JSON.stringify(msg)}`);\n\n            // Keep a record of the event id contained in the msg object\n            let id = msg.id;\n\n            // If there's a suitable element to animate, trigger the animation for\n            // that element\n            let elementToAnimate = $(`[fg-trigger-anim='${id}']`);\n            if (elementToAnimate) this.cgTriggerAnimate(\n                id,\n                elementToAnimate,\n                msg.data,\n                elementToAnimate.attr('fg-anim-duration') || 5000\n            );\n\n            // Otherwise, if there's a corresponding method, execute it, passing\n            // the data contained in the msg object as the only argument\n            else if (this.methods[id]) this.methods[id](msg.data);\n        });\n    }\n\n    /** Automates various parts of a graphic animation when a trigger group\n     * is received\n     * @param {string} id The ID of the animation\n     * @param {element} elem The element to animate\n     * @param {Object} data The data used in the animation\n     * @param {Number} [hideDelay=5000] The duration of the animation before hiding the element, in ms\n     * @param {function} [customFn=()=>{}] A custom function to execute\n     */\n    cgTriggerAnimate (\n        id,\n        elem,\n        data,\n        hideDelay = 5000,\n        customFn = () => {}\n    ) {\n        // Return if the delay's less than 200 ms or there\n        // is a marker saying this graphic is currently\n        // in progress\n        if (hideDelay < 200 || inProgress[id]) {\n            console.log(`${this.name}: the graphic ${id} is currently in progress`);\n            return;\n        }\n\n        // Otherwise, start by marking this graphic as in progress\n        inProgress[id] = true;\n\n        console.log(`${this.name}: cgTriggerAnimate for id ${id}, hideDelay ${hideDelay}`);\n\n        // Automatically set the values of relevant DOM elements\n        for (let item in data) {\n            $(`[fg-trigger-data='${item}']`).text(data[item]);\n        }\n\n        // Animate the element in\n        cgAnimate(elem, true);\n\n        // Execute any custom code\n        customFn();\n\n        // After the specified delay, animate the element out and\n        // unmark the graphic as being in progress\n        setTimeout(() => {\n            cgAnimate(elem, false);\n            inProgress[id] = false;\n        }, hideDelay);\n    }\n\n    /** Trap functions used by the data store proxy to\n     * handle access to the data store backing object\n     */\n    get dataStoreTraps() {\n        return {\n            // On assignment\n            set: function (target, property, value, receiver) {\n                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);\n                // Assign the value to the target object's property as usual\n                target[property] = value;\n\n                // Animate any DOM element that has an fg-show attribute\n                // that binds it to this property\n                $(`[fg-show='${property}`).each((i, v) => cgAnimate(v, value));\n\n                // Return true, indicating success\n                console.log(`${name}: data store trap for ${property} complete`);\n                return true;\n            }\n        }\n    }\n}\n",
+    "static": true,
+    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/cg/cgController.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 77,
     "kind": "variable",
     "name": "dataStoreBacking",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js",
+    "memberof": "ugraphics/src/js/cg/cgController.js",
     "static": true,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~dataStoreBacking",
+    "longname": "ugraphics/src/js/cg/cgController.js~dataStoreBacking",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/cgcontroller.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgController.js",
     "importStyle": null,
     "description": "The data store backing object",
     "lineNumber": 8,
@@ -1210,15 +1229,15 @@
     "ignore": true
   },
   {
-    "__docId__": 77,
+    "__docId__": 78,
     "kind": "variable",
     "name": "inProgress",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js",
+    "memberof": "ugraphics/src/js/cg/cgController.js",
     "static": true,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~inProgress",
+    "longname": "ugraphics/src/js/cg/cgController.js~inProgress",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/cg/cgcontroller.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgController.js",
     "importStyle": null,
     "description": "Graphics that are currently in progress",
     "lineNumber": 11,
@@ -1230,29 +1249,29 @@
     "ignore": true
   },
   {
-    "__docId__": 78,
+    "__docId__": 79,
     "kind": "class",
     "name": "CGController",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js",
+    "memberof": "ugraphics/src/js/cg/cgController.js",
     "static": true,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController",
     "access": "public",
     "export": true,
-    "importPath": "ugraphics/ugraphics/src/js/cg/cgcontroller.js",
+    "importPath": "ugraphics/ugraphics/src/js/cg/cgController.js",
     "importStyle": "CGController",
     "description": "Character generator controller class",
     "lineNumber": 16,
     "interface": false
   },
   {
-    "__docId__": 79,
+    "__docId__": 80,
     "kind": "constructor",
     "name": "constructor",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#constructor",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#constructor",
     "access": "public",
     "description": "",
     "lineNumber": 20,
@@ -1270,12 +1289,12 @@
     ]
   },
   {
-    "__docId__": 80,
+    "__docId__": 81,
     "kind": "member",
     "name": "element",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#element",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#element",
     "access": "public",
     "description": "The element that will contain the contents of the controller template -\nhas an `fg-component` attribute corresponding to the ID of the controller",
     "lineNumber": 24,
@@ -1286,12 +1305,12 @@
     }
   },
   {
-    "__docId__": 81,
+    "__docId__": 82,
     "kind": "member",
     "name": "dataStore",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#dataStore",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#dataStore",
     "access": "public",
     "description": "A proxy that writes to the data store backing",
     "lineNumber": 27,
@@ -1302,12 +1321,12 @@
     }
   },
   {
-    "__docId__": 82,
+    "__docId__": 83,
     "kind": "member",
     "name": "methods",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#methods",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#methods",
     "access": "public",
     "description": "Methods that are called when trigger messages are received",
     "lineNumber": 30,
@@ -1318,12 +1337,12 @@
     }
   },
   {
-    "__docId__": 83,
+    "__docId__": 84,
     "kind": "member",
     "name": "name",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#name",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#name",
     "access": "public",
     "description": "The ID of the controller",
     "lineNumber": 33,
@@ -1334,12 +1353,12 @@
     }
   },
   {
-    "__docId__": 84,
+    "__docId__": 85,
     "kind": "member",
     "name": "io",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#io",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#io",
     "access": "public",
     "description": "The socket.io client",
     "lineNumber": 35,
@@ -1350,14 +1369,14 @@
     }
   },
   {
-    "__docId__": 85,
+    "__docId__": 86,
     "kind": "method",
     "name": "cgSetSocketHandlers",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#cgSetSocketHandlers",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#cgSetSocketHandlers",
     "access": "public",
     "description": "Sets up socket message handler functions for the controller",
     "lineNumber": 48,
@@ -1365,14 +1384,14 @@
     "return": null
   },
   {
-    "__docId__": 86,
+    "__docId__": 87,
     "kind": "method",
     "name": "cgTriggerAnimate",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#cgTriggerAnimate",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#cgTriggerAnimate",
     "access": "public",
     "description": "Automates various parts of a graphic animation when a trigger group\nis received",
     "lineNumber": 90,
@@ -1433,14 +1452,14 @@
     "return": null
   },
   {
-    "__docId__": 87,
+    "__docId__": 88,
     "kind": "get",
     "name": "dataStoreTraps",
-    "memberof": "ugraphics/src/js/cg/cgcontroller.js~CGController",
+    "memberof": "ugraphics/src/js/cg/cgController.js~CGController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/cg/cgcontroller.js~CGController#dataStoreTraps",
+    "longname": "ugraphics/src/js/cg/cgController.js~CGController#dataStoreTraps",
     "access": "public",
     "description": "Trap functions used by the data store proxy to\nhandle access to the data store backing object",
     "lineNumber": 132,
@@ -1451,10 +1470,46 @@
     }
   },
   {
-    "__docId__": 88,
+    "__docId__": 89,
+    "kind": "file",
+    "name": "ugraphics/src/js/cg/modules/clock.js",
+    "content": "import $ from 'jquery';\nimport _ from 'lodash';\nimport Moment from 'moment';\n\n/** Sets up and returns an interval that updates the text of all elements\n * with an fg-clock attribute to the current time, every second\n * @return {Number} The ID of the timer that was set\n */\nexport default () => {\n    // Tick every second\n    let tickFn = () => {\n        $('[fg-clock]').each((i, v) => { \n            let el = $(v);\n            el.text(() => Moment().format(el.attr('fg-clock-format') || 'HH:MM'));\n        });\n    };\n    tickFn();\n    return setInterval(tickFn, 1000);\n};\n",
+    "static": true,
+    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/cg/modules/clock.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 90,
+    "kind": "function",
+    "name": "clock",
+    "memberof": "ugraphics/src/js/cg/modules/clock.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "ugraphics/src/js/cg/modules/clock.js~clock",
+    "access": "public",
+    "export": true,
+    "importPath": "ugraphics/ugraphics/src/js/cg/modules/clock.js",
+    "importStyle": "clock",
+    "description": "Sets up and returns an interval that updates the text of all elements\nwith an fg-clock attribute to the current time, every second",
+    "lineNumber": 9,
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number"
+      ],
+      "spread": false,
+      "description": "The ID of the timer that was set"
+    },
+    "params": []
+  },
+  {
+    "__docId__": 91,
     "kind": "file",
     "name": "ugraphics/src/js/dash/dash.js",
-    "content": "// -----------------------------------\n// - Dashboard entry point\n// -----------------------------------\n\n// Package imports\nimport $ from 'jquery';\nimport _ from 'lodash';\nimport SocketIO from 'socket.io-client';\nimport Navigo from 'navigo';\nimport Axios from 'axios';\nimport Rivets from 'rivets';\nimport Bootstrap from 'bootstrap';\n\n// Custom module imports\nimport BugCtrl from './bug.dashctrl';\nimport MaintenanceCtrl from './maintenance.dashctrl';\nimport LowerThirdsCtrl from './lowerThirds.dashctrl';\n\nconsole.log('dash: begin');\n\n// Page elements\n/** The navbar element */\nlet navbarElem = $('#mainNav');\n/** The content container element */\nlet contentElem = $('#content');\n\n// When loaded, remove the 'Loading' message\nconsole.log('dash: removing all [data-remove-loaded] elements');\n$('[data-remove-loaded]').each((i, v) => $(v).remove());\n\n/** A store of controller objects */\nlet controllers = {\n    bug: {\n        name: 'Bug',\n        controller: BugCtrl\n    },\n    lowerThirds: {\n        name: 'Lower Thirds',\n        controller: LowerThirdsCtrl\n    },\n    maintenance: {\n        name: 'Maintenance',\n        controller: MaintenanceCtrl\n    }\n};\n\n// Add a navbar item for each controller\nfor (let id in controllers) {\n    console.log(`dash: appending item for id ${id} to navbar`);\n    navbarElem.append(`<li class=\"nav-item\" id=\"${id}Link\" data-fgroute><a class=\"nav-link\" href=\"page/${id}\" data-navigo>${controllers[id].name}</a></li>`)\n}\n\n/** A store of binding objects */\nlet bindings = {};\n\n/** The fallback controller object when the requested route has no corresponding controller*/\nlet defaultRoute = _.keys(controllers)[0];\n\n/** Set up a route */\nlet setRoute = id => {\n    console.log(`dash: setting route for ${id}`);\n    // Load the template from the server\n    Axios.get(`/dash/templates/${id}`)\n        .then(response => {\n            // If successful, set the inner HTML of the content element\n            // to the server's response, and add the binding to the list\n            console.log(`dash: setting inner HTML for id ${id} dashboard`);\n            contentElem.html(response.data);\n            bindings[id] = new controllers[id].controller(id);\n        })\n        // Otherwise, go to the default route\n        .catch(error => {\n            console.log(`dash: could not set inner HTML for id ${id} dashboard (error ${error})`);\n            router.navigate(`/page/${defaultRoute}`)\n        });\n    \n    // Remove the 'active' class for all navbar items\n    // then add it to the current one\n    // Very possibly a hack-y workaround for functionality I've not yet grasped\n    navbarElem.children('li').each((i, v) => $(v).children('a').removeClass('active'));\n    $(`#${id}Link a`).addClass('active');\n};\n\n/** A Navigo router object */\nlet router = new Navigo();\n// Set up the router to route requests and provide a fallback\nrouter\n    .on('/page/:id', params => {\n        console.log(`dash: found route for id ${params.id}`);\n        setRoute(params.id);\n    })\n    .on('*', () => {\n        console.log(`dash: wildcard route hit, returning to defaultRoute ${defaultRoute}`);\n        router.navigate(`/page/${defaultRoute}`);\n    })\n    .resolve();\n\n// Connect to the socket.io server\nconsole.log('dash: connecting socket.io');\n/** The socket.io client */\nlet io = SocketIO.connect();\n",
+    "content": "// -----------------------------------\n// - Dashboard entry point\n// -----------------------------------\n\n// Package imports\nimport $ from 'jquery';\nimport _ from 'lodash';\nimport SocketIO from 'socket.io-client';\nimport Navigo from 'navigo';\nimport Axios from 'axios';\nimport Rivets from 'rivets';\nimport Bootstrap from 'bootstrap';\n\n// Custom module imports\nimport BugCtrl from './controllers/bug';\nimport MaintenanceCtrl from './controllers/maintenance';\nimport LowerThirdsCtrl from './controllers/lowerThirds';\n\nconsole.log('dash: begin');\n\n// Page elements\n/** The navbar element */\nlet navbarElem = $('#mainNav');\n/** The content container element */\nlet contentElem = $('#content');\n\n// When loaded, remove the 'Loading' message\nconsole.log('dash: removing all [data-remove-loaded] elements');\n$('[data-remove-loaded]').each((i, v) => $(v).remove());\n\n/** A store of controller objects */\nlet controllers = {\n    bug: {\n        name: 'Bug',\n        controller: BugCtrl\n    },\n    lowerThirds: {\n        name: 'Lower Thirds',\n        controller: LowerThirdsCtrl\n    },\n    maintenance: {\n        name: 'Maintenance',\n        controller: MaintenanceCtrl\n    }\n};\n\n// Add a navbar item for each controller\nfor (let id in controllers) {\n    console.log(`dash: appending item for id ${id} to navbar`);\n    navbarElem.append(`<li class=\"nav-item\" id=\"${id}Link\" data-fgroute><a class=\"nav-link\" href=\"page/${id}\" data-navigo>${controllers[id].name}</a></li>`)\n}\n\n/** A store of binding objects */\nlet bindings = {};\n\n/** The fallback controller object when the requested route has no corresponding controller*/\nlet defaultRoute = _.keys(controllers)[0];\n\n/** Set up a route */\nlet setRoute = id => {\n    console.log(`dash: setting route for ${id}`);\n    // Load the template from the server\n    Axios.get(`/dash/templates/${id}`)\n        .then(response => {\n            // If successful, set the inner HTML of the content element\n            // to the server's response, and add the binding to the list\n            console.log(`dash: setting inner HTML for id ${id} dashboard`);\n            contentElem.html(response.data);\n            bindings[id] = new controllers[id].controller(id);\n        })\n        // Otherwise, go to the default route\n        .catch(error => {\n            console.log(`dash: could not set inner HTML for id ${id} dashboard (error ${error})`);\n            router.navigate(`/page/${defaultRoute}`)\n        });\n    \n    // Remove the 'active' class for all navbar items\n    // then add it to the current one\n    // Very possibly a hack-y workaround for functionality I've not yet grasped\n    navbarElem.children('li').each((i, v) => $(v).children('a').removeClass('active'));\n    $(`#${id}Link a`).addClass('active');\n};\n\n/** A Navigo router object */\nlet router = new Navigo();\n// Set up the router to route requests and provide a fallback\nrouter\n    .on('/page/:id', params => {\n        console.log(`dash: found route for id ${params.id}`);\n        setRoute(params.id);\n    })\n    .on('*', () => {\n        console.log(`dash: wildcard route hit, returning to defaultRoute ${defaultRoute}`);\n        router.navigate(`/page/${defaultRoute}`);\n    })\n    .resolve();\n\n// Connect to the socket.io server\nconsole.log('dash: connecting socket.io');\n/** The socket.io client */\nlet io = SocketIO.connect();\n",
     "static": true,
     "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/dash/dash.js",
     "access": "public",
@@ -1462,7 +1517,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 89,
+    "__docId__": 92,
     "kind": "variable",
     "name": "navbarElem",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1482,7 +1537,7 @@
     "ignore": true
   },
   {
-    "__docId__": 90,
+    "__docId__": 93,
     "kind": "variable",
     "name": "contentElem",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1502,7 +1557,7 @@
     "ignore": true
   },
   {
-    "__docId__": 91,
+    "__docId__": 94,
     "kind": "variable",
     "name": "controllers",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1522,7 +1577,7 @@
     "ignore": true
   },
   {
-    "__docId__": 92,
+    "__docId__": 95,
     "kind": "variable",
     "name": "bindings",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1542,7 +1597,7 @@
     "ignore": true
   },
   {
-    "__docId__": 93,
+    "__docId__": 96,
     "kind": "variable",
     "name": "defaultRoute",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1562,7 +1617,7 @@
     "ignore": true
   },
   {
-    "__docId__": 94,
+    "__docId__": 97,
     "kind": "function",
     "name": "setRoute",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1588,7 +1643,7 @@
     "ignore": true
   },
   {
-    "__docId__": 95,
+    "__docId__": 98,
     "kind": "variable",
     "name": "router",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1608,7 +1663,7 @@
     "ignore": true
   },
   {
-    "__docId__": 96,
+    "__docId__": 99,
     "kind": "variable",
     "name": "io",
     "memberof": "ugraphics/src/js/dash/dash.js",
@@ -1628,26 +1683,26 @@
     "ignore": true
   },
   {
-    "__docId__": 97,
+    "__docId__": 100,
     "kind": "file",
-    "name": "ugraphics/src/js/dash/dashcontroller.js",
+    "name": "ugraphics/src/js/dash/dashController.js",
     "content": "import $ from 'jquery';\nimport Rivets from 'rivets';\nimport SocketIOClient from 'socket.io-client';\nimport _ from 'lodash';\n\nlet name;\nlet io;\n\n/** The data store backing object */\nlet dataStoreBacking = {};\n\n/** The method store backing object */\nlet methodsBacking = {};\n\n/**\n * Dashboard controller class\n * \n * Each dashboard tab corresponds to an instance of this controller\n */\nexport default class DashController {\n    /**\n     * @param {string} id The ID of the controller\n     */\n    constructor(id) {\n        console.log(`${id}: constructing controller`);\n\n        /** The element that will contain the contents of the controller template -\n         * has an `fg-panel` attribute corresponding to the ID of the controller\n         */\n        this.element = $(`[fg-panel='${id}']`);\n        name = id;\n        io = SocketIOClient.connect();\n\n        /** A proxy that writes to the methods store backing */\n        this.methods = new Proxy(methodsBacking, this.methodsStoreTraps);\n\n        /** A proxy that writes to the data store backing */\n        this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);\n\n        /** A Rivets binding between the controller and its container element,\n         * which uses the data store proxy as its data model\n         */\n        this.view = Rivets.bind(this.element, this.dataStore);\n\n        // Set up functions that handle socket messages\n        this.setSocketHandlers();\n        \n        // Set up buttons that handle copying values of fg-copy elements\n        // into the main state data store\n        this.setButtons();\n\n        // When the document's ready ($()), emit a 'get' socket message that will\n        // cause the server to emit a sync message with the component's state\n        $(() => io.emit(`${name}:get`));\n    }\n\n    /** Trap functions used by the data store proxy to\n     * handle access to the data store backing object\n     */\n    get dataStoreTraps() {\n        return {\n            set: function(target, property, value, receiver) {\n                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);\n                // Set the target's property to the value as normal\n                target[property] = value;\n\n                let obj = {};\n                obj[property] = value;\n\n                // Emit a socket message informing the server of changes\n                // and in turn causing it to sync other clients\n                io.emit(`${name}:sync`, obj);\n\n                // Return true, indicating success\n                console.log(`${name}: data store trap for ${property} complete`);\n                return true;\n            }\n        };\n    }\n\n    /** Trap functions used by the method store proxy\n     * to handle access to the method store backing object\n     */\n    get methodsStoreTraps() {\n        return {\n            set: function(target, property, value, receiver) {\n                console.log(`${name}: methods store trap, setting property ${property} to value ${value}`);\n                // If the value assigned is not a function, return false,\n                // indicating failure\n                if (typeof value !== 'function') {\n                    console.log(`${name}: methods store trap: ${value} is not a function`);\n                    return false;\n                }\n\n                // Set the target's property to the value as normal\n                target[property] = value;\n\n                // For any DOM element with an fg-click attribute set\n                // to the name of the method being assigned,\n                // disable any click event handler that is in place\n                // and add a new click event handler pointing to\n                // the new method\n                $(`[fg-click='${property}']`).off('click').click(target[property]).each(\n                    n=> console.log(`${name}: reassigning click handler for ${n}`));\n\n                // Return true, indicating success\n                console.log(`${name}: methods store trap for ${property} complete`);\n                return true;\n            }\n        };\n    }\n\n    /**\n     * Copies a value from an fg-copy element to the main state data store\n     * @param {string} id The ID of the value to copy\n     */\n    copyValue(id) {\n        console.log(`${name}: copying value ${id}`);\n\n        // Does what it says on the tin\n        this.dataStore[id] = $(`[fg-copy='${id}']`).val();\n    }\n\n    /**\n     * Sets up all the controller's elements with an `fg-copy-button` attribute\n     * to copy the corresponding value using {@link copyValue}\n     */\n    setButtons() {\n        console.log(`${name}: setting buttons`);\n\n        // For singular copy buttons\n        this.element.find('[fg-copy-button]').each((i, v) => {\n            // Find the element and get the name of the field it'll copy\n            let elem = $(v);\n            let copyId = elem.attr('fg-copy-button');\n\n            console.log(`${name}: found fg-copy-button for copyId ${copyId}`);\n            elem.click(() => {\n                console.log(`${name}: fg-copy-button clicked for copyId ${copyId}`);\n                \n                // On click, copy the field\n                this.copyValue(copyId);\n            });\n        });\n\n        this.element.find('[fg-copy-button-group]').each((i, v) => {\n            // Find the element and get the name of the group it copies\n            let elem = $(v);\n            let copyGroup = elem.attr('fg-copy-button-group');\n\n            console.log(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);\n            elem.click(() => {\n                // On click\n                console.log(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);\n\n                // Find all inputs that share that group\n                this.element.find(`[fg-copy-group=\"${copyGroup}\"]`).each((ia, va) => {\n                    // Find the element and get the name of the copy field it's bound to\n                    let elem_a = $(va);\n                    let copyId = elem_a.attr('fg-copy');\n\n                    console.log(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`);\n                    // Copy the field\n                    this.copyValue(copyId);\n                });\n            });\n        });\n\n        this.element.find('[fg-trigger-button-group]').each((i, v) => {\n            // Find the element and get the name of the trigger group it belongs to\n            let elem = $(v);\n            let triggerGroup = elem.attr('fg-trigger-button-group');\n\n            console.log(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);\n            elem.click(() => {\n                let data = {};\n                console.log(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);\n\n                this.element.find(`[fg-trigger-group=\"${triggerGroup}\"]`).each((ia, va) => {\n                    let elem_a = $(va);\n                    let triggerId = elem_a.attr('fg-trigger');\n\n                    console.log(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);\n                    data[triggerId] = $(`[fg-trigger='${triggerId}']`).val();\n                });\n\n                this.trigger(triggerGroup, data);\n            });\n        });\n\n        this.element.find('[fg-trigger]').each((i, v) => {\n            let elem = $(v);\n            let triggerId = elem.attr('fg-trigger');\n\n            console.log(`${name}: found fg-trigger for triggerId ${triggerId}`);\n            elem.click(() => {\n                console.log(`${name}: fg-trigger clicked for triggerId ${triggerId}`);\n\n                this.trigger(triggerId);\n            });\n        });\n    }\n\n    /** Sends a trigger message\n     * @param {string} id The ID of the message to send\n     * @param {Object} data The data to be sent\n     */\n    trigger(id, data) {\n        console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);\n        io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));\n    }\n\n    /** Sets up socket message handler functions for the controller */\n    setSocketHandlers() {\n        // When a sync message is received...\n        io.on(`${name}:synf`, msg => {\n            console.log(`${name}: received synf, ${JSON.stringify(msg)}`);\n\n            // Use _.assign to merge the received state into the local data store\n            _.assign(dataStoreBacking, msg);\n\n            // Set the value of each fg-copy element to the corresponding value\n            // from the model\n            $(`[fg-copy]`).each((i, v) => {\n                let elem = $(v);\n                let model = elem.attr('fg-copy');\n                elem.val(this.dataStore[model]);\n            });\n        });\n    }\n}\n",
     "static": true,
-    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/dash/dashcontroller.js",
+    "longname": "/Users/harry/Developer/Builds/ugraphics/src/js/dash/dashController.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 98,
+    "__docId__": 101,
     "kind": "variable",
     "name": "dataStoreBacking",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js",
+    "memberof": "ugraphics/src/js/dash/dashController.js",
     "static": true,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~dataStoreBacking",
+    "longname": "ugraphics/src/js/dash/dashController.js~dataStoreBacking",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/dash/dashcontroller.js",
+    "importPath": "ugraphics/ugraphics/src/js/dash/dashController.js",
     "importStyle": null,
     "description": "The data store backing object",
     "lineNumber": 10,
@@ -1659,15 +1714,15 @@
     "ignore": true
   },
   {
-    "__docId__": 99,
+    "__docId__": 102,
     "kind": "variable",
     "name": "methodsBacking",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js",
+    "memberof": "ugraphics/src/js/dash/dashController.js",
     "static": true,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~methodsBacking",
+    "longname": "ugraphics/src/js/dash/dashController.js~methodsBacking",
     "access": "public",
     "export": false,
-    "importPath": "ugraphics/ugraphics/src/js/dash/dashcontroller.js",
+    "importPath": "ugraphics/ugraphics/src/js/dash/dashController.js",
     "importStyle": null,
     "description": "The method store backing object",
     "lineNumber": 13,
@@ -1679,29 +1734,29 @@
     "ignore": true
   },
   {
-    "__docId__": 100,
+    "__docId__": 103,
     "kind": "class",
     "name": "DashController",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js",
+    "memberof": "ugraphics/src/js/dash/dashController.js",
     "static": true,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController",
     "access": "public",
     "export": true,
-    "importPath": "ugraphics/ugraphics/src/js/dash/dashcontroller.js",
+    "importPath": "ugraphics/ugraphics/src/js/dash/dashController.js",
     "importStyle": "DashController",
     "description": "Dashboard controller class\n\nEach dashboard tab corresponds to an instance of this controller",
     "lineNumber": 20,
     "interface": false
   },
   {
-    "__docId__": 101,
+    "__docId__": 104,
     "kind": "constructor",
     "name": "constructor",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#constructor",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#constructor",
     "access": "public",
     "description": "",
     "lineNumber": 24,
@@ -1719,12 +1774,12 @@
     ]
   },
   {
-    "__docId__": 102,
+    "__docId__": 105,
     "kind": "member",
     "name": "element",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#element",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#element",
     "access": "public",
     "description": "The element that will contain the contents of the controller template -\nhas an `fg-panel` attribute corresponding to the ID of the controller",
     "lineNumber": 30,
@@ -1735,12 +1790,12 @@
     }
   },
   {
-    "__docId__": 103,
+    "__docId__": 106,
     "kind": "member",
     "name": "methods",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#methods",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#methods",
     "access": "public",
     "description": "A proxy that writes to the methods store backing",
     "lineNumber": 35,
@@ -1751,12 +1806,12 @@
     }
   },
   {
-    "__docId__": 104,
+    "__docId__": 107,
     "kind": "member",
     "name": "dataStore",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#dataStore",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#dataStore",
     "access": "public",
     "description": "A proxy that writes to the data store backing",
     "lineNumber": 38,
@@ -1767,12 +1822,12 @@
     }
   },
   {
-    "__docId__": 105,
+    "__docId__": 108,
     "kind": "member",
     "name": "view",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#view",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#view",
     "access": "public",
     "description": "A Rivets binding between the controller and its container element,\nwhich uses the data store proxy as its data model",
     "lineNumber": 43,
@@ -1783,14 +1838,14 @@
     }
   },
   {
-    "__docId__": 106,
+    "__docId__": 109,
     "kind": "get",
     "name": "dataStoreTraps",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#dataStoreTraps",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#dataStoreTraps",
     "access": "public",
     "description": "Trap functions used by the data store proxy to\nhandle access to the data store backing object",
     "lineNumber": 60,
@@ -1801,14 +1856,14 @@
     }
   },
   {
-    "__docId__": 107,
+    "__docId__": 110,
     "kind": "get",
     "name": "methodsStoreTraps",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#methodsStoreTraps",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#methodsStoreTraps",
     "access": "public",
     "description": "Trap functions used by the method store proxy\nto handle access to the method store backing object",
     "lineNumber": 84,
@@ -1819,14 +1874,14 @@
     }
   },
   {
-    "__docId__": 108,
+    "__docId__": 111,
     "kind": "method",
     "name": "copyValue",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#copyValue",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#copyValue",
     "access": "public",
     "description": "Copies a value from an fg-copy element to the main state data store",
     "lineNumber": 117,
@@ -1845,14 +1900,14 @@
     "return": null
   },
   {
-    "__docId__": 109,
+    "__docId__": 112,
     "kind": "method",
     "name": "setButtons",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#setButtons",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#setButtons",
     "access": "public",
     "description": "Sets up all the controller's elements with an `fg-copy-button` attribute\nto copy the corresponding value using {@link copyValue}",
     "lineNumber": 128,
@@ -1860,14 +1915,14 @@
     "return": null
   },
   {
-    "__docId__": 110,
+    "__docId__": 113,
     "kind": "method",
     "name": "trigger",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#trigger",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#trigger",
     "access": "public",
     "description": "Sends a trigger message",
     "lineNumber": 208,
@@ -1896,14 +1951,14 @@
     "return": null
   },
   {
-    "__docId__": 111,
+    "__docId__": 114,
     "kind": "method",
     "name": "setSocketHandlers",
-    "memberof": "ugraphics/src/js/dash/dashcontroller.js~DashController",
+    "memberof": "ugraphics/src/js/dash/dashController.js~DashController",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "ugraphics/src/js/dash/dashcontroller.js~DashController#setSocketHandlers",
+    "longname": "ugraphics/src/js/dash/dashController.js~DashController#setSocketHandlers",
     "access": "public",
     "description": "Sets up socket message handler functions for the controller",
     "lineNumber": 214,
@@ -1911,7 +1966,7 @@
     "return": null
   },
   {
-    "__docId__": 112,
+    "__docId__": 115,
     "kind": "file",
     "name": "ugraphics/stylesheet.js",
     "content": "import Path from 'path';\nimport Cssnext from 'postcss-cssnext';\nimport Cssnano from 'cssnano';\nimport PostCSSMiddleware from 'postcss-middleware';\nimport Stylus from 'stylus';\nimport FS from 'fs';\n\nimport Config from './config';\nimport { Debug, CWD } from './shared';\n\n// - STYLESHEET PROCESSING -----------------------------------------------------\n/** The plugins that PostCSS should use when postprocessing */\nlet postCSSPlugins = [\n    Cssnext({\n        browsers: Config.frontend.browserSupport\n    })\n];\nif (Debug) postCSSPlugins.push(\n    Cssnano({\n        autoprefixer: false\n    })\n);\n\n/**\n * Sets up an Express app to serve up compiled and postprocessed Stylus stylesheets\n * @param {express} app The app to be configured\n */\nexport let Styl = app => {\n    app.use(Stylus.middleware({\n        src: Path.join(CWD, 'src'),\n        dest: Path.join(CWD, 'output'),\n        compile: (str, path) => Stylus(str)\n            .set('filename', path)\n            .set('include css', true)\n            .set('paths', Config.frontend.stylIncludePaths)\n    }));\n    app.use('/output/styl', PostCSSMiddleware({\n        src: req => Path.join(CWD, 'output', 'styl', req.url),\n        plugins: postCSSPlugins\n    }));\n}\n",
@@ -1922,7 +1977,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 113,
+    "__docId__": 116,
     "kind": "variable",
     "name": "postCSSPlugins",
     "memberof": "ugraphics/stylesheet.js",
@@ -1942,7 +1997,7 @@
     "ignore": true
   },
   {
-    "__docId__": 114,
+    "__docId__": 117,
     "kind": "function",
     "name": "Styl",
     "memberof": "ugraphics/stylesheet.js",
@@ -1980,7 +2035,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"ugraphics\",\n  \"version\": \"0.0.1\",\n  \"main\": \"index.js\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"@types/express\": \"^4.11.1\",\n    \"@types/lodash\": \"^4.14.102\",\n    \"@types/node\": \"^9.4.6\",\n    \"@types/shelljs\": \"^0.7.8\",\n    \"@types/socket.io\": \"^1.4.31\",\n    \"@types/stylus\": \"^0.48.29\",\n    \"@types/winston\": \"^2.3.8\",\n    \"@types/yargs\": \"^11.0.0\",\n    \"babel-preset-env\": \"^1.6.1\",\n    \"babel-register\": \"^6.26.0\",\n    \"bootstrap\": \"4\",\n    \"caniuse-db\": \"^1.0.30000652\",\n    \"cssnano\": \"^3.10.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"express\": \"^4.15.2\",\n    \"gulp-clean\": \"^0.4.0\",\n    \"jquery\": \"^3.3.1\",\n    \"jspm\": \"^0.16.53\",\n    \"jspm-github\": \"0.13.18\",\n    \"lodash\": \"^4.17.5\",\n    \"moment\": \"^2.18.1\",\n    \"popper.js\": \"^1.12.9\",\n    \"postcss-cssnext\": \"^2.10.0\",\n    \"postcss-middleware\": \"^1.1.3\",\n    \"pug\": \"^2.0.0-rc.1\",\n    \"shelljs\": \"^0.8.1\",\n    \"socket.io\": \"^2.0.4\",\n    \"stylus\": \"^0.54.5\",\n    \"winston\": \"^2.4.0\",\n    \"yargs\": \"^8.0.1\"\n  },\n  \"jspm\": {\n    \"configFile\": \"src/js/config.js\",\n    \"dependencies\": {\n      \"axios\": \"npm:axios@^0.16.1\",\n      \"bootstrap\": \"npm:bootstrap@4.0.0\",\n      \"buffer\": \"github:jspm/nodelibs-buffer@^0.1.1\",\n      \"jquery\": \"npm:jquery@^3.2.1\",\n      \"lodash\": \"npm:lodash@^4.17.4\",\n      \"navigo\": \"npm:navigo@^4.7.1\",\n      \"rivets\": \"npm:rivets@^0.9.6\",\n      \"socket.io-client\": \"npm:socket.io-client@^2.0.4\",\n      \"velocity\": \"github:julianshapiro/velocity@^2.0.1\"\n    },\n    \"devDependencies\": {\n      \"babel\": \"npm:babel-core@^5.8.24\",\n      \"babel-runtime\": \"npm:babel-runtime@^5.8.24\",\n      \"core-js\": \"npm:core-js@^1.1.4\"\n    }\n  },\n  \"devDependencies\": {\n    \"gulp\": \"^4.0.0\",\n    \"gulp-env\": \"^0.4.0\",\n    \"gulp-nodemon\": \"^2.2.1\",\n    \"gulp-postcss\": \"^7.0.1\",\n    \"gulp-sass\": \"^3.1.0\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"ugraphics\",\n  \"version\": \"0.0.1\",\n  \"main\": \"index.js\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"@types/express\": \"^4.11.1\",\n    \"@types/lodash\": \"^4.14.102\",\n    \"@types/node\": \"^9.4.6\",\n    \"@types/shelljs\": \"^0.7.8\",\n    \"@types/socket.io\": \"^1.4.31\",\n    \"@types/stylus\": \"^0.48.29\",\n    \"@types/winston\": \"^2.3.8\",\n    \"@types/yargs\": \"^11.0.0\",\n    \"babel-preset-env\": \"^1.6.1\",\n    \"babel-register\": \"^6.26.0\",\n    \"bootstrap\": \"4\",\n    \"caniuse-db\": \"^1.0.30000652\",\n    \"cssnano\": \"^3.10.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"express\": \"^4.15.2\",\n    \"gulp-clean\": \"^0.4.0\",\n    \"jquery\": \"^3.3.1\",\n    \"jspm\": \"^0.16.53\",\n    \"jspm-github\": \"0.13.18\",\n    \"lodash\": \"^4.17.5\",\n    \"moment\": \"^2.18.1\",\n    \"popper.js\": \"^1.12.9\",\n    \"postcss-cssnext\": \"^2.10.0\",\n    \"postcss-middleware\": \"^1.1.3\",\n    \"pug\": \"^2.0.0-rc.1\",\n    \"shelljs\": \"^0.8.1\",\n    \"socket.io\": \"^2.0.4\",\n    \"stylus\": \"^0.54.5\",\n    \"winston\": \"^2.4.0\",\n    \"yargs\": \"^8.0.1\"\n  },\n  \"jspm\": {\n    \"configFile\": \"src/js/config.js\",\n    \"dependencies\": {\n      \"axios\": \"npm:axios@^0.16.1\",\n      \"bootstrap\": \"npm:bootstrap@4.0.0\",\n      \"buffer\": \"github:jspm/nodelibs-buffer@^0.1.1\",\n      \"jquery\": \"npm:jquery@^3.2.1\",\n      \"lodash\": \"npm:lodash@^4.17.4\",\n      \"moment\": \"npm:moment@^2.21.0\",\n      \"navigo\": \"npm:navigo@^4.7.1\",\n      \"rivets\": \"npm:rivets@^0.9.6\",\n      \"socket.io-client\": \"npm:socket.io-client@^2.0.4\",\n      \"velocity\": \"github:julianshapiro/velocity@^2.0.1\"\n    },\n    \"devDependencies\": {\n      \"babel\": \"npm:babel-core@^5.8.24\",\n      \"babel-runtime\": \"npm:babel-runtime@^5.8.24\",\n      \"core-js\": \"npm:core-js@^1.1.4\"\n    }\n  },\n  \"devDependencies\": {\n    \"gulp\": \"^4.0.0\",\n    \"gulp-env\": \"^0.4.0\",\n    \"gulp-nodemon\": \"^2.2.1\",\n    \"gulp-postcss\": \"^7.0.1\",\n    \"gulp-sass\": \"^3.1.0\"\n  }\n}\n",
     "longname": "/Users/harry/Developer/Builds/ugraphics/package.json",
     "name": "package.json",
     "static": true,
