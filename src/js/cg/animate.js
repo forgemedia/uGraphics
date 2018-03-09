@@ -8,6 +8,7 @@ let propDescriptor = {
     opacity: 1,
     duration: 400,
     easing: 'swing',
+    translateX: '200px',
     delay: 0
 };
 
@@ -56,14 +57,14 @@ let apr_fade = (v, show) => {
 
 /**
  * Animation program: slide from left
- * @experimental Currently broken
  */
-let apr_slide_left = (v, show) => {
-    console.log(`animate: sliding from left (${show})`);
+let apr_slide_x = (v, show) => {
+    console.log(`animate: sliding x (${show})`);
     let p = getPropsInOut(v, show);
-    let easingType = 'Quad'
+    let easingType = 'Cubic'
     v.velocity({
-        opacity: show? p.opacity : 0
+        opacity: show? p.opacity : 0,
+        translate: show? "0px" : `${p.translateX}`
     }, {
         easing: show? `easeOut${easingType}` : `easeIn${easingType}`,
         duration: p.duration,
@@ -100,8 +101,8 @@ export default (element, show) => {
         case 'fade':
             apr_fade(elem, show);
             break;
-        case 'slide-left':
-            apr_slide_left(elem, show);
+        case 'slide-x':
+            apr_slide_x(elem, show);
             break;
         case 'none':
         default:
