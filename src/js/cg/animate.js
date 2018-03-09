@@ -51,7 +51,7 @@ let apr_fade = (v, show) => {
     }, {
         easing: 'linear',
         duration: p.duration,
-        delay: show? p['delay-in'] : p['delay-out']
+        delay: p.delay
     });
 };
 
@@ -68,7 +68,7 @@ let apr_slide_x = (v, show) => {
     }, {
         easing: show? `easeOut${easingType}` : `easeIn${easingType}`,
         duration: p.duration,
-        delay: show? p['delay-in'] : p['delay-out']
+        delay: p.delay
     });
 };
 
