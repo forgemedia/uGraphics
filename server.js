@@ -18,7 +18,7 @@ import FS from 'fs';
 import 'pug'; // So that pkg works
 
 // Import config and modules from project
-import DashRouter from './dash.router';
+import DashRouter from './dashrouter';
 import * as StylesheetMiddleware from './stylesheet';
 import * as SocketHandler from './socketHandler';
 

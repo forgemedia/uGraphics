@@ -42,7 +42,7 @@ let getPropsInOut = (v, show) => {
 // TODO: rename animation program functions so that they have a clear naming pattern
 
 /** Animation program: fade */
-let fade = (v, show) => {
+let apr_fade = (v, show) => {
     console.log(`animate: fading (${show})`);
     let p = getPropsInOut(v, show);
     v.velocity({
@@ -58,7 +58,7 @@ let fade = (v, show) => {
  * Animation program: slide from left
  * @experimental Currently broken
  */
-let slide_left = (v, show) => {
+let apr_slide_left = (v, show) => {
     console.log(`animate: sliding from left (${show})`);
     let p = getPropsInOut(v, show);
     let easingType = 'Quad'
@@ -98,10 +98,10 @@ export default (element, show) => {
     // A switch for the animation program
     switch (animationProgram) {
         case 'fade':
-            fade(elem, show);
+            apr_fade(elem, show);
             break;
         case 'slide-left':
-            slide_left(elem, show);
+            apr_slide_left(elem, show);
             break;
         case 'none':
         default:
