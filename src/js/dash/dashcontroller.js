@@ -6,27 +6,40 @@ import _ from 'lodash';
 let name;
 let io;
 
-// Backing objects that are written to through proxies
+/** The data store backing object */
 let dataStoreBacking = {};
+
+/** The method store backing object */
 let methodsBacking = {};
 
+/**
+ * Dashboard controller class
+ * 
+ * Each dashboard tab corresponds to an instance of this controller
+ */
 export default class DashController {
+    /**
+     * @param {string} id The ID of the controller
+     */
     constructor(id) {
         console.log(`${id}: constructing controller`);
 
-        // The relevant element is one with an fg-panel attribute corresponding
-        // to this controller's name/id
+        /** The element that will contain the contents of the controller template -
+         * has an `fg-panel` attribute corresponding to the ID of the controller
+         */
         this.element = $(`[fg-panel='${id}']`);
         name = id;
         io = SocketIOClient.connect();
 
-        // Proxies that write to the backing store objects above using
-        // traps defined below
+        /** A proxy that writes to the methods store backing */
         this.methods = new Proxy(methodsBacking, this.methodsStoreTraps);
+
+        /** A proxy that writes to the data store backing */
         this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
 
-        // Bind the controller to the element, using the data store proxy
-        // as the data model
+        /** A Rivets binding between the controller and its container element,
+         * which uses the data store proxy as its data model
+         */
         this.view = Rivets.bind(this.element, this.dataStore);
 
         // Set up functions that handle socket messages
@@ -41,7 +54,9 @@ export default class DashController {
         $(() => io.emit(`${name}:get`));
     }
 
-    // Traps that handle access to the data store object
+    /** Trap functions used by the data store proxy to
+     * handle access to the data store backing object
+     */
     get dataStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
@@ -63,7 +78,9 @@ export default class DashController {
         };
     }
 
-    // Traps that handle access to the method store object
+    /** Trap functions used by the method store proxy
+     * to handle access to the method store backing object
+     */
     get methodsStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
@@ -93,7 +110,10 @@ export default class DashController {
         };
     }
 
-    // Function to copy a value from an fg-copy element to the main state data store
+    /**
+     * Copies a value from an fg-copy element to the main state data store
+     * @param {string} id The ID of the value to copy
+     */
     copyValue(id) {
         console.log(`${name}: copying value ${id}`);
 
@@ -101,8 +121,10 @@ export default class DashController {
         this.dataStore[id] = $(`[fg-copy='${id}']`).val();
     }
 
-    // Function that sets up all buttons with an fg-copy-button attribute
-    // to copy the corresponding value using the copyValue function above
+    /**
+     * Sets up all the controller's elements with an `fg-copy-button` attribute
+     * to copy the corresponding value using {@link copyValue}
+     */
     setButtons() {
         console.log(`${name}: setting buttons`);
 
@@ -179,13 +201,16 @@ export default class DashController {
         });
     }
 
-    // Send a trigger message with id, data
+    /** Sends a trigger message
+     * @param {string} id The ID of the message to send
+     * @param {Object} data The data to be sent
+     */
     trigger(id, data) {
         console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);
         io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
     }
 
-    // Function that sets up socket message handler functions
+    /** Sets up socket message handler functions for the controller */
     setSocketHandlers() {
         // When a sync message is received...
         io.on(`${name}:synf`, msg => {

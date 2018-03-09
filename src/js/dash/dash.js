@@ -19,14 +19,16 @@ import LowerThirdsCtrl from './lowerThirds.dashctrl';
 console.log('dash: begin');
 
 // Page elements
+/** The navbar element */
 let navbarElem = $('#mainNav');
+/** The content container element */
 let contentElem = $('#content');
 
 // When loaded, remove the 'Loading' message
 console.log('dash: removing all [data-remove-loaded] elements');
 $('[data-remove-loaded]').each((i, v) => $(v).remove());
 
-// List the controllers
+/** A store of controller objects */
 let controllers = {
     bug: {
         name: 'Bug',
@@ -48,13 +50,13 @@ for (let id in controllers) {
     navbarElem.append(`<li class="nav-item" id="${id}Link" data-fgroute><a class="nav-link" href="page/${id}" data-navigo>${controllers[id].name}</a></li>`)
 }
 
-// A list of bindings (not currently used for anything, but may be used in future)
+/** A store of binding objects */
 let bindings = {};
 
-// The fallback route object if not found
+/** The fallback controller object when the requested route has no corresponding controller*/
 let defaultRoute = _.keys(controllers)[0];
 
-// Method to set up a route
+/** Set up a route */
 let setRoute = id => {
     console.log(`dash: setting route for ${id}`);
     // Load the template from the server
@@ -79,7 +81,7 @@ let setRoute = id => {
     $(`#${id}Link a`).addClass('active');
 };
 
-// Create a router object
+/** A Navigo router object */
 let router = new Navigo();
 // Set up the router to route requests and provide a fallback
 router
@@ -95,4 +97,5 @@ router
 
 // Connect to the socket.io server
 console.log('dash: connecting socket.io');
+/** The socket.io client */
 let io = SocketIO.connect();

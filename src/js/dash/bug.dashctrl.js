@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
 
-import DashController from './controller';
+import DashController from './dashcontroller';
 
 /** @ignore */
 export default class extends DashController {

@@ -4,25 +4,34 @@ import Rivets from 'rivets';
 import _ from 'lodash';
 import fgAnimate from './animate.js';
 
-// The data store backing object, which is written to through a proxy object
-// so that assignments can be trapped
+/** The data store backing object */
 let dataStoreBacking = {};
+
+/** Graphics that are currently in progress */
 let inProgress = {};
 
+/**
+ * Character generator controller class
+ */
 export default class CGController {
+    /**
+     * @param {string} id The ID of the controller
+     */
     constructor (id) {
-        // The relevant element is one with an fg-component attribute corresponding
-        // to this controller's name/id
+        /** The element that will contain the contents of the controller template -
+         * has an `fg-component` attribute corresponding to the ID of the controller
+         */
         this.element = $(`[fg-component='${id}']`);
 
-        // A proxy that handles writing to and from the data store backing,
-        // using traps defined below
+        /** A proxy that writes to the data store backing */
         this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
 
-        // A list of methods that are called when trigger messages are sent
+        /** Methods that are called when trigger messages are received */
         this.methods = {};
 
+        /** The ID of the controller */
         this.name = id;
+        /** The socket.io client */
         this.io = SocketIOClient.connect();
 
         // Bind the controller to the element, using the data store proxy
@@ -35,7 +44,7 @@ export default class CGController {
         $(() => this.io.emit(`${this.name}:get`));
     }
 
-    // Function that sets up socket message handler functions
+    /** Sets up socket message handler functions for the controller */
     cgSetSocketHandlers() {
         // When a sync message is received...
         this.io.on(`${this.name}:synf`, msg => {
@@ -70,8 +79,14 @@ export default class CGController {
         });
     }
 
-    // Function to automate various parts of graphic when a trigger
-    // group thingy is received
+    /** Automates various parts of a graphic animation when a trigger group
+     * is received
+     * @param {string} id The ID of the animation
+     * @param {element} elem The element to animate
+     * @param {Object} data The data used in the animation
+     * @param {Number} [hideDelay=5000] The duration of the animation before hiding the element, in ms
+     * @param {function} [customFn=()=>{}] A custom function to execute
+     */
     cgTriggerAnimate (
         id,
         elem,
@@ -111,7 +126,9 @@ export default class CGController {
         }, hideDelay);
     }
 
-    // Traps that handle accessing the data store backing object
+    /** Trap functions used by the data store proxy to
+     * handle access to the data store backing object
+     */
     get dataStoreTraps() {
         return {
             // On assignment

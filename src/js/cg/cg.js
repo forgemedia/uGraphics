@@ -16,13 +16,13 @@ console.log('cg: begin');
 console.log(`cg: hiding all [fg-show] elements`);
 $('[fg-show]').each((i, v) => $(v).hide());
 
-// A list of controllers
+/** A store of controller objects */
 let controllers = {
     bug: BugCtrl,
     lowerThirds: LowerThirdsCtrl
 };
 
-// A list of bindings (not currently used for anything, but may be used in future)
+/** A store of binding objects */
 let bindings = {};
 
 // Bind all the controllers
@@ -33,6 +33,7 @@ for (let id in controllers) {
 
 // Connect to sockets
 console.log('cg: connecting socket.io');
+/** The socket.io client */
 let io = SocketIO.connect();
 
 // When the document is ready ($()), show the body element,
