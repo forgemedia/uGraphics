@@ -10,6 +10,8 @@ import Rivets from 'rivets';
 import BugCtrl from './controllers/bug';
 import LowerThirdsCtrl from './controllers/lowerThirds';
 
+import Clock from './modules/clock';
+
 console.log('cg: begin');
 
 // Hide all elements with an fg-show attribute to begin with
@@ -25,6 +27,11 @@ let controllers = {
 /** A store of binding objects */
 let bindings = {};
 
+/** A list of module functions */
+let modules = [
+    Clock
+];
+
 // Bind all the controllers
 for (let id in controllers) {
     console.log(`cg: setting binding for id ${id} to new controller for ${id}`);
@@ -35,6 +42,9 @@ for (let id in controllers) {
 console.log('cg: connecting socket.io');
 /** The socket.io client */
 let io = SocketIO.connect();
+
+// Really dumb way to do modules
+for (let module of modules) module();
 
 // When the document is ready ($()), show the body element,
 // which is hidden in CSS
