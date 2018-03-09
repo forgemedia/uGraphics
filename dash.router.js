@@ -4,7 +4,7 @@ import Shell from 'shelljs';
 import _ from 'lodash';
 import Path from 'path';
 
-// Create an Express router
+/** The router that serves up the contents of dashboard tabs */
 let router = Express.Router();
 
 // Serve Pug dashboard templates

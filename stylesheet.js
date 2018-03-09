@@ -9,7 +9,7 @@ import Config from './config';
 import { Debug, CWD } from './shared';
 
 // - STYLESHEET PROCESSING -----------------------------------------------------
-// List PostCSS plugins
+/** The plugins that PostCSS should use when postprocessing */
 let postCSSPlugins = [
     Cssnext({
         browsers: Config.frontend.browserSupport
@@ -21,6 +21,10 @@ if (Debug) postCSSPlugins.push(
     })
 );
 
+/**
+ * Sets up an Express app to serve up compiled and postprocessed Stylus stylesheets
+ * @param {express} app The app to be configured
+ */
 export let Styl = app => {
     app.use(Stylus.middleware({
         src: Path.join(CWD, 'src'),

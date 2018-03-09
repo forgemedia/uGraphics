@@ -5,6 +5,7 @@ import fgAnimate from './animate.js';
 
 import CGController from './controller';
 
+/** @ignore */
 export default class extends CGController {
     constructor() {
         super('lowerThirds');

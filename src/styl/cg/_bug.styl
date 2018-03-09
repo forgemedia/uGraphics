@@ -1,10 +1,28 @@
 @require '_variables';
 
+$bug-logo-width = 8vw
+$bug-logo-padding-right = 1vw
+$bug-logo-total-width = $margin-x + $bug-logo-width + $bug-logo-padding-right
+
 [fg-component=bug]
-    #bug-logo
+    #bug
+        background $grey1
         position absolute
-        width 10vw
         top $margin-y
+        padding 0 0 0 $margin-x
+        height 6vh
+
+    #logo
+        height 100%
+        position relative
+        width $bug-logo-width
+        img
+            margin auto
+            padding-right $bug-logo-padding-right
+            position absolute
+            top 0
+            bottom 0
+            width 100%
 
     #hashtag, #arbitrary
         color #ffffff

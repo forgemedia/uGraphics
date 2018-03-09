@@ -1,4 +1,5 @@
 div(fg-component='bug')
-    img#bug-logo(fg-show='showBug', fg-anim='fade', fg-opacity='0.75', rv-src='bugLogo')
+    #bug(fg-show='showBug', fg-anim='slide-left', fg-opacity='0.75')
+        #logo: img(rv-src='bugLogo')
     span#hashtag(fg-show='showHashtag', fg-anim='fade', fg-opacity='0.75') \#{hashtag}
     span#arbitrary(fg-show='showArbitrary', fg-anim='fade', fg-opacity='0.75') {arbitrary}

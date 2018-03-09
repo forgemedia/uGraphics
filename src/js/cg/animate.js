@@ -3,7 +3,7 @@ import Velocity from 'velocity';
 
 // TODO: automate animation of child elements
 
-// Acceptable fg-properties for animations and their default values
+/** Acceptable fg-properties for animations and their default values */
 let propDescriptor = {
     opacity: 1,
     duration: 400,
@@ -11,7 +11,10 @@ let propDescriptor = {
     delay: 0
 };
 
-// Get properties from an element
+/**
+ * Get properties from an element 
+ * @param {element} v The element to get properties from 
+ */
 let getProps = v => {
     let props = {};
     for (let prop in propDescriptor) {
@@ -23,6 +26,11 @@ let getProps = v => {
     return props;
 };
 
+/**
+ * Gets animation properties for an element, given the element and whether it's animating in or out
+ * @param {element} v The element
+ * @param {boolean} show The element will show (if false, will hide)
+ */
 let getPropsInOut = (v, show) => {
     let props = {};
     for (let prop in propDescriptor)
@@ -31,7 +39,9 @@ let getPropsInOut = (v, show) => {
     return props;
 };
 
-// Fade an element
+// TODO: rename animation program functions so that they have a clear naming pattern
+
+/** Animation program: fade */
 let fade = (v, show) => {
     console.log(`animate: fading (${show})`);
     let p = getPropsInOut(v, show);
@@ -44,7 +54,28 @@ let fade = (v, show) => {
     });
 };
 
-// Called when something needs to be animated in or out
+/**
+ * Animation program: slide from left
+ * @experimental Currently broken
+ */
+let slide_left = (v, show) => {
+    console.log(`animate: sliding from left (${show})`);
+    let p = getPropsInOut(v, show);
+    let easingType = 'Quad'
+    v.velocity({
+        opacity: show? p.opacity : 0
+    }, {
+        easing: show? `easeOut${easingType}` : `easeIn${easingType}`,
+        duration: p.duration,
+        delay: show? p['delay-in'] : p['delay-out']
+    });
+};
+
+/**
+ * Animate an element according to its properties
+ * @param {element} element The element
+ * @param {boolean} show The element will show (if false, will hide)
+ */
 export default (element, show) => {
     console.log(`animate: ${element} (${show})`);
     // Get a jQuery object for the element
@@ -68,6 +99,9 @@ export default (element, show) => {
     switch (animationProgram) {
         case 'fade':
             fade(elem, show);
+            break;
+        case 'slide-left':
+            slide_left(elem, show);
             break;
         case 'none':
         default:

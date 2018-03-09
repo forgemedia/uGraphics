@@ -8,9 +8,9 @@ import Rivets from 'rivets';
 import Bootstrap from 'bootstrap';
 
 // Custom module imports
-import BugCtrl from './dash/bug';
-import MaintenanceCtrl from './dash/maintenance';
-import LowerThirdsCtrl from './dash/lowerThirds';
+import BugCtrl from './bug';
+import MaintenanceCtrl from './maintenance';
+import LowerThirdsCtrl from './lowerThirds';
 
 console.log('dash: begin');
 

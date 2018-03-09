@@ -56,7 +56,7 @@ let argv = Yargs
 Winston.silly(`Configuring Express app`);
 /** The Express app powering the dashboard and character generator */
 let app = Express();
-/** The HTTP server that serves up app */
+/** The HTTP server that serves up {@link app} */
 let server = HTTP.createServer(app);
 app.set('view engine', 'pug');
 app.locals = _.assign(Config.locals, { debug: debug });
