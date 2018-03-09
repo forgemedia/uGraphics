@@ -1,3 +1,7 @@
+// -----------------------------------
+// - Dashboard entry point
+// -----------------------------------
+
 // Package imports
 import $ from 'jquery';
 import _ from 'lodash';
@@ -8,9 +12,9 @@ import Rivets from 'rivets';
 import Bootstrap from 'bootstrap';
 
 // Custom module imports
-import BugCtrl from './bug';
-import MaintenanceCtrl from './maintenance';
-import LowerThirdsCtrl from './lowerThirds';
+import BugCtrl from './bug.dashctrl';
+import MaintenanceCtrl from './maintenance.dashctrl';
+import LowerThirdsCtrl from './lowerThirds.dashctrl';
 
 console.log('dash: begin');
 

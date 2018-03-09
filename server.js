@@ -55,9 +55,9 @@ let argv = Yargs
 // Create an Express app, using Pug as the view engine
 Winston.silly(`Configuring Express app`);
 /** The Express app powering the dashboard and character generator */
-let app = Express();
+export let app = Express();
 /** The HTTP server that serves up {@link app} */
-let server = HTTP.createServer(app);
+export let server = HTTP.createServer(app);
 app.set('view engine', 'pug');
 app.locals = _.assign(Config.locals, { debug: debug });
 
@@ -89,7 +89,7 @@ app.get('*', (req, res) => res.status(404).render('404'));
 // -----------------------------------------------------------------------------
 Winston.silly(`Configuring socket.io server`);
 /** The socket.io real-time communications server */
-let io = SocketIOServer(server, {
+export let io = SocketIOServer(server, {
     wsEngine: "ws"
 });
 
@@ -105,11 +105,7 @@ server.listen(argv.port, () => {
     Winston.debug('Debug enabled');
 
     // On any connection, handle it with the function defined in socketHandler.ts
-    io.on('connection', SocketHandler.HandleSocket);
+    io.on('connection', SocketHandler.handleSocket);
 
-    SocketHandler.SetTick();
+    SocketHandler.setTick();
 });
-
-export {
-    io as IO
-};

@@ -1,6 +1,8 @@
 The application starts at `server.ts` - read the comments there for a walkthrough
 of how it works under the hood
 
+Developed against node v8.9.4
+
 ## Developing and running the graphics server
 
 See below for Windows instructions

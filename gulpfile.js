@@ -60,7 +60,9 @@ Gulp.task('clean', () => {
         'output/',
         '*.log',
         'server-*',
-        'assets/css/'
+        'assets/css/',
+        'node_modules/',
+        'jspm_packages/'
     ], { read: false, allowEmpty: true }).pipe(Clean());
 });
 

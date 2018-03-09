@@ -1,5 +1,5 @@
 import Winston from 'winston';
-import { IO } from './server';
+import { io } from './server';
 import FS from 'fs';
 import _ from 'lodash';
 import Config from './config';
@@ -8,7 +8,7 @@ import Config from './config';
  * The central/master sync data store for all of the components
  * @type {Object}
  */
-let dataStore = {};
+export let dataStore = {};
 for (let socket of Config.sockets)
     dataStore[socket] = Config.initDataStore[socket] || {};
 
@@ -17,9 +17,9 @@ for (let socket of Config.sockets)
  * @param {string} socketName The name of the component
  * @param {Object} [delta] If present, will emit only this as a delta object
  */
-let emitSynf = (socketName, delta) => {
+export let emitSynf = (socketName, delta) => {
     // Emit it over socket
-    IO.emit(`${socketName}:synf`, delta || dataStore[socketName]);
+    io.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 
     // Log it
     Winston.debug(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
@@ -30,16 +30,16 @@ let emitSynf = (socketName, delta) => {
  * @param {string} socketName The name of the component
  * @param {Object} msg The object to emit as accompanying data
  */
-let emitTrigger = (socketName, msg) => {
+export let emitTrigger = (socketName, msg) => {
     // Emit it over socket
-    IO.emit(`${socketName}:trigger`, msg);
+    io.emit(`${socketName}:trigger`, msg);
 
     // Log it
     Winston.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
 };
 
 /** Sets up a ten-second tick interval to keep the system in sync */
-let setTick = () => {
+export let setTick = () => {
     // Every n seconds, emit a sync event for each socket
     setInterval(() => {
         Winston.verbose('Tick');
@@ -51,7 +51,7 @@ let setTick = () => {
  * Called whenever a socket needs to be handled
  * @param {socket} socket The socket that needs to be handled
  */
-let handleSocket = socket => {
+export let handleSocket = socket => {
     // Get the IP address that's connecting and log it
     let address = socket.request.connection.remoteAddress;
     Winston.verbose(`Connection from ${address}`);
@@ -88,11 +88,4 @@ let handleSocket = socket => {
             emitTrigger(socketName, msg);
         });
     }
-};
-
-export {
-    handleSocket as HandleSocket,
-    emitSynf as EmitSynf,
-    emitTrigger as EmitTrigger,
-    setTick as SetTick
 };

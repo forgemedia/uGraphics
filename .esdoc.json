@@ -7,13 +7,15 @@
         "docs/*",
         "index.js",
         "gulpfile.js",
-        "src/js/config.js"
+        "src/js/config.js",
+        "\\.cgctrl.js",
+        "\\.dashctrl.js"
     ],
     "destination": "./docs",
     "plugins": [
         { "name": "esdoc-standard-plugin",
         "option": {
-            "unexportedIdentifier": { "enable": true },
+            "unexportedIdentifier": { "enable": false },
             "undocumentIdentifier": { "enable": true }
         }}
     ]

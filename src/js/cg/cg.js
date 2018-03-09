@@ -1,10 +1,14 @@
+// -----------------------------------
+// - Character generator entry point
+// -----------------------------------
+
 // Package imports
 import SocketIO from 'socket.io-client';
 import Rivets from 'rivets';
 
 // Custom module imports
-import BugCtrl from './bug';
-import LowerThirdsCtrl from './lowerThirds';
+import BugCtrl from './bug.cgctrl';
+import LowerThirdsCtrl from './lowerThirds.cgctrl';
 
 console.log('cg: begin');
 
