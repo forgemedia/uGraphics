@@ -1,4 +1,4 @@
-The application starts at `server.ts` - read the comments there for a walkthrough
+The application starts at `server.js` - read the comments there for a walkthrough
 of how it works under the hood
 
 Developed against node v8.9.4
@@ -9,14 +9,14 @@ See below for Windows instructions
 
 ### Prerequisite software
 
-- Node.js (download at nodejs.org, or using a package manager for
-your platform, e.g. Homebrew on macOS or Chocolatey on Windows)
+- Node.js (download at nodejs.org, using a package manager for
+your platform, e.g. Homebrew on macOS or Chocolatey on Windows,
+or using `nvm` or nvm for windows)
 - JSPM (install globally through Node's npm package manager by running
 `npm install -g jspm`)
 - Strongly recommended: Yarn, an alternative to the npm package manager (again,
 recommended to install this through e.g. `brew` or `choco`)
 - For development: gulp (`npm install -g gulp-cli`)
-- NPM global packages: `ts-node` `typescript` `node-gyp` (including `npm i -g --production windows-build-tools` on Windows)
 
 ### Installing packages
 
@@ -25,7 +25,7 @@ it installed), followed by `jspm install`
 
 ### Running the server
 
-- Run `ts-node server` to run the server
+- Run `node server` to run the server
 - Run `gulp` to run the server with the debug environment variable,
 watch for changes to essential files and reload the server (useful during
 development)
@@ -45,7 +45,7 @@ To generate documentation, use [ESDoc](https://esdoc.org).
 - Make sure you're in the directory you want to be in
 - `git clone <repository>`
 - `cd <repository>`
-- `yarn`
+- `yarn` (if you don't have yarn, then `npm i`)
 - `jspm i`
 - Run it using `ts-node server`
 - Run it in debug mode using `gulp`
@@ -68,4 +68,5 @@ To generate documentation, use [ESDoc](https://esdoc.org).
 /package.json - Package configuration
 /yarn.lock - Yarn package manager lockfile
 /config.json - Server configuration
+/index.js - A stub that uses babel-register to load server.js
 ```

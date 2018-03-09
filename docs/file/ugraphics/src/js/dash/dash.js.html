@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">ugraphics/src/js/dash/dash.js | ugraphics</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitTrigger">emitTrigger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-handleSocket">handleSocket</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setTick">setTick</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-io">io</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-server">server</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg">src/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-animate">animate</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/src/js/dash/dash.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// -----------------------------------
+// - Dashboard entry point
+// -----------------------------------
+
+// Package imports
+import $ from &apos;jquery&apos;;
+import _ from &apos;lodash&apos;;
+import SocketIO from &apos;socket.io-client&apos;;
+import Navigo from &apos;navigo&apos;;
+import Axios from &apos;axios&apos;;
+import Rivets from &apos;rivets&apos;;
+import Bootstrap from &apos;bootstrap&apos;;
+
+// Custom module imports
+import BugCtrl from &apos;./bug.dashctrl&apos;;
+import MaintenanceCtrl from &apos;./maintenance.dashctrl&apos;;
+import LowerThirdsCtrl from &apos;./lowerThirds.dashctrl&apos;;
+
+console.log(&apos;dash: begin&apos;);
+
+// Page elements
+/** The navbar element */
+let navbarElem = $(&apos;#mainNav&apos;);
+/** The content container element */
+let contentElem = $(&apos;#content&apos;);
+
+// When loaded, remove the &apos;Loading&apos; message
+console.log(&apos;dash: removing all [data-remove-loaded] elements&apos;);
+$(&apos;[data-remove-loaded]&apos;).each((i, v) =&gt; $(v).remove());
+
+/** A store of controller objects */
+let controllers = {
+    bug: {
+        name: &apos;Bug&apos;,
+        controller: BugCtrl
+    },
+    lowerThirds: {
+        name: &apos;Lower Thirds&apos;,
+        controller: LowerThirdsCtrl
+    },
+    maintenance: {
+        name: &apos;Maintenance&apos;,
+        controller: MaintenanceCtrl
+    }
+};
+
+// Add a navbar item for each controller
+for (let id in controllers) {
+    console.log(`dash: appending item for id ${id} to navbar`);
+    navbarElem.append(`&lt;li class=&quot;nav-item&quot; id=&quot;${id}Link&quot; data-fgroute&gt;&lt;a class=&quot;nav-link&quot; href=&quot;page/${id}&quot; data-navigo&gt;${controllers[id].name}&lt;/a&gt;&lt;/li&gt;`)
+}
+
+/** A store of binding objects */
+let bindings = {};
+
+/** The fallback controller object when the requested route has no corresponding controller*/
+let defaultRoute = _.keys(controllers)[0];
+
+/** Set up a route */
+let setRoute = id =&gt; {
+    console.log(`dash: setting route for ${id}`);
+    // Load the template from the server
+    Axios.get(`/dash/templates/${id}`)
+        .then(response =&gt; {
+            // If successful, set the inner HTML of the content element
+            // to the server&apos;s response, and add the binding to the list
+            console.log(`dash: setting inner HTML for id ${id} dashboard`);
+            contentElem.html(response.data);
+            bindings[id] = new controllers[id].controller(id);
+        })
+        // Otherwise, go to the default route
+        .catch(error =&gt; {
+            console.log(`dash: could not set inner HTML for id ${id} dashboard (error ${error})`);
+            router.navigate(`/page/${defaultRoute}`)
+        });
+    
+    // Remove the &apos;active&apos; class for all navbar items
+    // then add it to the current one
+    // Very possibly a hack-y workaround for functionality I&apos;ve not yet grasped
+    navbarElem.children(&apos;li&apos;).each((i, v) =&gt; $(v).children(&apos;a&apos;).removeClass(&apos;active&apos;));
+    $(`#${id}Link a`).addClass(&apos;active&apos;);
+};
+
+/** A Navigo router object */
+let router = new Navigo();
+// Set up the router to route requests and provide a fallback
+router
+    .on(&apos;/page/:id&apos;, params =&gt; {
+        console.log(`dash: found route for id ${params.id}`);
+        setRoute(params.id);
+    })
+    .on(&apos;*&apos;, () =&gt; {
+        console.log(`dash: wildcard route hit, returning to defaultRoute ${defaultRoute}`);
+        router.navigate(`/page/${defaultRoute}`);
+    })
+    .resolve();
+
+// Connect to the socket.io server
+console.log(&apos;dash: connecting socket.io&apos;);
+/** The socket.io client */
+let io = SocketIO.connect();
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
