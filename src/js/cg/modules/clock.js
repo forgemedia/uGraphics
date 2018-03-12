@@ -11,7 +11,7 @@ export default () => {
     let tickFn = () => {
         $('[fg-clock]').each((i, v) => { 
             let el = $(v);
-            el.text(() => Moment().format(el.attr('fg-clock-format') || 'HH:MM'));
+            el.text(Moment().format(el.attr('fg-clock-format') || 'HH:MM'));
         });
     };
     tickFn();
