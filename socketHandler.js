@@ -38,13 +38,13 @@ export let emitTrigger = (socketName, msg) => {
     Winston.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
 };
 
-/** Sets up a ten-second tick interval to keep the system in sync */
+/** Sets up a sixty-second tick interval to keep the system in sync */
 export let setTick = () => {
     // Every n seconds, emit a sync event for each socket
     setInterval(() => {
         Winston.verbose('Tick');
         for (let socketName of Config.sockets) emitSynf(socketName);
-    }, 10000);
+    }, 60000);
 };
 
 /**
