@@ -36,7 +36,7 @@ Gulp.task('watchscss', () => Gulp.watch('./src/scss/*.scss', Gulp.series('dashcs
 Gulp.task('rundbg', () => {
     Env({
         vars: {
-            NODE_ENV: 'debug'
+            UGR_ENV: 'debug'
         }
     });
     Nodemon({
@@ -51,7 +51,8 @@ Gulp.task('rundbg', () => {
             'gulpfile.js',
             'src',
             'output'
-        ]
+        ],
+        restartable: false
     });
 });
 

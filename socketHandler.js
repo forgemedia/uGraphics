@@ -1,5 +1,4 @@
-import Winston from 'winston';
-import { io } from './server';
+import { logger, io } from './server';
 import FS from 'fs';
 import _ from 'lodash';
 import Config from './config';
@@ -22,7 +21,7 @@ export let emitSynf = (socketName, delta) => {
     io.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 
     // Log it
-    Winston.debug(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
+    logger.debug(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
 };
 
 /**
@@ -35,14 +34,14 @@ export let emitTrigger = (socketName, msg) => {
     io.emit(`${socketName}:trigger`, msg);
 
     // Log it
-    Winston.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
+    logger.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
 };
 
 /** Sets up a sixty-second tick interval to keep the system in sync */
 export let setTick = () => {
     // Every n seconds, emit a sync event for each socket
     setInterval(() => {
-        Winston.verbose('Tick');
+        logger.verbose('Tick');
         for (let socketName of Config.sockets) emitSynf(socketName);
     }, 60000);
 };
@@ -54,14 +53,14 @@ export let setTick = () => {
 export let handleSocket = socket => {
     // Get the IP address that's connecting and log it
     let address = socket.request.connection.remoteAddress;
-    Winston.verbose(`Connection from ${address}`);
+    logger.verbose(`Connection from ${address}`);
     
     // For each socket defined in config.json, set a method to handle it
     for (let socketName of Config.sockets) {
         // When a sync message is received...
         socket.on(`${socketName}:sync`, msg => {
             // Log it
-            Winston.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
+            logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
 
             // Assign the received message into the respective data store
             _.assign(dataStore[socketName], msg);
@@ -73,7 +72,7 @@ export let handleSocket = socket => {
         // When a get message is received...
         socket.on(`${socketName}:get`, () => {
             // Log it
-            Winston.debug(`Get  on ${socketName}:get`);
+            logger.debug(`Get  on ${socketName}:get`);
 
             // Emit the relevant state from the data store again
             emitSynf(socketName);
@@ -82,7 +81,7 @@ export let handleSocket = socket => {
         // When a trigger message is received...
         socket.on(`${socketName}:trigger`, msg => {
             // Log it
-            Winston.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
+            logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
 
             // Pass it on
             emitTrigger(socketName, msg);
