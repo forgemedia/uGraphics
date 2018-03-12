@@ -1,7 +1,7 @@
 {
-  "coverage": "100%",
-  "expectCount": 59,
-  "actualCount": 59,
+  "coverage": "93.54%",
+  "expectCount": 62,
+  "actualCount": 58,
   "files": {
     "ugraphics/dashrouter.js": {
       "expectCount": 1,
@@ -9,9 +9,13 @@
       "undocumentLines": []
     },
     "ugraphics/server.js": {
-      "expectCount": 4,
+      "expectCount": 7,
       "actualCount": 4,
-      "undocumentLines": []
+      "undocumentLines": [
+        30,
+        35,
+        117
+      ]
     },
     "ugraphics/shared.js": {
       "expectCount": 2,
@@ -49,9 +53,16 @@
       "undocumentLines": []
     },
     "ugraphics/src/js/dash/dashController.js": {
-      "expectCount": 14,
-      "actualCount": 14,
+      "expectCount": 13,
+      "actualCount": 13,
       "undocumentLines": []
+    },
+    "ugraphics/src/js/dash/modules/queue.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
     },
     "ugraphics/stylesheet.js": {
       "expectCount": 2,

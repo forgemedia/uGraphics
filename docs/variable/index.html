@@ -37,6 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-io">io</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-logger">logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-server">server</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
@@ -45,6 +46,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash-modules">src/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -192,6 +194,34 @@
         
         <div data-ice="description"><p>The socket.io real-time communications server</p>
 </div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="variable/index.html#static-variable-logger">logger</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
       </div>
     </td>
     <td>
@@ -362,11 +392,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/server.js.html#lineNumber58">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/server.js.html#lineNumber63">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {app} from &apos;<span><a href="file/ugraphics/server.js.html#lineNumber58">ugraphics/ugraphics/server.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {app} from &apos;<span><a href="file/ugraphics/server.js.html#lineNumber63">ugraphics/ugraphics/server.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>The Express app powering the dashboard and character generator</p>
@@ -406,11 +436,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/socketHandler.js.html#lineNumber11">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/socketHandler.js.html#lineNumber10">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {dataStore} from &apos;<span><a href="file/ugraphics/socketHandler.js.html#lineNumber11">ugraphics/ugraphics/socketHandler.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {dataStore} from &apos;<span><a href="file/ugraphics/socketHandler.js.html#lineNumber10">ugraphics/ugraphics/socketHandler.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>The central/master sync data store for all of the components</p>
@@ -450,15 +480,58 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/server.js.html#lineNumber92">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/server.js.html#lineNumber98">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {io} from &apos;<span><a href="file/ugraphics/server.js.html#lineNumber92">ugraphics/ugraphics/server.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {io} from &apos;<span><a href="file/ugraphics/server.js.html#lineNumber98">ugraphics/ugraphics/server.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>The socket.io real-time communications server</p>
 </div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-variable-logger">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">logger</span><span class="code" data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/ugraphics/server.js.html#lineNumber35">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {logger} from &apos;<span><a href="file/ugraphics/server.js.html#lineNumber35">ugraphics/ugraphics/server.js</a></span>&apos;</code></pre></div>
+  
+  
+  
 
   
 
@@ -538,11 +611,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/server.js.html#lineNumber60">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/server.js.html#lineNumber65">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {server} from &apos;<span><a href="file/ugraphics/server.js.html#lineNumber60">ugraphics/ugraphics/server.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {server} from &apos;<span><a href="file/ugraphics/server.js.html#lineNumber65">ugraphics/ugraphics/server.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>The HTTP server that serves up <span><a href="variable/index.html#static-variable-app">app</a></span></p>

@@ -37,6 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-io">io</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-logger">logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-server">server</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
@@ -45,6 +46,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash-modules">src/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -67,6 +69,7 @@ import SocketIOServer from &apos;socket.io&apos;;
 import Moment from &apos;moment&apos;;
 import _ from &apos;lodash&apos;;
 import FS from &apos;fs&apos;;
+import Vorpal from &apos;vorpal&apos;;
 import &apos;pug&apos;; // So that pkg works
 
 // Import config and modules from project
@@ -78,17 +81,21 @@ import * as SocketHandler from &apos;./socketHandler&apos;;
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
 console.log(&apos;Imports complete, configuring Winston&apos;);
-Winston.configure({
+let consoleTransport = new Winston.transports.Console({
+    format: Winston.format.combine(
+        Winston.format.colorize(),
+        Winston.format.printf(info =&gt; `${info.level}: ${info.message}`))
+});
+export let logger = Winston.createLogger({
+    transports: [ consoleTransport ],
     level: debug? &apos;silly&apos; : &apos;info&apos;
 });
-Winston.add(Winston.transports.Console, { timestamp: true, colorize: true });
-if (Config.log.file) Winston.add(Winston.transports.File, { timestamp: true, filename: Config.log.path });
 
-Winston.info(`Forge Graphics Server Gen3 (${Config.locals.product} - ${Config.locals.project})`)
-Winston.info(`Time of start: ${Moment().format(&apos;ddd DD MMM YYYY, HH:mm:ss ZZ&apos;)}`)
+logger.info(`Forge Graphics Server Gen3 (${Config.locals.product} - ${Config.locals.project})`)
+logger.info(`Time of start: ${Moment().format(&apos;ddd DD MMM YYYY, HH:mm:ss ZZ&apos;)}`)
 
 // Parse command line options with Yargs, taking defaults from config.json
-Winston.silly(`Parsing command-line options`);
+logger.silly(`Parsing command-line options`);
 /** The command-line arguments as read in with Yargs */
 let argv = Yargs
     .option(&apos;port&apos;, {
@@ -105,24 +112,25 @@ let argv = Yargs
 // - EXPRESS APP ---------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Create an Express app, using Pug as the view engine
-Winston.silly(`Configuring Express app`);
+logger.silly(`Configuring Express app`);
 /** The Express app powering the dashboard and character generator */
 export let app = Express();
 /** The HTTP server that serves up {@link app} */
 export let server = HTTP.createServer(app);
 app.set(&apos;view engine&apos;, &apos;pug&apos;);
-app.locals = _.assign(Config.locals, { debug: debug });
+app.set(&apos;view options&apos;, { debug: false });
+app.locals = _.assign(Config.locals, { ugr_debug: debug });
 
 // Pass the app to functions that install middleware which processes SCSS
 // and Stylus stylesheets on-demand
-Winston.silly(`Configuring Stylus middleware`);
+logger.silly(`Configuring Stylus middleware`);
 StylesheetMiddleware.Styl(app);
 
 // -----------------------------------------------------------------------------
 // - SERVER --------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Serve static directories
-Winston.silly(`Configuring server routes`);
+logger.silly(`Configuring server routes`);
 for (let pub in Config.publicDirs)
     app.use(`/${pub}`,
         Express.static(Path.join(cwd, Config.publicDirs[pub])));
@@ -139,28 +147,39 @@ app.get(&apos;*&apos;, (req, res) =&gt; res.status(404).render(&apos;404&apos;))
 // -----------------------------------------------------------------------------
 // - SOCKET.IO REAL-TIME COMMS -------------------------------------------------
 // -----------------------------------------------------------------------------
-Winston.silly(`Configuring socket.io server`);
+logger.silly(`Configuring socket.io server`);
 /** The socket.io real-time communications server */
 export let io = SocketIOServer(server, {
     wsEngine: &quot;ws&quot;
 });
 
-// if (/^win/.test(process.platform)) {
-//     Winston.info(&apos;Starting uws bug-hack interval under Windows&apos;);
-//     setInterval(() =&gt; {}, 50);
-// }
-
 // Start the Express app listening on the specified port
 server.listen(argv.port, () =&gt; {
     // Log some stuff
-    Winston.info(`Listening on port ${argv.port}`);
-    Winston.debug(&apos;Debug enabled&apos;);
+    logger.info(`Listening on port ${argv.port}`);
+    logger.debug(&apos;Debug enabled&apos;);
 
     // On any connection, handle it with the function defined in socketHandler.ts
     io.on(&apos;connection&apos;, SocketHandler.handleSocket);
 
     SocketHandler.setTick();
 });
+
+// -----------------------------------------------------------------------------
+// - VORPAL COMMAND-LINE INTERFACE ---------------------------------------------
+// -----------------------------------------------------------------------------
+let vorpal = Vorpal();
+
+vorpal.command(&apos;show &lt;store&gt;&apos;)
+    .description(&apos;Show the contents of a module\&apos;s data store&apos;)
+    .alias(&apos;s&apos;)
+    .action((args, callback) =&gt; {
+        console.log(JSON.stringify(SocketHandler.dataStore[args.store] || &apos;Module not found&apos; ));
+        callback();
+    });
+
+vorpal.delimiter(&apos;uGraphics&gt;&apos;).show();
+consoleTransport.on(&apos;logged&apos;, () =&gt; vorpal.ui.redraw.done());
 </code></pre>
 
 </div>

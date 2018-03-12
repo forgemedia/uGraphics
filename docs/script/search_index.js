@@ -78,6 +78,18 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "ugraphics/ugraphics/server.js~logger",
+    "variable/index.html#static-variable-logger",
+    "<span>logger</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/server.js</span>",
+    "variable"
+  ],
+  [
+    "ugraphics/ugraphics/src/js/dash/modules/queue.js~queue",
+    "function/index.html#static-function-queue",
+    "<span>queue</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/src/js/dash/modules/queue.js</span>",
+    "function"
+  ],
+  [
     "ugraphics/ugraphics/dashrouter.js~router",
     "variable/index.html#static-variable-router",
     "<span>router</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/dashrouter.js</span>",
@@ -504,12 +516,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#datastore",
-    "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-dataStore",
-    "ugraphics/src/js/dash/dashController.js~DashController#dataStore",
-    "member"
-  ],
-  [
     "ugraphics/src/js/dash/dashcontroller.js~dashcontroller#datastoretraps",
     "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-get-dataStoreTraps",
     "ugraphics/src/js/dash/dashController.js~DashController#dataStoreTraps",
@@ -556,6 +562,12 @@ window.esdocSearchIndex = [
     "class/ugraphics/src/js/dash/dashController.js~DashController.html#instance-member-view",
     "ugraphics/src/js/dash/dashController.js~DashController#view",
     "member"
+  ],
+  [
+    "ugraphics/src/js/dash/modules/queue.js",
+    "file/ugraphics/src/js/dash/modules/queue.js.html",
+    "ugraphics/src/js/dash/modules/queue.js",
+    "file"
   ],
   [
     "ugraphics/stylesheet.js",

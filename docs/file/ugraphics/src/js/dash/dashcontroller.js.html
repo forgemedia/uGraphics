@@ -37,6 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-io">io</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-logger">logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-server">server</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
@@ -45,6 +46,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash-modules">src/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -57,6 +59,7 @@ import _ from &apos;lodash&apos;;
 
 let name;
 let io;
+let dataStore;
 
 /** The data store backing object */
 let dataStoreBacking = {};
@@ -66,7 +69,7 @@ let methodsBacking = {};
 
 /**
  * Dashboard controller class
- * 
+ *
  * Each dashboard tab corresponds to an instance of this controller
  */
 export default class DashController {
@@ -80,14 +83,14 @@ export default class DashController {
          * has an `fg-panel` attribute corresponding to the ID of the controller
          */
         this.element = $(`[fg-panel=&apos;${id}&apos;]`);
-        name = id;
+        name = this.name = id;
         io = SocketIOClient.connect();
 
         /** A proxy that writes to the methods store backing */
         this.methods = new Proxy(methodsBacking, this.methodsStoreTraps);
 
         /** A proxy that writes to the data store backing */
-        this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
+        dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
 
         /** A Rivets binding between the controller and its container element,
          * which uses the data store proxy as its data model
@@ -153,7 +156,7 @@ export default class DashController {
                 // and add a new click event handler pointing to
                 // the new method
                 $(`[fg-click=&apos;${property}&apos;]`).off(&apos;click&apos;).click(target[property]).each(
-                    n=&gt; console.log(`${name}: reassigning click handler for ${n}`));
+                    n =&gt; console.log(`${name}: reassigning click handler for ${n}`));
 
                 // Return true, indicating success
                 console.log(`${name}: methods store trap for ${property} complete`);

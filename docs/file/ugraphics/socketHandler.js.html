@@ -37,6 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-io">io</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-logger">logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-server">server</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
@@ -45,13 +46,13 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-cg-modules">src/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash">src/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/src/js/dash/dashController.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#src-js-dash-modules">src/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">ugraphics/socketHandler.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Winston from &apos;winston&apos;;
-import { io } from &apos;./server&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { logger, io } from &apos;./server&apos;;
 import FS from &apos;fs&apos;;
 import _ from &apos;lodash&apos;;
 import Config from &apos;./config&apos;;
@@ -74,7 +75,7 @@ export let emitSynf = (socketName, delta) =&gt; {
     io.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 
     // Log it
-    Winston.debug(`Emitted ${socketName}:synf: ${delta? &apos;(delta) &apos; + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
+    logger.debug(`Emitted ${socketName}:synf: ${delta? &apos;(delta) &apos; + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
 };
 
 /**
@@ -87,16 +88,16 @@ export let emitTrigger = (socketName, msg) =&gt; {
     io.emit(`${socketName}:trigger`, msg);
 
     // Log it
-    Winston.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
+    logger.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
 };
 
-/** Sets up a ten-second tick interval to keep the system in sync */
+/** Sets up a sixty-second tick interval to keep the system in sync */
 export let setTick = () =&gt; {
     // Every n seconds, emit a sync event for each socket
     setInterval(() =&gt; {
-        Winston.verbose(&apos;Tick&apos;);
+        logger.verbose(&apos;Tick&apos;);
         for (let socketName of Config.sockets) emitSynf(socketName);
-    }, 10000);
+    }, 60000);
 };
 
 /**
@@ -106,14 +107,14 @@ export let setTick = () =&gt; {
 export let handleSocket = socket =&gt; {
     // Get the IP address that&apos;s connecting and log it
     let address = socket.request.connection.remoteAddress;
-    Winston.verbose(`Connection from ${address}`);
+    logger.verbose(`Connection from ${address}`);
     
     // For each socket defined in config.json, set a method to handle it
     for (let socketName of Config.sockets) {
         // When a sync message is received...
         socket.on(`${socketName}:sync`, msg =&gt; {
             // Log it
-            Winston.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
+            logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
 
             // Assign the received message into the respective data store
             _.assign(dataStore[socketName], msg);
@@ -125,7 +126,7 @@ export let handleSocket = socket =&gt; {
         // When a get message is received...
         socket.on(`${socketName}:get`, () =&gt; {
             // Log it
-            Winston.debug(`Get  on ${socketName}:get`);
+            logger.debug(`Get  on ${socketName}:get`);
 
             // Emit the relevant state from the data store again
             emitSynf(socketName);
@@ -134,7 +135,7 @@ export let handleSocket = socket =&gt; {
         // When a trigger message is received...
         socket.on(`${socketName}:trigger`, msg =&gt; {
             // Log it
-            Winston.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
+            logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
 
             // Pass it on
             emitTrigger(socketName, msg);
