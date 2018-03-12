@@ -4,5 +4,6 @@ div(fg-component='bug')
     .bugsegment#clock(fg-show='showBug' fg-anim='slide-x' fg-translateX='-7vw' fg-delay-in='200')
         .segbg
         span(fg-clock fg-clock-format='HH:MM')
-    span#hashtag(fg-show='showHashtag' fg-anim='fade' fg-opacity='0.75') \#{hashtag}
-    span#arbitrary(fg-show='showArbitrary' fg-anim='fade' fg-opacity='0.75') {arbitrary}
+    .mcontainer
+        span#hashtag(fg-show='showHashtag' fg-anim='fade' fg-opacity='0.75') \#{hashtag}
+        span#arbitrary(fg-show='showArbitrary' fg-anim='fade' fg-opacity='0.75') {arbitrary}

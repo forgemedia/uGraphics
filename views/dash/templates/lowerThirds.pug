@@ -4,14 +4,13 @@ include mixins/copy
 include mixins/card
 div(fg-panel='lowerThirds')
     .container
-        .card-columns
-            .card
-                .card-body
-                    h4.card-title Lower Third 1
-                    h5.card-subtitle.mb-2.text-muted Single line
-                    p.card-text
-                    | A lower third with space for a single line of text.
-                    | Shows for 7.5 seconds.
-                ul.list-group.list-group-flush
-                    li.list-group-item: +textbox-group-trigger('Text', 'lt1', 'lt1_text1')
-                    li.list-group-item: button.btn.btn-danger(fg-trigger-button-group='lt1') Trigger
+        .card
+            .card-body
+                h4.card-title Lower Third 1
+                h5.card-subtitle.mb-2.text-muted Single line
+                p.card-text
+                | A lower third with space for a single line of text.
+                | Shows for 7.5 seconds.
+            ul.list-group.list-group-flush
+                li.list-group-item: +textbox-group-trigger('Text', 'lt1', 'lt1_text1')
+                li.list-group-item: button.btn.btn-danger(fg-trigger-button-group='lt1') Trigger
