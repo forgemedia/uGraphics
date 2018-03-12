@@ -14,7 +14,7 @@ let methodsBacking = {};
 
 /**
  * Dashboard controller class
- * 
+ *
  * Each dashboard tab corresponds to an instance of this controller
  */
 export default class DashController {
@@ -101,7 +101,7 @@ export default class DashController {
                 // and add a new click event handler pointing to
                 // the new method
                 $(`[fg-click='${property}']`).off('click').click(target[property]).each(
-                    n=> console.log(`${name}: reassigning click handler for ${n}`));
+                    n => console.log(`${name}: reassigning click handler for ${n}`));
 
                 // Return true, indicating success
                 console.log(`${name}: methods store trap for ${property} complete`);
