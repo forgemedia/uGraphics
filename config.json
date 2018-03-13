@@ -36,7 +36,8 @@
     ],
     "initDataStore": {
         "bug": {
-            "bugLogo": "/assets/img/bug/forge.svg"
+            "bugLogo": "/assets/img/bug/forge.svg",
+            "showClock": true
         },
         "lowerThirds": {
             "queue_lt1": [ { "lt1_text1": "Example lower third" } ],

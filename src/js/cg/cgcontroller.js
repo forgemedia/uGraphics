@@ -5,7 +5,12 @@ import _ from 'lodash';
 import cgAnimate from './cgAnimate.js';
 
 /** The data store backing object */
-let dataStoreBacking = {};
+let dataStoreBacking = {
+    methods: {
+        and: (a, b) => a && b,
+        or: (a, b) => a || b
+    }
+};
 
 /** Graphics that are currently in progress */
 let inProgress = {};
@@ -26,7 +31,9 @@ export default class CGController {
     /**
      * @param {string} id The ID of the controller
      */
-    constructor (id) {
+    constructor (id, dataAssign) {
+        if (dataAssign) _.assign(dataStoreBacking, dataAssign);
+
         /** The element that will contain the contents of the controller template -
          * has an `fg-component` attribute corresponding to the ID of the controller
          */
@@ -40,8 +47,18 @@ export default class CGController {
 
         /** The ID of the controller */
         this.name = id;
+
+        console.log(`constructing controller with name ${this.name}, dataStoreBacking ${JSON.stringify(dataStoreBacking)}`);
+
         /** The socket.io client */
         this.io = SocketIOClient.connect();
+
+        Rivets.binders.fgshow = (el, value) => {
+            console.log(`animate: fgshow binder for ${$(el).prop('id')}, value ${JSON.stringify(value)}`)
+            cgAnimate(el, value);
+        };
+
+        Rivets.formatters.not = value => !value;
 
         // Bind the controller to the element, using the data store proxy
         // as the data model
@@ -103,10 +120,10 @@ export default class CGController {
         hideDelay = 5000,
         customFn = () => {}
     ) {
-        // Return if the delay's less than 200 ms or there
+        // Return if the delay's less than 50 ms or there
         // is a marker saying this graphic is currently
         // in progress
-        if (hideDelay < 200 || inProgress[id]) {
+        if (hideDelay < 50 || inProgress[id]) {
             console.log(`${this.name}: the graphic ${id} is currently in progress`);
             return;
         }

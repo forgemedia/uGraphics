@@ -95,9 +95,9 @@ let apr_slide_y = (v, show) => {
  * @param {boolean} show The element will show (if false, will hide)
  */
 export default (element, show) => {
-    console.log(`animate: ${element} (${show})`);
     // Get a jQuery object for the element
     let elem = $(element);
+    console.log(`animate: ANIMATING ${elem.prop('id')} (${show})`);
 
     // Get the fg-anim animation program for each element, or 'none' if there is
     // no fg-anim attribute
