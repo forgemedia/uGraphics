@@ -51,7 +51,7 @@
       "navigo": "npm:navigo@^4.7.1",
       "rivets": "npm:rivets@^0.9.6",
       "socket.io-client": "npm:socket.io-client@^2.0.4",
-      "velocity": "github:julianshapiro/velocity@^2.0.1"
+      "velocity": "github:julianshapiro/velocity@^1.5.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",

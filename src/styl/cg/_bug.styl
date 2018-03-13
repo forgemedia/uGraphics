@@ -11,16 +11,17 @@ $bugsegment-height = 6vh
         position absolute
         top $margin-y
         height $bugsegment-height
+        box-shadow $shadow_standard
 
-        .segbg
-            position absolute
-            z-index -1
-            width 120%
-            height 100%
-            transform skewX(-22deg) translateX(-10%)
+        // &:after
+        //     position absolute
+        //     z-index -1
+        //     width 120%
+        //     height 100%
+        //     transform skewX(-22deg) translateX(-10%)
 
     #bug
-        background $grey1
+        background $grey1-gradient-tb
         padding-left $margin-x
         z-index 1
 
@@ -42,7 +43,8 @@ $bugsegment-height = 6vh
         width 10vw
         z-index 0
         text-align center
-        background $grey9
+        background $grey9-gradient-tb
+        border-radius 0 0.5vw 0.5vw 0
         
         span
             position relative

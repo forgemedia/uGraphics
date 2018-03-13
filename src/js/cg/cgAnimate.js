@@ -6,9 +6,12 @@ import Velocity from 'velocity';
 /** Acceptable fg-properties for animations and their default values */
 let propDescriptor = {
     opacity: 1,
+    'out-opacity': 0,
     duration: 400,
     easing: 'swing',
     translateX: '200px',
+    translateY: '200px',
+    easing: 'Cubic',
     delay: 0
 };
 
@@ -36,6 +39,7 @@ let getPropsInOut = (v, show) => {
     let props = {};
     for (let prop in propDescriptor)
         props[prop] = v.attr(`fg-${prop}`) || v.attr(`fg-${prop}-${show? 'in' : 'out'}`) || propDescriptor[prop];
+    props.easing = `ease${show? 'Out' : 'In'}${props.easing}`;
     console.log(`animate: the pre-program props (inOut, show ${show}) are ${JSON.stringify(props)}`);
     return props;
 };
@@ -56,17 +60,30 @@ let apr_fade = (v, show) => {
 };
 
 /**
- * Animation program: slide from left
+ * Animation program: slide x
  */
 let apr_slide_x = (v, show) => {
     console.log(`animate: sliding x (${show})`);
     let p = getPropsInOut(v, show);
-    let easingType = 'Cubic'
     v.velocity({
-        opacity: show? p.opacity : 0,
-        translate: show? "0px" : `${p.translateX}`
+        opacity: show? p.opacity : p['out-opacity'],
+        transform: show? [ 'translateX(0px)', `translateX(${p.translateX})` ] : [ `translateX(${p.translateX})`, 'translateX(0px)' ]
     }, {
-        easing: show? `easeOut${easingType}` : `easeIn${easingType}`,
+        easing: p.easing,
+        duration: p.duration,
+        delay: p.delay
+    });
+};
+
+/** Animation program: slide y */
+let apr_slide_y = (v, show) => {
+    console.log(`animate: sliding y (${show})`);
+    let p = getPropsInOut(v, show);
+    v.velocity({
+        opacity: show? p.opacity : p['out-opacity'],
+        transform: show? [ 'translateY(0px)', `translateY(${p.translateY})` ] : [ `translateY(${p.translateY})`, 'translateY(0px)' ]
+    }, {
+        easing: p.easing,
         duration: p.duration,
         delay: p.delay
     });
@@ -103,6 +120,9 @@ export default (element, show) => {
             break;
         case 'slide-x':
             apr_slide_x(elem, show);
+            break;
+        case 'slide-y':
+            apr_slide_y(elem, show);
             break;
         case 'none':
         default:
