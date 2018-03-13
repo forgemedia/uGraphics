@@ -10,6 +10,15 @@ let dataStoreBacking = {};
 /** Graphics that are currently in progress */
 let inProgress = {};
 
+let animateElement = (property, show) => {
+    $(`[fg-show=${property}]`).each((i, v) => {
+        // $(v).find('[fg-show]').each((ai, av) => {
+        //     cgAnimate(av, dataStoreBacking[$(av).attr('fg-show')]);
+        // });
+        cgAnimate(v, show)
+    });
+}
+
 /**
  * Character generator controller class
  */
@@ -139,7 +148,7 @@ export default class CGController {
 
                 // Animate any DOM element that has an fg-show attribute
                 // that binds it to this property
-                $(`[fg-show='${property}`).each((i, v) => cgAnimate(v, value));
+                animateElement(property, value);
 
                 // Return true, indicating success
                 console.log(`${name}: data store trap for ${property} complete`);
