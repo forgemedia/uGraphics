@@ -5,12 +5,18 @@ include mixins/card
 div(fg-panel='lowerThirds')
     .container
         .card
-            .card-body
-                h4.card-title Lower Third 1
-                h5.card-subtitle.mb-2.text-muted Single line
-                p.card-text
-                | A lower third with space for a single line of text.
-                | Shows for 7.5 seconds.
+            h4.card-header Lower Third 1
+                small  Single line, 7.5s
             ul.list-group.list-group-flush
-                li.list-group-item: +textbox-group-trigger('Text', 'lt1', 'lt1_text1')
-                li.list-group-item: button.btn.btn-danger(fg-trigger-button-group='lt1') Trigger
+                //- li.list-group-item: +textbox-group-trigger('Text', 'lt1', 'lt1_text1')
+                //- li.list-group-item: button.btn.btn-danger(fg-trigger-button-group='lt1') Trigger
+                li.list-group-item.py-1(rv-each-queued='queue_lt1'): .input-group.input-group-sm
+                    .input-group-prepend: label.input-group-text {queued.lt1_text1}
+                    .input-group-append
+                        button.btn.btn-danger.mdi.mdi-playlist-play(rv-on-click='triggerQueued' fg-queue-trigger='lt1')
+                        button.btn.btn-warning.mdi.mdi-playlist-remove(rv-on-click='delQueued' fg-queue-remove='lt1')
+                
+            .card-footer.py-1
+                .input-group.input-group-sm
+                    .input-group-prepend: button.btn.btn-success.mdi.mdi-playlist-plus(fg-queue-add='lt1')
+                    +textbox('Text 1', 'currentQueueInput.lt1.lt1_text1')

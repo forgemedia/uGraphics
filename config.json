@@ -11,7 +11,8 @@
         "js": "src/js",
         "jspm_packages": "jspm_packages",
         "output": "output",
-        "assets": "assets"
+        "assets": "assets",
+        "node_modules": "node_modules"
     },
     "log": {
         "file": false,
@@ -36,6 +37,10 @@
     "initDataStore": {
         "bug": {
             "bugLogo": "/assets/img/bug/forge.svg"
+        },
+        "lowerThirds": {
+            "queue_lt1": [ { "lt1_text1": "Example lower third" } ],
+            "currentQueueInput": { "lt1": { "lt1_text1": "" } }
         }
     }
 }

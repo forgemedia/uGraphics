@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 let name;
 let io;
+let dataStore;
 
 /** The data store backing object */
 let dataStoreBacking = {};
@@ -28,14 +29,14 @@ export default class DashController {
          * has an `fg-panel` attribute corresponding to the ID of the controller
          */
         this.element = $(`[fg-panel='${id}']`);
-        name = id;
+        name = this.name = id;
         io = SocketIOClient.connect();
 
         /** A proxy that writes to the methods store backing */
         this.methods = new Proxy(methodsBacking, this.methodsStoreTraps);
 
         /** A proxy that writes to the data store backing */
-        this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
+        dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
 
         /** A Rivets binding between the controller and its container element,
          * which uses the data store proxy as its data model
@@ -108,6 +109,12 @@ export default class DashController {
                 return true;
             }
         };
+    }
+
+    /** Manually sync up the data store in casws where we know the bindings won't work */
+    emitStore() {
+        console.log(`${name}: emitting store`);
+        io.emit(`${name}:sync`, dataStoreBacking);
     }
 
     /**

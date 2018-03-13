@@ -24,6 +24,8 @@ System.config({
     "lodash": "npm:lodash@4.17.4",
     "moment": "npm:moment@2.21.0",
     "navigo": "npm:navigo@4.7.1",
+    "octicons": "npm:octicons@7.1.0",
+    "primer/octicons": "github:primer/octicons@7.1.0",
     "rivets": "npm:rivets@0.9.6",
     "socket.io-client": "npm:socket.io-client@2.0.1",
     "velocity": "github:julianshapiro/velocity@2.0.1",
@@ -170,6 +172,10 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:octicons@7.1.0": {
+      "object-assign": "npm:object-assign@4.1.1",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
     "npm:pako@0.2.9": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -187,8 +193,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:process-nextick-args@1.0.7": {
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:process@0.11.10": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",

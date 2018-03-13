@@ -4391,9 +4391,17 @@ matchdep@^2.0.0:
     resolve "^1.4.0"
     stack-trace "0.0.10"
 
+material-design-icons@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/material-design-icons/-/material-design-icons-3.0.1.tgz#9a71c48747218ebca51e51a66da682038cdcb7bf"
+
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
+
+mdi@^2.1.99:
+  version "2.1.99"
+  resolved "https://registry.yarnpkg.com/mdi/-/mdi-2.1.99.tgz#5cf54101735d0aefe55f7cc544bc554fe8689319"
 
 media-typer@0.3.0:
   version "0.3.0"

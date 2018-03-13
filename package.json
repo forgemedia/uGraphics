@@ -25,6 +25,8 @@
     "jspm": "^0.16.53",
     "jspm-github": "0.13.18",
     "lodash": "^4.17.5",
+    "material-design-icons": "^3.0.1",
+    "mdi": "^2.1.99",
     "moment": "^2.18.1",
     "popper.js": "^1.12.9",
     "postcss-cssnext": "^2.10.0",
