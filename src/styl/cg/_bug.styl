@@ -11,20 +11,11 @@ $bugsegment-height = 6vh
         position absolute
         top $margin-y
         height $bugsegment-height
-        box-shadow $shadow_standard
-
-        // &:after
-        //     position absolute
-        //     z-index -1
-        //     width 120%
-        //     height 100%
-        //     transform skewX(-22deg) translateX(-10%)
 
     #bug
-        background $grey1-gradient-tb
+        @extend $grey1-texture-style
         padding-left $margin-x
         z-index 1
-        border-top 1px solid $grey3
 
         #logo
             height 100%
@@ -43,14 +34,12 @@ $bugsegment-height = 6vh
         border-radius 0 0.5vw 0.5vw 0
 
     #clock
+        @extend $grey9-texture-style
         margin-left $bug-total-width
         width 10vw
         z-index 0
         text-align center
-        background $grey9-gradient-tb
         border-radius 0 0.5vw 0.5vw 0
-        border-top 1px solid white
-        border-bottom 1px solid $grey5
         
         span
             position relative

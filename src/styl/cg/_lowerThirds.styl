@@ -1,11 +1,11 @@
 @require '_variables';
 
-$lt_background = $grey1-gradient-tb
-
 [fg-component=lowerThirds]
     width $width-x
 
     #lt1
+        @extend $grey1-texture-style
+
         // Metrics
         position absolute
         width $width-x
@@ -13,13 +13,9 @@ $lt_background = $grey1-gradient-tb
         bottom $margin-y
 
         // Style
-        background $lt_background
         border-radius 0.5vw
-        box-shadow $shadow_standard
-        border-top 1px solid $grey5
 
         span[fg-trigger-data="lt1_text1"]
             font-size 5vh
             font-weight bold
-            color white
             vertical-align 25%

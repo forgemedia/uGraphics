@@ -13,3 +13,16 @@ $grey1-gradient-tb = linear-gradient(to bottom, $grey1, darken($grey1, 20%));
 $grey9-gradient-tb = linear-gradient(to bottom, $grey9, darken($grey9, 20%));
 
 $shadow_standard = 0 0.25vh 2vh 0 alpha(black, 0.25)
+
+$grey1-texture-style
+    background $grey1-gradient-tb
+    border-top 1px solid $grey3
+    color white
+    box-shadow $shadow_standard
+
+$grey9-texture-style
+    background $grey9-gradient-tb
+    border-top 1px solid white
+    border-bottom 1px solid $grey5
+    color $grey1
+    box-shadow $shadow_standard
