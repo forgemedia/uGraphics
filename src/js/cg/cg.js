@@ -9,6 +9,7 @@ import Rivets from 'rivets';
 // Custom module imports
 import BugCtrl from './controllers/bug';
 import LowerThirdsCtrl from './controllers/lowerThirds';
+import SportsCtrl from './controllers/sport';
 
 import Clock from './modules/clock';
 
@@ -21,7 +22,8 @@ $('[fg-show]').each((i, v) => $(v).hide());
 /** A store of controller objects */
 let controllers = {
     bug: BugCtrl,
-    lowerThirds: LowerThirdsCtrl
+    lowerThirds: LowerThirdsCtrl,
+    sport: SportsCtrl
 };
 
 /** A store of binding objects */

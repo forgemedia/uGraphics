@@ -15,6 +15,7 @@ import Bootstrap from 'bootstrap';
 import BugCtrl from './controllers/bug';
 import MaintenanceCtrl from './controllers/maintenance';
 import LowerThirdsCtrl from './controllers/lowerThirds';
+import SportsCtrl from './controllers/sport';
 
 console.log('dash: begin');
 
@@ -37,6 +38,10 @@ let controllers = {
     lowerThirds: {
         name: 'Lower Thirds',
         controller: LowerThirdsCtrl
+    },
+    sport: {
+        name: 'Clocks & Scoring',
+        controller: SportsCtrl
     },
     maintenance: {
         name: 'Maintenance',

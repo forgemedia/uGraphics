@@ -1,6 +1,6 @@
 {
     "locals": {
-        "product": "Forge Graphics Server",
+        "product": "Forge Graphics Thing",
         "project": "Gen3",
         "copyright": "Forge Media"
     },
@@ -32,7 +32,8 @@
     "sockets": [
         "bug",
         "lowerThirds",
-        "maintenance"
+        "maintenance",
+        "sport"
     ],
     "initDataStore": {
         "bug": {
@@ -42,6 +43,7 @@
         "lowerThirds": {
             "queue_lt1": [ { "lt1_text1": "Example lower third" } ],
             "currentQueueInput": { "lt1": { "lt1_text1": "" } }
-        }
+        },
+        "sport": {}
     }
 }
