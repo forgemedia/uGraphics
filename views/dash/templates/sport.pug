@@ -1,0 +1,12 @@
+include mixins/checkbox
+include mixins/textbox
+include mixins/combo
+include mixins/card
+div(fg-panel='sport')
+    .container
+        .card-columns
+            +live-card('showTimer')
+                .card-header
+                    h4.card-title Timer
+                ul.list-group.list-group-flush
+                    li.list-group-item: +checkbox('Show timer', 'showTimer')

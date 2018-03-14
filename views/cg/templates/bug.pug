@@ -1,8 +1,8 @@
 div(fg-component='bug')
     #mainbug(rv-fgshow='showBug' fg-anim='slide-x' fg-translateX='-7vw')
-        .bugsegment#bug(fg-anim='slide-x' fg-translateX='-7vw' fg-delay-out=300 rv-class-roundright='showClock | not')
+        #bug(fg-anim='slide-x' fg-translateX='-7vw' fg-delay-out=300 rv-class-roundright='showClock | not')
             #logo: img(rv-src='bugLogo')
-        .bugsegment#clock(rv-fgshow='methods.and | call showClock showBug' fg-anim='slide-x' fg-translateX='-7vw')
+        #clock(rv-fgshow='methods.and | call showClock showBug' fg-anim='slide-x' fg-translateX='-7vw')
             span(fg-clock fg-clock-format='HH:MM')
     .mcontainer
         span#hashtag(fg-show='showHashtag' fg-anim='fade' fg-opacity='0.75') \#{hashtag}

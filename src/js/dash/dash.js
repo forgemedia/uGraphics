@@ -40,7 +40,7 @@ let controllers = {
         controller: LowerThirdsCtrl
     },
     sport: {
-        name: 'Clocks & Scoring',
+        name: 'Sports',
         controller: SportsCtrl
     },
     maintenance: {
