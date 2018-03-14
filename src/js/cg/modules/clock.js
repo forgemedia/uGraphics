@@ -6,10 +6,10 @@ import Moment from 'moment';
  * with an fg-clock attribute to the current time, every second
  * @return {Number} The ID of the timer that was set
  */
-export default () => {
+export default controller => {
     // Tick every second
     let tickFn = () => {
-        $('[fg-clock]').each((i, v) => { 
+        controller.element.find('[fg-clock]').each((i, v) => { 
             let el = $(v);
             el.text(Moment().format(el.attr('fg-clock-format') || 'HH:MM'));
         });

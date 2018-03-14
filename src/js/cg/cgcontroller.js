@@ -15,6 +15,8 @@ let dataStoreBacking = {
 /** Graphics that are currently in progress */
 let inProgress = {};
 
+let subscriptions = {};
+
 let animateElement = (property, show) => {
     $(`[fg-show=${property}]`).each((i, v) => {
         // $(v).find('[fg-show]').each((ai, av) => {
@@ -70,6 +72,11 @@ export default class CGController {
         $(() => this.io.emit(`${this.name}:get`));
     }
 
+    cgTriggerSubscribe(id, callback) {
+        if (!subscriptions[id]) subscriptions[id] = [];
+        return subscriptions[id].push(callback);
+    }
+
     /** Sets up socket message handler functions for the controller */
     cgSetSocketHandlers() {
         // When a sync message is received...
@@ -84,24 +91,29 @@ export default class CGController {
         // When a trigger message is received...
         this.io.on(`${this.name}:trigger`, msg => {
             // Send a log to the console for debugging purposes
-            console.log(`${this.name}: received ${this.name}: trigger, ${JSON.stringify(msg)}`);
+            console.log(`${this.name}: received ${this.name}:trigger, ${JSON.stringify(msg)}`);
 
             // Keep a record of the event id contained in the msg object
             let id = msg.id;
+            if (subscriptions[id])
+                for (let callback of subscriptions[id])
+                    callback(msg.data);
 
             // If there's a suitable element to animate, trigger the animation for
             // that element
-            let elementToAnimate = $(`[fg-trigger-anim='${id}']`);
-            if (elementToAnimate) this.cgTriggerAnimate(
+            $(`[fg-trigger-anim='${id}']`).each((i, v) => {
+                let el = $(v);
+                this.cgTriggerAnimate(
                 id,
-                elementToAnimate,
+                el,
                 msg.data,
-                elementToAnimate.attr('fg-anim-duration') || 5000
-            );
+                el.attr('fg-anim-duration') || 5000
+            )
+            });
 
-            // Otherwise, if there's a corresponding method, execute it, passing
+            // if there's a corresponding method, execute it, passing
             // the data contained in the msg object as the only argument
-            else if (this.methods[id]) this.methods[id](msg.data);
+            if (this.methods[id]) this.methods[id](msg.data);
         });
     }
 

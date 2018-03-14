@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 export default controller => {
     console.log(`${controller.name}: queue module`);
-    $('[fg-queue-add]').each((i, v) => {
+    controller.element.find('[fg-queue-add]').each((i, v) => {
         let el = $(v);
         let ar = el.attr('fg-queue-add');
 
