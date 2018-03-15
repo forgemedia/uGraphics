@@ -17,11 +17,11 @@ let format = seconds => {
 
 let update = id => {
     let counter = timers[id].counter;
-    if (counter == timers[id].limiter) clearInterval(timers[id].cinterval);
     let elems = $(`[fg-timer='${id}']`);
     if (counter < 0) elems.addClass('timer-negative');
     else elems.removeClass('timer-negative');
     elems.text(format(counter));
+    if (counter == timers[id].limiter) clearInterval(timers[id].cinterval);
 }
 
 let start = id => {
@@ -53,6 +53,12 @@ let set = data => {
     update(data.id);
 };
 
+let lset = data => {
+    if (!timers[data.id]) set(data);
+    if (data.limiter < 0) timers[data.id].limiter = null;
+    timers[data.id].limiter = data.limiter || timers[data.id].limiter || null;
+};
+
 let stop = id => {
     console.log(`- Timer stop ${id}`);
     if (timers[id] && timers[id].cinterval) {
@@ -78,6 +84,7 @@ export default controller => {
             case 'stop': stop(data.id); break;
             case 'down': down(data.id); break;
             case 'add': add(data); break;
+            case 'lset': lset(data); break;
             default: break;
         }
     });

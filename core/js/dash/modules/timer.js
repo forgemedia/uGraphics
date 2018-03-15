@@ -14,7 +14,7 @@ export default controller => {
                 op: op,
                 id: id,
                 counter: el.attr('fg-timer-counter') || 0,
-                limiter: el.attr('fg-timer-limiter') || null
+                limiter: el.attr('fg-timer-limiter') || -1
             });
         });
     });
