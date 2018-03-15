@@ -4,7 +4,6 @@
         "project": "Varsity Season 2018",
         "copyright": "Forge"
     },
-    "viewDirectories": [ "varsity18/views", "core/views" ],
     "publicDirs": {
         "js": [ "core/js" ],
         "js/local": [ "varsity18/js" ],
@@ -26,7 +25,9 @@
         ],
         "stylIncludePaths": [
             "node_modules/"
-        ]
+        ],
+        "stylSrcDir": "varsity18/styl",
+        "viewDirectories": [ "varsity18/views", "core/views" ]
     },
     "sockets": [
         "bug",

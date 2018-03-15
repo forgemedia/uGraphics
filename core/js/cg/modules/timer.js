@@ -9,15 +9,18 @@ let padNum = (num, len) => {
 }
 
 let format = seconds => {
-    let negative = seconds < 0;
-    if (negative) seconds *= -1;
+    if (seconds < 0) seconds *= -1;
     let minutes = Math.floor(seconds/60);
     seconds %= 60;
-    return `${negative? '-' : ''}${padNum(minutes, 2)}:${padNum(seconds, 2)}`;
+    return `${padNum(minutes, 2)}:${padNum(seconds, 2)}`;
 }
 
 let update = id => {
-    $(`[fg-timer='${id}']`).text(format(timers[id].counter));
+    let counter = timers[id].counter;
+    let elems = $(`[fg-timer='${id}']`);
+    if (counter < 0) elems.addClass('timer-negative');
+    else elems.removeClass('timer-negative');
+    elems.text(format(counter));
 }
 
 let start = id => {

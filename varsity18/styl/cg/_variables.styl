@@ -6,6 +6,8 @@ $width-x = 100vw - ($margin-x * 2)
 $bugsegment-height = 6vh
 $bugsegment-border-radius = 0.5vw
 
+$red = #d22630;
+
 $grey1 = #2c2c2c;
 $grey3 = #5b5b5b;
 $grey5 = #9a9a9a;
@@ -14,6 +16,7 @@ $grey9 = #ededed;
 
 $grey1-gradient-tb = linear-gradient(to bottom, $grey1, darken($grey1, 20%));
 $grey9-gradient-tb = linear-gradient(to bottom, $grey9, darken($grey9, 20%));
+$red-gradient-tb = linear-gradient(to bottom, $red, darken($red, 20%));
 
 $shadow_standard = 0 0.25vh 2vh 0 alpha(black, 0.25)
 
@@ -28,6 +31,13 @@ $grey9-texture-style
     border-top 1px solid white
     border-bottom 1px solid $grey5
     color $grey1
+    box-shadow $shadow_standard
+
+$red-texture-style
+    background $red-gradient-tb
+    border-top 1px solid lighten($red, 50%);
+    border-bottom 1px solid darken($red, 50%)
+    color white
     box-shadow $shadow_standard
 
 $bugsegment

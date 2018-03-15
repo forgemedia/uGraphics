@@ -20,12 +20,12 @@ import 'pug'; // So that pkg works
 // Import config and modules from project
 import DashRouter from './dashrouter';
 import * as StylesheetMiddleware from './stylesheet';
-import * as SocketHandler from './socketHandler';
+import SHClass from './socketHandler';
 
 // -----------------------------------------------------------------------------
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
-console.log('Imports complete, configuring Winston');
+console.log('Configuring Winston');
 let consoleTransport = new Winston.transports.Console({
     format: Winston.format.combine(
         Winston.format.colorize(),
@@ -35,30 +35,6 @@ export let logger = Winston.createLogger({
     transports: [ consoleTransport ],
     level: Shared.Debug? 'silly' : 'info'
 });
-
-// Parse command line options with Yargs, taking defaults from config.json
-logger.silly(`Parsing command-line options`);
-/** The command-line arguments as read in with Yargs */
-let argv = Yargs
-    .option('config', {
-        alias: 'c',
-        describe: 'The config file to load',
-        type: 'string'
-    })
-    .option('port', {
-        alias: 'p',
-        describe: 'Port to listen on',
-        type: 'number'
-    })
-    .default({
-        port: 3000,
-        config: 'config.json'
-    })
-    .usage(`Forge Graphics Server \nUsage: $0 [-c config] [-p port]`)
-    .help().alias('h', 'help')
-    .argv;
-
-Shared.LoadConfig(argv.config);
 
 logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
 logger.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
@@ -72,7 +48,7 @@ logger.silly(`Configuring Express app`);
 export let app = Express();
 /** The HTTP server that serves up {@link app} */
 export let server = HTTP.createServer(app);
-app.set('views', Shared.Config.viewDirectories);
+app.set('views', Shared.Config.frontend.viewDirectories);
 app.set('view engine', 'pug');
 app.set('view options', { debug: false });
 app.locals = _.assign(Shared.Config.locals, { ugr_debug: Shared.Debug, basedir: Shared.CWD });
@@ -110,16 +86,16 @@ export let io = SocketIOServer(server, {
     wsEngine: "ws"
 });
 
+let SocketHandler = new SHClass(Shared.Config.sockets, Shared.Config.initDataStore);
+
 // Start the Express app listening on the specified port
-server.listen(argv.port, () => {
+server.listen(Shared.argv.port, () => {
     // Log some stuff
-    logger.info(`Listening on port ${argv.port}`);
+    logger.info(`Listening on port ${Shared.argv.port}`);
     logger.debug('Debug enabled');
 
     // On any connection, handle it with the function defined in socketHandler.ts
     io.on('connection', SocketHandler.handleSocket);
-
-    SocketHandler.setTick();
 });
 
 // -----------------------------------------------------------------------------
