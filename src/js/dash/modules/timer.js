@@ -6,11 +6,14 @@ export default controller => {
         let el = $(v);
         let id = el.attr('fg-timer-id');
         let op = el.attr('fg-timer-op');
+        let counter = el.attr('fg-timer-counter');
         if (!op) return;
         
         el.click(() => {
             controller.trigger(`timer`, {
-                op: op
+                op: op,
+                id: id,
+                counter: el.attr('fg-timer-counter') || 0
             });
         });
     });
