@@ -36,22 +36,32 @@ export let logger = Winston.createLogger({
     level: Shared.Debug? 'silly' : 'info'
 });
 
-logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
-logger.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
-
 // Parse command line options with Yargs, taking defaults from config.json
 logger.silly(`Parsing command-line options`);
 /** The command-line arguments as read in with Yargs */
 let argv = Yargs
+    .option('config', {
+        alias: 'c',
+        describe: 'The config file to load',
+        type: 'string'
+    })
     .option('port', {
         alias: 'p',
         describe: 'Port to listen on',
         type: 'number'
     })
-    .default(Shared.Config.defaults)
-    .usage(`Forge Graphics Server (${Shared.Config.project})\nUsage: $0 [-p port]`)
+    .default({
+        port: 3000,
+        config: 'config.json'
+    })
+    .usage(`Forge Graphics Server \nUsage: $0 [-c config] [-p port]`)
     .help().alias('h', 'help')
     .argv;
+
+Shared.LoadConfig(argv.config);
+
+logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
+logger.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
 
 // -----------------------------------------------------------------------------
 // - EXPRESS APP ---------------------------------------------------------------

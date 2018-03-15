@@ -12,12 +12,8 @@ export let Debug = process.env.UGR_ENV == 'debug';
  */
 export let CWD = process.cwd();
 
-export let Config = LoadConfig();
+export let Config = {};
 
-export function UpdateConfig() {
-    Config = LoadConfig();
-}
-
-function LoadConfig() {
-    return JSON.parse(FS.readFileSync('config.json'));
+export function LoadConfig(path) {
+    Config = JSON.parse(FS.readFileSync(path));
 }

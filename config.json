@@ -1,11 +1,8 @@
 {
     "locals": {
         "product": "Forge Graphics Thing",
-        "project": "Gen3",
-        "copyright": "Forge Media"
-    },
-    "defaults": {
-        "port": 3000
+        "project": "Varsity Season 2018",
+        "copyright": "Forge"
     },
     "viewDirectories": [ "varsity18/views", "global/views" ],
     "publicDirs": {
