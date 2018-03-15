@@ -1,10 +1,23 @@
 import $ from 'jquery';
 import _ from 'lodash';
+import Numeral from 'numeral';
 
 let timers = {};
 
+let padNum = (num, len) => {
+    return num.toString().padStart(len, '0');
+}
+
+let format = seconds => {
+    let negative = seconds < 0;
+    if (negative) seconds *= -1;
+    let minutes = Math.floor(seconds/60);
+    seconds %= 60;
+    return `${negative? '-' : ''}${padNum(minutes, 2)}:${padNum(seconds, 2)}`;
+}
+
 let update = id => {
-    $(`[fg-timer='${id}']`).text(timers[id].counter);
+    $(`[fg-timer='${id}']`).text(format(timers[id].counter));
 }
 
 let start = id => {
@@ -26,6 +39,7 @@ let down = id => {
 }
 
 let set = data => {
+    stop(data.id)
     timers[data.id] = {
         counter: data.counter || 0,
         direction: data.direction || 'up',

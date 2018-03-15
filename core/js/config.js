@@ -24,6 +24,7 @@ System.config({
     "lodash": "npm:lodash@4.17.4",
     "moment": "npm:moment@2.21.0",
     "navigo": "npm:navigo@4.7.1",
+    "numeral": "npm:numeral@2.0.6",
     "octicons": "npm:octicons@7.1.0",
     "primer/octicons": "github:primer/octicons@7.1.0",
     "rivets": "npm:rivets@0.9.6",
@@ -170,6 +171,9 @@ System.config({
     },
     "npm:navigo@4.7.1": {
       "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:numeral@2.0.6": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:octicons@7.1.0": {

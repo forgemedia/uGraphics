@@ -50,7 +50,7 @@ Gulp.task('rundbg', () => {
             'package.json',
             'gulpfile.js',
             'varsity18',
-            'global',
+            'core',
             'output'
         ],
         restartable: false

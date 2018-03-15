@@ -4,15 +4,40 @@ include /core/mixins/combo
 include /core/mixins/card
 div(fg-panel='sport')
     .container
-        .card-columns
-            +live-card('showTimer')
-                .card-header
-                    h4.card-title Timer
-                ul.list-group.list-group-flush
-                    li.list-group-item: +checkbox('Show timer', 'showTimer')
-                    li.list-group-item: .btn-group
-                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='set') Set
-                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='start') Up
-                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='down') Down
-                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='stop') Stop
-                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='40') +40
+        +live-card('showTimer')
+            .card-header
+                h4.card-title Timer
+                p.card-text
+                | The timer appears in the top right hand corner of the screen.
+                | Press 'Reset' to initialise the timer before you show it for the first time, or if it shows --:-- on screen.
+            ul.list-group.list-group-flush
+                li.list-group-item: +checkbox('Show timer', 'showTimer')
+                li.list-group-item: .btn-group
+                    button.btn.btn-warning.mdi.mdi-timer(fg-timer-id='timer1' fg-timer-op='set') Reset
+                    button.btn.btn-success.mdi.mdi-step-backward(fg-timer-id='timer1' fg-timer-op='down')
+                    button.btn.btn-danger.mdi.mdi-pause(fg-timer-id='timer1' fg-timer-op='stop')
+                    button.btn.btn-success.mdi.mdi-step-forward(fg-timer-id='timer1' fg-timer-op='start')
+                li.list-group-item
+                    .btn-group
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-3600') -60m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-1800') -30m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-600') -10m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-300') -5m
+                    .btn-group.float-right
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='300') +5m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='600') +10m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='1800') +30m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='3600') +60m
+                li.list-group-item
+                    .btn-group
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-60') -1m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-30') -30
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-10') -10
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-5') -5
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='-1') -1
+                    .btn-group.float-right
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='1') +1m
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='5') +5
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='10') +10
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='30') +30
+                        button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='60') +1m
