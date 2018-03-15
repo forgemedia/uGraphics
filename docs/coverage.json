@@ -1,7 +1,7 @@
 {
-  "coverage": "70.58%",
-  "expectCount": 68,
-  "actualCount": 48,
+  "coverage": "60.25%",
+  "expectCount": 78,
+  "actualCount": 47,
   "files": {
     "ugraphics/core/js/cg/cgAnimate.js": {
       "expectCount": 7,
@@ -30,17 +30,21 @@
       "undocumentLines": []
     },
     "ugraphics/core/js/cg/modules/timer.js": {
-      "expectCount": 8,
+      "expectCount": 12,
       "actualCount": 0,
       "undocumentLines": [
-        4,
+        5,
         6,
-        10,
+        8,
+        12,
         19,
         28,
         37,
-        45,
-        52
+        46,
+        59,
+        66,
+        74,
+        81
       ]
     },
     "ugraphics/core/js/dash/dashcontroller.js": {
@@ -76,29 +80,37 @@
     },
     "ugraphics/server.js": {
       "expectCount": 7,
-      "actualCount": 4,
+      "actualCount": 3,
       "undocumentLines": [
         29,
         34,
-        128
+        89,
+        104
       ]
     },
     "ugraphics/shared.js": {
-      "expectCount": 4,
-      "actualCount": 2,
+      "expectCount": 7,
+      "actualCount": 3,
       "undocumentLines": [
-        15,
-        17
+        16,
+        17,
+        18,
+        40
       ]
     },
     "ugraphics/socketHandler.js": {
-      "expectCount": 5,
+      "expectCount": 9,
       "actualCount": 5,
-      "undocumentLines": []
+      "undocumentLines": [
+        10,
+        47,
+        48,
+        57
+      ]
     },
     "ugraphics/stylesheet.js": {
-      "expectCount": 2,
-      "actualCount": 2,
+      "expectCount": 1,
+      "actualCount": 1,
       "undocumentLines": []
     }
   }

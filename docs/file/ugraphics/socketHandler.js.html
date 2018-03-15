@@ -29,11 +29,9 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitTrigger">emitTrigger</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-handleSocket">handleSocket</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setTick">setTick</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -43,7 +41,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
@@ -61,22 +59,20 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { logger, io } from &apos;./server&apos;;
 import FS from &apos;fs&apos;;
 import _ from &apos;lodash&apos;;
-import Config from &apos;./config&apos;;
 
 /**
  * The central/master sync data store for all of the components
  * @type {Object}
  */
-export let dataStore = {};
-for (let socket of Config.sockets)
-    dataStore[socket] = Config.initDataStore[socket] || {};
+let dataStore = {};
+let sockets = {};
 
 /**
  * Emits a sync state for the named component
  * @param {string} socketName The name of the component
  * @param {Object} [delta] If present, will emit only this as a delta object
  */
-export let emitSynf = (socketName, delta) =&gt; {
+let emitSynf = (socketName, delta) =&gt; {
     // Emit it over socket
     io.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 
@@ -89,7 +85,7 @@ export let emitSynf = (socketName, delta) =&gt; {
  * @param {string} socketName The name of the component
  * @param {Object} msg The object to emit as accompanying data
  */
-export let emitTrigger = (socketName, msg) =&gt; {
+let emitTrigger = (socketName, msg) =&gt; {
     // Emit it over socket
     io.emit(`${socketName}:trigger`, msg);
 
@@ -98,56 +94,71 @@ export let emitTrigger = (socketName, msg) =&gt; {
 };
 
 /** Sets up a sixty-second tick interval to keep the system in sync */
-export let setTick = () =&gt; {
+let setTick = () =&gt; {
     // Every n seconds, emit a sync event for each socket
     setInterval(() =&gt; {
         logger.verbose(&apos;Tick&apos;);
-        for (let socketName of Config.sockets) emitSynf(socketName);
+        for (let socketName of sockets) emitSynf(socketName);
     }, 60000);
 };
 
-/**
- * Called whenever a socket needs to be handled
- * @param {socket} socket The socket that needs to be handled
- */
-export let handleSocket = socket =&gt; {
-    // Get the IP address that&apos;s connecting and log it
-    let address = socket.request.connection.remoteAddress;
-    logger.verbose(`Connection from ${address}`);
-    
-    // For each socket defined in config.json, set a method to handle it
-    for (let socketName of Config.sockets) {
-        // When a sync message is received...
-        socket.on(`${socketName}:sync`, msg =&gt; {
-            // Log it
-            logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
+export default class {
+    constructor(isockets, initDataStore) {
+        sockets = isockets;
 
-            // Assign the received message into the respective data store
-            _.assign(dataStore[socketName], msg);
+        for (let socket of sockets)
+            dataStore[socket] = initDataStore[socket] || {};
 
-            // Emit it again on the same socket so other clients can pick it up
-            emitSynf(socketName, msg);
-        });
-
-        // When a get message is received...
-        socket.on(`${socketName}:get`, () =&gt; {
-            // Log it
-            logger.debug(`Get  on ${socketName}:get`);
-
-            // Emit the relevant state from the data store again
-            emitSynf(socketName);
-        });
-
-        // When a trigger message is received...
-        socket.on(`${socketName}:trigger`, msg =&gt; {
-            // Log it
-            logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
-
-            // Pass it on
-            emitTrigger(socketName, msg);
-        });
+        setTick();
     }
-};
+
+    getStore(id) {
+        return dataStore[id];
+    }
+
+    /**
+     * Called whenever a socket needs to be handled
+     * @param {socket} socket The socket that needs to be handled
+     */
+    handleSocket(socket) {
+        // Get the IP address that&apos;s connecting and log it
+        let address = socket.request.connection.remoteAddress;
+        logger.verbose(`Connection from ${address}`);
+        
+        // For each socket defined in config.json, set a method to handle it
+        for (let socketName of sockets) {
+            // When a sync message is received...
+            socket.on(`${socketName}:sync`, msg =&gt; {
+                // Log it
+                logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
+
+                // Assign the received message into the respective data store
+                _.assign(dataStore[socketName], msg);
+
+                // Emit it again on the same socket so other clients can pick it up
+                emitSynf(socketName, msg);
+            });
+
+            // When a get message is received...
+            socket.on(`${socketName}:get`, () =&gt; {
+                // Log it
+                logger.debug(`Get  on ${socketName}:get`);
+
+                // Emit the relevant state from the data store again
+                emitSynf(socketName);
+            });
+
+            // When a trigger message is received...
+            socket.on(`${socketName}:trigger`, msg =&gt; {
+                // Log it
+                logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
+
+                // Pass it on
+                emitTrigger(socketName, msg);
+            });
+        }
+    };
+}
 </code></pre>
 
 </div>

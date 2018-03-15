@@ -29,11 +29,9 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitTrigger">emitTrigger</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-handleSocket">handleSocket</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setTick">setTick</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -43,7 +41,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
@@ -65,29 +63,27 @@ import PostCSSMiddleware from &apos;postcss-middleware&apos;;
 import Stylus from &apos;stylus&apos;;
 import FS from &apos;fs&apos;;
 
-import Config from &apos;./config&apos;;
-import { Debug, CWD } from &apos;./shared&apos;;
-
-// - STYLESHEET PROCESSING -----------------------------------------------------
-/** The plugins that PostCSS should use when postprocessing */
-let postCSSPlugins = [
-    Cssnext({
-        browsers: Config.frontend.browserSupport
-    })
-];
-if (Debug) postCSSPlugins.push(
-    Cssnano({
-        autoprefixer: false
-    })
-);
+import { Debug, CWD, Config, LoadConfig } from &apos;./shared&apos;;
 
 /**
  * Sets up an Express app to serve up compiled and postprocessed Stylus stylesheets
  * @param {express} app The app to be configured
  */
 export let Styl = app =&gt; {
+    // - STYLESHEET PROCESSING -----------------------------------------------------
+    /** The plugins that PostCSS should use when postprocessing */
+    let postCSSPlugins = [
+        Cssnext({
+            browsers: Config.frontend.browserSupport
+        })
+    ];
+    if (Debug) postCSSPlugins.push(
+        Cssnano({
+            autoprefixer: false
+        })
+    );
     app.use(Stylus.middleware({
-        src: Path.join(CWD, &apos;src&apos;),
+        src: Path.join(CWD, Config.frontend.stylSrcDir),
         dest: Path.join(CWD, &apos;output&apos;),
         compile: (str, path) =&gt; Stylus(str)
             .set(&apos;filename&apos;, path)

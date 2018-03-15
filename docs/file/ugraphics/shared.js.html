@@ -29,11 +29,9 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitTrigger">emitTrigger</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-handleSocket">handleSocket</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setTick">setTick</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -43,7 +41,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
@@ -59,6 +57,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">ugraphics/shared.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import FS from &apos;fs&apos;;
+import Yargs from &apos;yargs&apos;;
 
 /**
  * Is the debug environment variable set? Used to set up some useful development things
@@ -73,10 +72,39 @@ export let Debug = process.env.UGR_ENV == &apos;debug&apos;;
 export let CWD = process.cwd();
 
 export let Config = {};
+let ConfigPath = &apos;&apos;;
+export let argv = {};
+
+/** The command-line arguments as read in with Yargs */
+export let ParseArgs = () =&gt; Yargs
+    .option(&apos;config&apos;, {
+        alias: &apos;c&apos;,
+        describe: &apos;The config file to load&apos;,
+        type: &apos;string&apos;
+    })
+    .option(&apos;port&apos;, {
+        alias: &apos;p&apos;,
+        describe: &apos;Port to listen on&apos;,
+        type: &apos;number&apos;
+    })
+    .default({
+        port: 3000,
+        config: &apos;config.json&apos;
+    })
+    .usage(`Forge Graphics Server \nUsage: $0 [-c config] [-p port]`)
+    .help().alias(&apos;h&apos;, &apos;help&apos;)
+    .argv;
 
 export function LoadConfig(path) {
-    Config = JSON.parse(FS.readFileSync(path));
+    if (!path) Config = JSON.parse(FS.readFileSync(argv.config));
+    else {
+        ConfigPath = path;
+        Config = JSON.parse(FS.readFileSync(ConfigPath));
+    }
 }
+
+argv = ParseArgs();
+LoadConfig();
 </code></pre>
 
 </div>

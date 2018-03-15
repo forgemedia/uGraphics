@@ -1250,7 +1250,7 @@
     "__docId__": 76,
     "kind": "file",
     "name": "ugraphics/core/js/cg/modules/timer.js",
-    "content": "import $ from 'jquery';\nimport _ from 'lodash';\n\nlet timers = {};\n\nlet update = id => {\n    $(`[fg-timer='${id}']`).text(timers[id].counter);\n}\n\nlet start = id => {\n    if (!timers[id] || timers[id].cinterval) return;\n    console.log(`- Timer start ${id}`);\n    timers[id].cinterval = setInterval(() => {\n        console.log(`- Timer ctick ${id}, ${timers[id].counter++}`);\n        update(id);\n    }, 1000);\n};\n\nlet down = id => {\n    if (!timers[id] || timers[id].cinterval) return;\n    console.log(`- Timer down ${id}`);\n    timers[id].cinterval = setInterval(() => {\n        console.log(`- Timer dtick ${id}, ${timers[id].counter--}`);\n        update(id);\n    }, 1000);\n}\n\nlet set = data => {\n    timers[data.id] = {\n        counter: data.counter || 0,\n        direction: data.direction || 'up',\n        cinterval: null\n    }\n    update(data.id);\n};\n\nlet stop = id => {\n    console.log(`- Timer stop ${id}`);\n    if (timers[id] && timers[id].cinterval) {\n        clearInterval(timers[id].cinterval);\n        timers[id].cinterval = null;\n    }\n}\n\nlet add = data => {\n    if (!timers[data.id]) return;\n    console.log(`- Timer add ${data.id}, ${data.counter}`);\n    timers[data.id].counter += parseInt(data.counter) || 0;\n    update(data.id);\n}\n\nexport default controller => {\n    console.log(`${controller.name}: timer module`);\n    controller.cgTriggerSubscribe('timer', data => {\n        console.log(`${controller.name}: timer trigger ${JSON.stringify(data)}`);\n        switch (data.op) {\n            case 'start': start(data.id); break;\n            case 'set': set(data); break;\n            case 'stop': stop(data.id); break;\n            case 'down': down(data.id); break;\n            case 'add': add(data); break;\n            default: break;\n        }\n    });\n};\n",
+    "content": "import $ from 'jquery';\nimport _ from 'lodash';\nimport Numeral from 'numeral';\n\nlet timers = {};\nlet elems = {};\n\nlet padNum = (num, len) => {\n    return num.toString().padStart(len, '0');\n}\n\nlet format = seconds => {\n    if (seconds < 0) seconds *= -1;\n    let minutes = Math.floor(seconds/60);\n    seconds %= 60;\n    return `${padNum(minutes, 2)}:${padNum(seconds, 2)}`;\n}\n\nlet update = id => {\n    let counter = timers[id].counter;\n    if (counter < 0) elems[id].addClass('timer-negative');\n    else elems[id].removeClass('timer-negative');\n    elems[id].text(format(counter));\n    if (timers[id].lmode == 'hard' && counter == timers[id].limiter) clearInterval(timers[id].cinterval);\n    if (counter == timers[id].limiter) elems[id].addClass('timer-overtime');\n}\n\nlet start = id => {\n    if (!timers[id] || timers[id].cinterval) return;\n    console.log(`- Timer start ${id}`);\n    timers[id].cinterval = setInterval(() => {\n        console.log(`- Timer ctick ${id}, ${timers[id].counter++}`);\n        update(id);\n    }, 1000);\n};\n\nlet down = id => {\n    if (!timers[id] || timers[id].cinterval) return;\n    console.log(`- Timer down ${id}`);\n    timers[id].cinterval = setInterval(() => {\n        console.log(`- Timer dtick ${id}, ${timers[id].counter--}`);\n        update(id);\n    }, 1000);\n}\n\nlet set = data => {\n    stop(data.id);\n    elems[data.id].removeClass('timer-overtime timer-negative');\n    timers[data.id] = {\n        counter: data.counter || 0,\n        direction: data.direction || 'up',\n        cinterval: null,\n        limiter: data.limiter || null,\n        lmode: data.lmode || 'soft'\n    }\n    update(data.id);\n};\n\nlet lset = data => {\n    if (!timers[data.id]) set(data);\n    if (data.limiter < 0) timers[data.id].limiter = null;\n    timers[data.id].limiter = data.limiter || timers[data.id].limiter || null;\n    timers[data.id].lmode = data.lmode || timers[data.id].lmode || 'soft';\n};\n\nlet stop = id => {\n    console.log(`- Timer stop ${id}`);\n    if (timers[id] && timers[id].cinterval) {\n        clearInterval(timers[id].cinterval);\n        timers[id].cinterval = null;\n    }\n}\n\nlet add = data => {\n    if (!timers[data.id]) return;\n    console.log(`- Timer add ${data.id}, ${data.counter}`);\n    timers[data.id].counter += parseInt(data.counter) || 0;\n    update(data.id);\n}\n\nexport default controller => {\n    console.log(`${controller.name}: timer module`);\n    controller.cgTriggerSubscribe('timer', data => {\n        elems[data.id] = controller.element.find(`[fg-timer='${data.id}']`);\n        console.log(`${controller.name}: timer trigger ${JSON.stringify(data)}`);\n        switch (data.op) {\n            case 'start': start(data.id); break;\n            case 'set': set(data); break;\n            case 'stop': stop(data.id); break;\n            case 'down': down(data.id); break;\n            case 'add': add(data); break;\n            case 'lset': lset(data); break;\n            default: break;\n        }\n    });\n};\n",
     "static": true,
     "longname": "/Users/harry/Developer/Builds/ugraphics/core/js/cg/modules/timer.js",
     "access": "public",
@@ -1269,7 +1269,7 @@
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 4,
+    "lineNumber": 5,
     "undocument": true,
     "type": {
       "types": [
@@ -1280,13 +1280,11 @@
   },
   {
     "__docId__": 78,
-    "kind": "function",
-    "name": "update",
+    "kind": "variable",
+    "name": "elems",
     "memberof": "ugraphics/core/js/cg/modules/timer.js",
-    "generator": false,
-    "async": false,
     "static": true,
-    "longname": "ugraphics/core/js/cg/modules/timer.js~update",
+    "longname": "ugraphics/core/js/cg/modules/timer.js~elems",
     "access": "public",
     "export": false,
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
@@ -1294,53 +1292,90 @@
     "description": null,
     "lineNumber": 6,
     "undocument": true,
-    "params": [
-      {
-        "name": "id",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    },
     "ignore": true
   },
   {
     "__docId__": 79,
     "kind": "function",
-    "name": "start",
+    "name": "padNum",
     "memberof": "ugraphics/core/js/cg/modules/timer.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/core/js/cg/modules/timer.js~start",
+    "longname": "ugraphics/core/js/cg/modules/timer.js~padNum",
     "access": "public",
     "export": false,
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 10,
+    "lineNumber": 8,
     "undocument": true,
     "params": [
       {
-        "name": "id",
+        "name": "num",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "len",
         "types": [
           "*"
         ]
       }
     ],
-    "return": null,
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
     "ignore": true
   },
   {
     "__docId__": 80,
     "kind": "function",
-    "name": "down",
+    "name": "format",
     "memberof": "ugraphics/core/js/cg/modules/timer.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/core/js/cg/modules/timer.js~down",
+    "longname": "ugraphics/core/js/cg/modules/timer.js~format",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "params": [
+      {
+        "name": "seconds",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "string"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "function",
+    "name": "update",
+    "memberof": "ugraphics/core/js/cg/modules/timer.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "ugraphics/core/js/cg/modules/timer.js~update",
     "access": "public",
     "export": false,
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
@@ -1360,14 +1395,14 @@
     "ignore": true
   },
   {
-    "__docId__": 81,
+    "__docId__": 82,
     "kind": "function",
-    "name": "set",
+    "name": "start",
     "memberof": "ugraphics/core/js/cg/modules/timer.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/core/js/cg/modules/timer.js~set",
+    "longname": "ugraphics/core/js/cg/modules/timer.js~start",
     "access": "public",
     "export": false,
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
@@ -1377,7 +1412,7 @@
     "undocument": true,
     "params": [
       {
-        "name": "data",
+        "name": "id",
         "types": [
           "*"
         ]
@@ -1387,14 +1422,14 @@
     "ignore": true
   },
   {
-    "__docId__": 82,
+    "__docId__": 83,
     "kind": "function",
-    "name": "stop",
+    "name": "down",
     "memberof": "ugraphics/core/js/cg/modules/timer.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/core/js/cg/modules/timer.js~stop",
+    "longname": "ugraphics/core/js/cg/modules/timer.js~down",
     "access": "public",
     "export": false,
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
@@ -1414,20 +1449,20 @@
     "ignore": true
   },
   {
-    "__docId__": 83,
+    "__docId__": 84,
     "kind": "function",
-    "name": "add",
+    "name": "set",
     "memberof": "ugraphics/core/js/cg/modules/timer.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "ugraphics/core/js/cg/modules/timer.js~add",
+    "longname": "ugraphics/core/js/cg/modules/timer.js~set",
     "access": "public",
     "export": false,
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 45,
+    "lineNumber": 46,
     "undocument": true,
     "params": [
       {
@@ -1441,7 +1476,88 @@
     "ignore": true
   },
   {
-    "__docId__": 84,
+    "__docId__": 85,
+    "kind": "function",
+    "name": "lset",
+    "memberof": "ugraphics/core/js/cg/modules/timer.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "ugraphics/core/js/cg/modules/timer.js~lset",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 59,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "function",
+    "name": "stop",
+    "memberof": "ugraphics/core/js/cg/modules/timer.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "ugraphics/core/js/cg/modules/timer.js~stop",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 66,
+    "undocument": true,
+    "params": [
+      {
+        "name": "id",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "function",
+    "name": "add",
+    "memberof": "ugraphics/core/js/cg/modules/timer.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "ugraphics/core/js/cg/modules/timer.js~add",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 74,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 88,
     "kind": "function",
     "name": "timer",
     "memberof": "ugraphics/core/js/cg/modules/timer.js",
@@ -1454,7 +1570,7 @@
     "importPath": "ugraphics/ugraphics/core/js/cg/modules/timer.js",
     "importStyle": "timer",
     "description": null,
-    "lineNumber": 52,
+    "lineNumber": 81,
     "undocument": true,
     "params": [
       {
@@ -1467,7 +1583,7 @@
     "return": null
   },
   {
-    "__docId__": 85,
+    "__docId__": 89,
     "kind": "file",
     "name": "ugraphics/core/js/dash/dashcontroller.js",
     "content": "import $ from 'jquery';\nimport Rivets from 'rivets';\nimport SocketIOClient from 'socket.io-client';\nimport _ from 'lodash';\n\nlet name;\nlet io;\nlet dataStore;\n\n/** The data store backing object */\nlet dataStoreBacking = {};\n\n/** The method store backing object */\nlet methodsBacking = {};\n\n/**\n * Dashboard controller class\n *\n * Each dashboard tab corresponds to an instance of this controller\n */\nexport default class DashController {\n    /**\n     * @param {string} id The ID of the controller\n     */\n    constructor(id) {\n        console.log(`${id}: constructing controller`);\n\n        /** The element that will contain the contents of the controller template -\n         * has an `fg-panel` attribute corresponding to the ID of the controller\n         */\n        this.element = $(`[fg-panel='${id}']`);\n        name = this.name = id;\n        io = SocketIOClient.connect();\n\n        /** A proxy that writes to the methods store backing */\n        this.methods = new Proxy(methodsBacking, this.methodsStoreTraps);\n\n        /** A proxy that writes to the data store backing */\n        dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);\n\n        /** A Rivets binding between the controller and its container element,\n         * which uses the data store proxy as its data model\n         */\n        this.view = Rivets.bind(this.element, this.dataStore);\n\n        // Set up functions that handle socket messages\n        this.setSocketHandlers();\n        \n        // Set up buttons that handle copying values of fg-copy elements\n        // into the main state data store\n        this.setButtons();\n\n        // When the document's ready ($()), emit a 'get' socket message that will\n        // cause the server to emit a sync message with the component's state\n        $(() => io.emit(`${name}:get`));\n    }\n\n    /** Trap functions used by the data store proxy to\n     * handle access to the data store backing object\n     */\n    get dataStoreTraps() {\n        return {\n            set: function(target, property, value, receiver) {\n                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);\n                // Set the target's property to the value as normal\n                target[property] = value;\n\n                let obj = {};\n                obj[property] = value;\n\n                // Emit a socket message informing the server of changes\n                // and in turn causing it to sync other clients\n                io.emit(`${name}:sync`, obj);\n\n                // Return true, indicating success\n                console.log(`${name}: data store trap for ${property} complete`);\n                return true;\n            }\n        };\n    }\n\n    /** Trap functions used by the method store proxy\n     * to handle access to the method store backing object\n     */\n    get methodsStoreTraps() {\n        return {\n            set: function(target, property, value, receiver) {\n                console.log(`${name}: methods store trap, setting property ${property} to value ${value}`);\n                // If the value assigned is not a function, return false,\n                // indicating failure\n                if (typeof value !== 'function') {\n                    console.log(`${name}: methods store trap: ${value} is not a function`);\n                    return false;\n                }\n\n                // Set the target's property to the value as normal\n                target[property] = value;\n\n                // For any DOM element with an fg-click attribute set\n                // to the name of the method being assigned,\n                // disable any click event handler that is in place\n                // and add a new click event handler pointing to\n                // the new method\n                $(`[fg-click='${property}']`).off('click').click(target[property]).each(\n                    n => console.log(`${name}: reassigning click handler for ${n}`));\n\n                // Return true, indicating success\n                console.log(`${name}: methods store trap for ${property} complete`);\n                return true;\n            }\n        };\n    }\n\n    /** Manually sync up the data store in casws where we know the bindings won't work */\n    emitStore() {\n        console.log(`${name}: emitting store`);\n        io.emit(`${name}:sync`, dataStoreBacking);\n    }\n\n    /**\n     * Copies a value from an fg-copy element to the main state data store\n     * @param {string} id The ID of the value to copy\n     */\n    copyValue(id) {\n        console.log(`${name}: copying value ${id}`);\n\n        // Does what it says on the tin\n        this.dataStore[id] = $(`[fg-copy='${id}']`).val();\n    }\n\n    /**\n     * Sets up all the controller's elements with an `fg-copy-button` attribute\n     * to copy the corresponding value using {@link copyValue}\n     */\n    setButtons() {\n        console.log(`${name}: setting buttons`);\n\n        // For singular copy buttons\n        this.element.find('[fg-copy-button]').each((i, v) => {\n            // Find the element and get the name of the field it'll copy\n            let elem = $(v);\n            let copyId = elem.attr('fg-copy-button');\n\n            console.log(`${name}: found fg-copy-button for copyId ${copyId}`);\n            elem.click(() => {\n                console.log(`${name}: fg-copy-button clicked for copyId ${copyId}`);\n                \n                // On click, copy the field\n                this.copyValue(copyId);\n            });\n        });\n\n        this.element.find('[fg-copy-button-group]').each((i, v) => {\n            // Find the element and get the name of the group it copies\n            let elem = $(v);\n            let copyGroup = elem.attr('fg-copy-button-group');\n\n            console.log(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);\n            elem.click(() => {\n                // On click\n                console.log(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);\n\n                // Find all inputs that share that group\n                this.element.find(`[fg-copy-group=\"${copyGroup}\"]`).each((ia, va) => {\n                    // Find the element and get the name of the copy field it's bound to\n                    let elem_a = $(va);\n                    let copyId = elem_a.attr('fg-copy');\n\n                    console.log(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`);\n                    // Copy the field\n                    this.copyValue(copyId);\n                });\n            });\n        });\n\n        this.element.find('[fg-trigger-button-group]').each((i, v) => {\n            // Find the element and get the name of the trigger group it belongs to\n            let elem = $(v);\n            let triggerGroup = elem.attr('fg-trigger-button-group');\n\n            console.log(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);\n            elem.click(() => {\n                let data = {};\n                console.log(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);\n\n                this.element.find(`[fg-trigger-group=\"${triggerGroup}\"]`).each((ia, va) => {\n                    let elem_a = $(va);\n                    let triggerId = elem_a.attr('fg-trigger');\n\n                    console.log(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);\n                    data[triggerId] = $(`[fg-trigger='${triggerId}']`).val();\n                });\n\n                this.trigger(triggerGroup, data);\n            });\n        });\n\n        this.element.find('[fg-trigger]').each((i, v) => {\n            let elem = $(v);\n            let triggerId = elem.attr('fg-trigger');\n\n            console.log(`${name}: found fg-trigger for triggerId ${triggerId}`);\n            elem.click(() => {\n                console.log(`${name}: fg-trigger clicked for triggerId ${triggerId}`);\n\n                this.trigger(triggerId);\n            });\n        });\n    }\n\n    /** Sends a trigger message\n     * @param {string} id The ID of the message to send\n     * @param {Object} data The data to be sent\n     */\n    trigger(id, data) {\n        console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);\n        io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));\n    }\n\n    /** Sets up socket message handler functions for the controller */\n    setSocketHandlers() {\n        // When a sync message is received...\n        io.on(`${name}:synf`, msg => {\n            console.log(`${name}: received synf, ${JSON.stringify(msg)}`);\n\n            // Use _.assign to merge the received state into the local data store\n            _.assign(dataStoreBacking, msg);\n\n            // Set the value of each fg-copy element to the corresponding value\n            // from the model\n            $(`[fg-copy]`).each((i, v) => {\n                let elem = $(v);\n                let model = elem.attr('fg-copy');\n                elem.val(this.dataStore[model]);\n            });\n        });\n    }\n}\n",
@@ -1478,7 +1594,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 86,
+    "__docId__": 90,
     "kind": "variable",
     "name": "dataStoreBacking",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js",
@@ -1498,7 +1614,7 @@
     "ignore": true
   },
   {
-    "__docId__": 87,
+    "__docId__": 91,
     "kind": "variable",
     "name": "methodsBacking",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js",
@@ -1518,7 +1634,7 @@
     "ignore": true
   },
   {
-    "__docId__": 88,
+    "__docId__": 92,
     "kind": "class",
     "name": "DashController",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js",
@@ -1533,7 +1649,7 @@
     "interface": false
   },
   {
-    "__docId__": 89,
+    "__docId__": 93,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1558,7 +1674,7 @@
     ]
   },
   {
-    "__docId__": 90,
+    "__docId__": 94,
     "kind": "member",
     "name": "element",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1574,7 +1690,7 @@
     }
   },
   {
-    "__docId__": 91,
+    "__docId__": 95,
     "kind": "member",
     "name": "methods",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1590,7 +1706,7 @@
     }
   },
   {
-    "__docId__": 92,
+    "__docId__": 96,
     "kind": "member",
     "name": "view",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1606,7 +1722,7 @@
     }
   },
   {
-    "__docId__": 93,
+    "__docId__": 97,
     "kind": "get",
     "name": "dataStoreTraps",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1624,7 +1740,7 @@
     }
   },
   {
-    "__docId__": 94,
+    "__docId__": 98,
     "kind": "get",
     "name": "methodsStoreTraps",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1642,7 +1758,7 @@
     }
   },
   {
-    "__docId__": 95,
+    "__docId__": 99,
     "kind": "method",
     "name": "emitStore",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1657,7 +1773,7 @@
     "return": null
   },
   {
-    "__docId__": 96,
+    "__docId__": 100,
     "kind": "method",
     "name": "copyValue",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1683,7 +1799,7 @@
     "return": null
   },
   {
-    "__docId__": 97,
+    "__docId__": 101,
     "kind": "method",
     "name": "setButtons",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1698,7 +1814,7 @@
     "return": null
   },
   {
-    "__docId__": 98,
+    "__docId__": 102,
     "kind": "method",
     "name": "trigger",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1734,7 +1850,7 @@
     "return": null
   },
   {
-    "__docId__": 99,
+    "__docId__": 103,
     "kind": "method",
     "name": "setSocketHandlers",
     "memberof": "ugraphics/core/js/dash/dashcontroller.js~DashController",
@@ -1749,7 +1865,7 @@
     "return": null
   },
   {
-    "__docId__": 100,
+    "__docId__": 104,
     "kind": "file",
     "name": "ugraphics/core/js/dash/dashsetup.js",
     "content": "// -----------------------------------\n// - Dashboard entry point\n// -----------------------------------\n\n// Package imports\nimport $ from 'jquery';\nimport _ from 'lodash';\nimport SocketIO from 'socket.io-client';\nimport Navigo from 'navigo';\nimport Axios from 'axios';\nimport Rivets from 'rivets';\nimport Bootstrap from 'bootstrap';\n\nexport default function(controllers) {\n    console.log('dash: begin');\n\n    // Page elements\n    /** The navbar element */\n    let navbarElem = $('#mainNav');\n    /** The content container element */\n    let contentElem = $('#content');\n\n    // When loaded, remove the 'Loading' message\n    console.log('dash: removing all [data-remove-loaded] elements');\n    $('[data-remove-loaded]').each((i, v) => $(v).remove());\n\n    // Add a navbar item for each controller\n    for (let id in controllers) {\n        console.log(`dash: appending item for id ${id} to navbar`);\n        navbarElem.append(`<li class=\"nav-item\" id=\"${id}Link\" data-fgroute><a class=\"nav-link\" href=\"page/${id}\" data-navigo>${controllers[id].name}</a></li>`)\n    }\n\n    /** A store of binding objects */\n    let bindings = {};\n\n    /** The fallback controller object when the requested route has no corresponding controller*/\n    let defaultRoute = _.keys(controllers)[0];\n\n    /** Set up a route */\n    let setRoute = id => {\n        console.log(`dash: setting route for ${id}`);\n        // Load the template from the server\n        Axios.get(`/dash/templates/${id}`)\n            .then(response => {\n                // If successful, set the inner HTML of the content element\n                // to the server's response, and add the binding to the list\n                console.log(`dash: setting inner HTML for id ${id} dashboard`);\n                contentElem.html(response.data);\n                bindings[id] = new controllers[id].controller(id);\n            })\n            // Otherwise, go to the default route\n            .catch(error => {\n                console.log(`dash: could not set inner HTML for id ${id} dashboard (error ${error})`);\n                router.navigate(`/page/${defaultRoute}`)\n            });\n        \n        // Remove the 'active' class for all navbar items\n        // then add it to the current one\n        // Very possibly a hack-y workaround for functionality I've not yet grasped\n        navbarElem.children('li').each((i, v) => $(v).children('a').removeClass('active'));\n        $(`#${id}Link a`).addClass('active');\n    };\n\n    /** A Navigo router object */\n    let router = new Navigo();\n    // Set up the router to route requests and provide a fallback\n    router\n        .on('/page/:id', params => {\n            console.log(`dash: found route for id ${params.id}`);\n            setRoute(params.id);\n        })\n        .on('*', () => {\n            console.log(`dash: wildcard route hit, returning to defaultRoute ${defaultRoute}`);\n            router.navigate(`/page/${defaultRoute}`);\n        })\n        .resolve();\n\n    // Connect to the socket.io server\n    console.log('dash: connecting socket.io');\n    /** The socket.io client */\n    let io = SocketIO.connect();\n}\n",
@@ -1760,7 +1876,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 101,
+    "__docId__": 105,
     "kind": "function",
     "name": "dashsetup",
     "memberof": "ugraphics/core/js/dash/dashsetup.js",
@@ -1786,7 +1902,7 @@
     "return": null
   },
   {
-    "__docId__": 102,
+    "__docId__": 106,
     "kind": "file",
     "name": "ugraphics/core/js/dash/modules/queue.js",
     "content": "import $ from 'jquery';\n\nexport default controller => {\n    console.log(`${controller.name}: queue module`);\n    controller.element.find('[fg-queue-add]').each((i, v) => {\n        let el = $(v);\n        let ar = el.attr('fg-queue-add');\n\n        el.click(() => {\n            console.log(`${controller.name}: fg-queue-add for ${ar}`);\n            controller.dataStore[`queue_${ar}`].push(controller.dataStore.currentQueueInput[ar]);\n            controller.emitStore();\n        });\n    });\n    controller.dataStore.triggerQueued = (ev, binding) => {\n        console.log(`${controller.name}: triggerQueued`);\n        let el = $(ev.target);\n        let queueId = el.attr('fg-queue-trigger');\n        let queue = controller.dataStore[`queue_${queueId}`];\n        controller.trigger(queueId, queue[binding.index]);\n    };\n    controller.dataStore.delQueued = (ev, binding) => {\n        console.log(`${controller.name}: delQueued`);\n        let el = $(ev.target);\n        let queueId = el.attr('fg-queue-remove');\n        let queue = controller.dataStore[`queue_${queueId}`];\n        queue.splice(binding.index, 1);\n        controller.emitStore();\n    };\n};\n",
@@ -1797,7 +1913,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 103,
+    "__docId__": 107,
     "kind": "function",
     "name": "queue",
     "memberof": "ugraphics/core/js/dash/modules/queue.js",
@@ -1823,10 +1939,10 @@
     "return": null
   },
   {
-    "__docId__": 104,
+    "__docId__": 108,
     "kind": "file",
     "name": "ugraphics/core/js/dash/modules/timer.js",
-    "content": "import $ from 'jquery';\n\nexport default controller => {\n    console.log(`${controller.name}: timer module`);\n    controller.element.find('[fg-timer-id]').each((i, v) => {\n        let el = $(v);\n        let id = el.attr('fg-timer-id');\n        let op = el.attr('fg-timer-op');\n        let counter = el.attr('fg-timer-counter');\n        if (!op) return;\n        \n        el.click(() => {\n            controller.trigger(`timer`, {\n                op: op,\n                id: id,\n                counter: el.attr('fg-timer-counter') || 0\n            });\n        });\n    });\n};\n",
+    "content": "import $ from 'jquery';\n\nexport default controller => {\n    console.log(`${controller.name}: timer module`);\n    controller.element.find('[fg-timer-id]').each((i, v) => {\n        let el = $(v);\n        let id = el.attr('fg-timer-id');\n        let op = el.attr('fg-timer-op');\n        let counter = el.attr('fg-timer-counter');\n        if (!op) return;\n        \n        el.click(() => {\n            controller.trigger(`timer`, {\n                op: op,\n                id: id,\n                counter: el.attr('fg-timer-counter') || 0,\n                limiter: el.attr('fg-timer-limiter') || -1,\n                lmode: el.attr('fg-timer-lmode') || 'soft'\n            });\n        });\n    });\n};\n",
     "static": true,
     "longname": "/Users/harry/Developer/Builds/ugraphics/core/js/dash/modules/timer.js",
     "access": "public",
@@ -1834,7 +1950,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 105,
+    "__docId__": 109,
     "kind": "function",
     "name": "timer",
     "memberof": "ugraphics/core/js/dash/modules/timer.js",
@@ -1860,7 +1976,7 @@
     "return": null
   },
   {
-    "__docId__": 106,
+    "__docId__": 110,
     "kind": "file",
     "name": "ugraphics/dashrouter.js",
     "content": "// Import the Express module\nimport Express from 'express';\nimport Shell from 'shelljs';\nimport _ from 'lodash';\nimport Path from 'path';\n\n/** The router that serves up the contents of dashboard tabs */\nlet router = Express.Router();\n\n// Serve Pug dashboard templates\nrouter.get('/templates/:id', (req, res) =>\n    res.render(`dash/templates/${req.params.id}`, {\n        Shell: Shell,\n        _: _,\n        Path: Path\n    }));\n\n// For all other requests to this router, just render the index template\nrouter.get('/*', (req, res) => res.render('dash/index'));\n\n// Export the router object as the default export of the module\nexport default router;\n",
@@ -1871,7 +1987,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 107,
+    "__docId__": 111,
     "kind": "variable",
     "name": "router",
     "memberof": "ugraphics/dashrouter.js",
@@ -1890,10 +2006,10 @@
     }
   },
   {
-    "__docId__": 108,
+    "__docId__": 112,
     "kind": "file",
     "name": "ugraphics/server.js",
-    "content": "// -----------------------------------------------------------------------------\n// - IMPORTS -------------------------------------------------------------------\n// -----------------------------------------------------------------------------\nconsole.log('Server entry point');\nimport * as Shared from './shared';\n\n// Import modules from npm/node\nimport Path from 'path';\nimport FS from 'fs';\nimport HTTP from 'http';\nimport Express from 'express';\nimport Yargs from 'yargs';\nimport Winston from 'winston';\nimport SocketIOServer from 'socket.io';\nimport Moment from 'moment';\nimport _ from 'lodash';\nimport Vorpal from 'vorpal';\nimport 'pug'; // So that pkg works\n\n// Import config and modules from project\nimport DashRouter from './dashrouter';\nimport * as StylesheetMiddleware from './stylesheet';\nimport * as SocketHandler from './socketHandler';\n\n// -----------------------------------------------------------------------------\n// - SERVER OPTIONS ------------------------------------------------------------\n// -----------------------------------------------------------------------------\nconsole.log('Imports complete, configuring Winston');\nlet consoleTransport = new Winston.transports.Console({\n    format: Winston.format.combine(\n        Winston.format.colorize(),\n        Winston.format.printf(info => `${info.level}: ${info.message}`))\n});\nexport let logger = Winston.createLogger({\n    transports: [ consoleTransport ],\n    level: Shared.Debug? 'silly' : 'info'\n});\n\n// Parse command line options with Yargs, taking defaults from config.json\nlogger.silly(`Parsing command-line options`);\n/** The command-line arguments as read in with Yargs */\nlet argv = Yargs\n    .option('config', {\n        alias: 'c',\n        describe: 'The config file to load',\n        type: 'string'\n    })\n    .option('port', {\n        alias: 'p',\n        describe: 'Port to listen on',\n        type: 'number'\n    })\n    .default({\n        port: 3000,\n        config: 'config.json'\n    })\n    .usage(`Forge Graphics Server \\nUsage: $0 [-c config] [-p port]`)\n    .help().alias('h', 'help')\n    .argv;\n\nShared.LoadConfig(argv.config);\n\nlogger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)\nlogger.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)\n\n// -----------------------------------------------------------------------------\n// - EXPRESS APP ---------------------------------------------------------------\n// -----------------------------------------------------------------------------\n// Create an Express app, using Pug as the view engine\nlogger.silly(`Configuring Express app`);\n/** The Express app powering the dashboard and character generator */\nexport let app = Express();\n/** The HTTP server that serves up {@link app} */\nexport let server = HTTP.createServer(app);\napp.set('views', Shared.Config.viewDirectories);\napp.set('view engine', 'pug');\napp.set('view options', { debug: false });\napp.locals = _.assign(Shared.Config.locals, { ugr_debug: Shared.Debug, basedir: Shared.CWD });\n\n// Pass the app to functions that install middleware which processes SCSS\n// and Stylus stylesheets on-demand\nlogger.silly(`Configuring Stylus middleware`);\nStylesheetMiddleware.Styl(app);\n\n// -----------------------------------------------------------------------------\n// - SERVER --------------------------------------------------------------------\n// -----------------------------------------------------------------------------\n// Serve static directories\nlogger.silly(`Configuring server routes`);\nfor (let pub in Shared.Config.publicDirs)\n    for (let dir of Shared.Config.publicDirs[pub])\n        app.use(`/${pub}`,\n            Express.static(Path.join(Shared.CWD, dir)));\n\n// Use the dashboard router module to handle the dashboard view\napp.use(['/dash', '/dashboard'], DashRouter);\n\n// Render the character generator when / is accessed\napp.get('/', (req, res) => res.render('cg/index'));\n\n// Handle anything else by sending a 404 error page and a 404 status code\napp.get('*', (req, res) => res.status(404).render('404'));\n\n// -----------------------------------------------------------------------------\n// - SOCKET.IO REAL-TIME COMMS -------------------------------------------------\n// -----------------------------------------------------------------------------\nlogger.silly(`Configuring socket.io server`);\n/** The socket.io real-time communications server */\nexport let io = SocketIOServer(server, {\n    wsEngine: \"ws\"\n});\n\n// Start the Express app listening on the specified port\nserver.listen(argv.port, () => {\n    // Log some stuff\n    logger.info(`Listening on port ${argv.port}`);\n    logger.debug('Debug enabled');\n\n    // On any connection, handle it with the function defined in socketHandler.ts\n    io.on('connection', SocketHandler.handleSocket);\n\n    SocketHandler.setTick();\n});\n\n// -----------------------------------------------------------------------------\n// - VORPAL COMMAND-LINE INTERFACE ---------------------------------------------\n// -----------------------------------------------------------------------------\nlet vorpal = Vorpal();\n\nvorpal.command('show <store>')\n    .description('Show the contents of a module\\'s data store')\n    .alias('s')\n    .action((args, callback) => {\n        console.log(JSON.stringify(SocketHandler.dataStore[args.store] || 'Module not found' ));\n        callback();\n    });\n\nvorpal.delimiter('uGraphics>').show();\nconsoleTransport.on('logged', () => vorpal.ui.redraw.done());\n",
+    "content": "// -----------------------------------------------------------------------------\n// - IMPORTS -------------------------------------------------------------------\n// -----------------------------------------------------------------------------\nconsole.log('Server entry point');\nimport * as Shared from './shared';\n\n// Import modules from npm/node\nimport Path from 'path';\nimport FS from 'fs';\nimport HTTP from 'http';\nimport Express from 'express';\nimport Yargs from 'yargs';\nimport Winston from 'winston';\nimport SocketIOServer from 'socket.io';\nimport Moment from 'moment';\nimport _ from 'lodash';\nimport Vorpal from 'vorpal';\nimport 'pug'; // So that pkg works\n\n// Import config and modules from project\nimport DashRouter from './dashrouter';\nimport * as StylesheetMiddleware from './stylesheet';\nimport SHClass from './socketHandler';\n\n// -----------------------------------------------------------------------------\n// - SERVER OPTIONS ------------------------------------------------------------\n// -----------------------------------------------------------------------------\nconsole.log('Configuring Winston');\nlet consoleTransport = new Winston.transports.Console({\n    format: Winston.format.combine(\n        Winston.format.colorize(),\n        Winston.format.printf(info => `${info.level}: ${info.message}`))\n});\nexport let logger = Winston.createLogger({\n    transports: [ consoleTransport ],\n    level: Shared.Debug? 'silly' : 'info'\n});\n\nlogger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)\nlogger.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)\n\n// -----------------------------------------------------------------------------\n// - EXPRESS APP ---------------------------------------------------------------\n// -----------------------------------------------------------------------------\n// Create an Express app, using Pug as the view engine\nlogger.silly(`Configuring Express app`);\n/** The Express app powering the dashboard and character generator */\nexport let app = Express();\n/** The HTTP server that serves up {@link app} */\nexport let server = HTTP.createServer(app);\napp.set('views', Shared.Config.frontend.viewDirectories);\napp.set('view engine', 'pug');\napp.set('view options', { debug: false });\napp.locals = _.assign(Shared.Config.locals, { ugr_debug: Shared.Debug, basedir: Shared.CWD });\n\n// Pass the app to functions that install middleware which processes SCSS\n// and Stylus stylesheets on-demand\nlogger.silly(`Configuring Stylus middleware`);\nStylesheetMiddleware.Styl(app);\n\n// -----------------------------------------------------------------------------\n// - SERVER --------------------------------------------------------------------\n// -----------------------------------------------------------------------------\n// Serve static directories\nlogger.silly(`Configuring server routes`);\nfor (let pub in Shared.Config.publicDirs)\n    for (let dir of Shared.Config.publicDirs[pub])\n        app.use(`/${pub}`,\n            Express.static(Path.join(Shared.CWD, dir)));\n\n// Use the dashboard router module to handle the dashboard view\napp.use(['/dash', '/dashboard'], DashRouter);\n\n// Render the character generator when / is accessed\napp.get('/', (req, res) => res.render('cg/index'));\n\n// Handle anything else by sending a 404 error page and a 404 status code\napp.get('*', (req, res) => res.status(404).render('404'));\n\n// -----------------------------------------------------------------------------\n// - SOCKET.IO REAL-TIME COMMS -------------------------------------------------\n// -----------------------------------------------------------------------------\nlogger.silly(`Configuring socket.io server`);\n/** The socket.io real-time communications server */\nexport let io = SocketIOServer(server, {\n    wsEngine: \"ws\"\n});\n\nlet SocketHandler = new SHClass(Shared.Config.sockets, Shared.Config.initDataStore);\n\n// Start the Express app listening on the specified port\nserver.listen(Shared.argv.port, () => {\n    // Log some stuff\n    logger.info(`Listening on port ${Shared.argv.port}`);\n    logger.debug('Debug enabled');\n\n    // On any connection, handle it with the function defined in socketHandler.ts\n    io.on('connection', SocketHandler.handleSocket);\n});\n\n// -----------------------------------------------------------------------------\n// - VORPAL COMMAND-LINE INTERFACE ---------------------------------------------\n// -----------------------------------------------------------------------------\nlet vorpal = Vorpal();\n\nvorpal.command('show <store>')\n    .description('Show the contents of a module\\'s data store')\n    .alias('s')\n    .action((args, callback) => {\n        console.log(JSON.stringify(SocketHandler.getStore(args.store) || 'Module not found' ));\n        callback();\n    });\n\nvorpal.delimiter('uGraphics>').show();\nconsoleTransport.on('logged', () => vorpal.ui.redraw.done());\n",
     "static": true,
     "longname": "/Users/harry/Developer/Builds/ugraphics/server.js",
     "access": "public",
@@ -1901,7 +2017,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 109,
+    "__docId__": 113,
     "kind": "variable",
     "name": "consoleTransport",
     "memberof": "ugraphics/server.js",
@@ -1922,7 +2038,7 @@
     "ignore": true
   },
   {
-    "__docId__": 110,
+    "__docId__": 114,
     "kind": "variable",
     "name": "logger",
     "memberof": "ugraphics/server.js",
@@ -1942,27 +2058,7 @@
     }
   },
   {
-    "__docId__": 111,
-    "kind": "variable",
-    "name": "argv",
-    "memberof": "ugraphics/server.js",
-    "static": true,
-    "longname": "ugraphics/server.js~argv",
-    "access": "public",
-    "export": false,
-    "importPath": "ugraphics/ugraphics/server.js",
-    "importStyle": null,
-    "description": "The command-line arguments as read in with Yargs",
-    "lineNumber": 42,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 112,
+    "__docId__": 115,
     "kind": "variable",
     "name": "app",
     "memberof": "ugraphics/server.js",
@@ -1973,7 +2069,7 @@
     "importPath": "ugraphics/ugraphics/server.js",
     "importStyle": "{app}",
     "description": "The Express app powering the dashboard and character generator",
-    "lineNumber": 72,
+    "lineNumber": 48,
     "type": {
       "types": [
         "*"
@@ -1981,7 +2077,7 @@
     }
   },
   {
-    "__docId__": 113,
+    "__docId__": 116,
     "kind": "variable",
     "name": "server",
     "memberof": "ugraphics/server.js",
@@ -1992,7 +2088,7 @@
     "importPath": "ugraphics/ugraphics/server.js",
     "importStyle": "{server}",
     "description": "The HTTP server that serves up {@link app}",
-    "lineNumber": 74,
+    "lineNumber": 50,
     "type": {
       "types": [
         "*"
@@ -2000,7 +2096,7 @@
     }
   },
   {
-    "__docId__": 114,
+    "__docId__": 117,
     "kind": "variable",
     "name": "io",
     "memberof": "ugraphics/server.js",
@@ -2011,7 +2107,7 @@
     "importPath": "ugraphics/ugraphics/server.js",
     "importStyle": "{io}",
     "description": "The socket.io real-time communications server",
-    "lineNumber": 109,
+    "lineNumber": 85,
     "type": {
       "types": [
         "*"
@@ -2019,7 +2115,28 @@
     }
   },
   {
-    "__docId__": 115,
+    "__docId__": 118,
+    "kind": "variable",
+    "name": "SocketHandler",
+    "memberof": "ugraphics/server.js",
+    "static": true,
+    "longname": "ugraphics/server.js~SocketHandler",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/server.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 89,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 119,
     "kind": "variable",
     "name": "vorpal",
     "memberof": "ugraphics/server.js",
@@ -2030,7 +2147,7 @@
     "importPath": "ugraphics/ugraphics/server.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 128,
+    "lineNumber": 104,
     "undocument": true,
     "type": {
       "types": [
@@ -2040,10 +2157,10 @@
     "ignore": true
   },
   {
-    "__docId__": 116,
+    "__docId__": 120,
     "kind": "file",
     "name": "ugraphics/shared.js",
-    "content": "import FS from 'fs';\n\n/**\n * Is the debug environment variable set? Used to set up some useful development things\n * @type {boolean}\n */\nexport let Debug = process.env.UGR_ENV == 'debug';\n\n/**\n * The current working directory\n * @type {string}\n */\nexport let CWD = process.cwd();\n\nexport let Config = {};\n\nexport function LoadConfig(path) {\n    Config = JSON.parse(FS.readFileSync(path));\n}\n",
+    "content": "import FS from 'fs';\nimport Yargs from 'yargs';\n\n/**\n * Is the debug environment variable set? Used to set up some useful development things\n * @type {boolean}\n */\nexport let Debug = process.env.UGR_ENV == 'debug';\n\n/**\n * The current working directory\n * @type {string}\n */\nexport let CWD = process.cwd();\n\nexport let Config = {};\nlet ConfigPath = '';\nexport let argv = {};\n\n/** The command-line arguments as read in with Yargs */\nexport let ParseArgs = () => Yargs\n    .option('config', {\n        alias: 'c',\n        describe: 'The config file to load',\n        type: 'string'\n    })\n    .option('port', {\n        alias: 'p',\n        describe: 'Port to listen on',\n        type: 'number'\n    })\n    .default({\n        port: 3000,\n        config: 'config.json'\n    })\n    .usage(`Forge Graphics Server \\nUsage: $0 [-c config] [-p port]`)\n    .help().alias('h', 'help')\n    .argv;\n\nexport function LoadConfig(path) {\n    if (!path) Config = JSON.parse(FS.readFileSync(argv.config));\n    else {\n        ConfigPath = path;\n        Config = JSON.parse(FS.readFileSync(ConfigPath));\n    }\n}\n\nargv = ParseArgs();\nLoadConfig();\n",
     "static": true,
     "longname": "/Users/harry/Developer/Builds/ugraphics/shared.js",
     "access": "public",
@@ -2051,7 +2168,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 117,
+    "__docId__": 121,
     "kind": "variable",
     "name": "Debug",
     "memberof": "ugraphics/shared.js",
@@ -2062,7 +2179,7 @@
     "importPath": "ugraphics/ugraphics/shared.js",
     "importStyle": "{Debug}",
     "description": "Is the debug environment variable set? Used to set up some useful development things",
-    "lineNumber": 7,
+    "lineNumber": 8,
     "type": {
       "nullable": null,
       "types": [
@@ -2073,7 +2190,7 @@
     }
   },
   {
-    "__docId__": 118,
+    "__docId__": 122,
     "kind": "variable",
     "name": "CWD",
     "memberof": "ugraphics/shared.js",
@@ -2084,7 +2201,7 @@
     "importPath": "ugraphics/ugraphics/shared.js",
     "importStyle": "{CWD}",
     "description": "The current working directory",
-    "lineNumber": 13,
+    "lineNumber": 14,
     "type": {
       "nullable": null,
       "types": [
@@ -2095,7 +2212,7 @@
     }
   },
   {
-    "__docId__": 119,
+    "__docId__": 123,
     "kind": "variable",
     "name": "Config",
     "memberof": "ugraphics/shared.js",
@@ -2106,7 +2223,7 @@
     "importPath": "ugraphics/ugraphics/shared.js",
     "importStyle": "{Config}",
     "description": null,
-    "lineNumber": 15,
+    "lineNumber": 16,
     "undocument": true,
     "type": {
       "types": [
@@ -2115,7 +2232,66 @@
     }
   },
   {
-    "__docId__": 120,
+    "__docId__": 124,
+    "kind": "variable",
+    "name": "ConfigPath",
+    "memberof": "ugraphics/shared.js",
+    "static": true,
+    "longname": "ugraphics/shared.js~ConfigPath",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/shared.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 125,
+    "kind": "variable",
+    "name": "argv",
+    "memberof": "ugraphics/shared.js",
+    "static": true,
+    "longname": "ugraphics/shared.js~argv",
+    "access": "public",
+    "export": true,
+    "importPath": "ugraphics/ugraphics/shared.js",
+    "importStyle": "{argv}",
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 126,
+    "kind": "function",
+    "name": "ParseArgs",
+    "memberof": "ugraphics/shared.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "ugraphics/shared.js~ParseArgs",
+    "access": "public",
+    "export": true,
+    "importPath": "ugraphics/ugraphics/shared.js",
+    "importStyle": "{ParseArgs}",
+    "description": "The command-line arguments as read in with Yargs",
+    "lineNumber": 21,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 127,
     "kind": "function",
     "name": "LoadConfig",
     "memberof": "ugraphics/shared.js",
@@ -2128,7 +2304,7 @@
     "importPath": "ugraphics/ugraphics/shared.js",
     "importStyle": "{LoadConfig}",
     "description": null,
-    "lineNumber": 17,
+    "lineNumber": 40,
     "undocument": true,
     "params": [
       {
@@ -2141,10 +2317,10 @@
     "return": null
   },
   {
-    "__docId__": 121,
+    "__docId__": 128,
     "kind": "file",
     "name": "ugraphics/socketHandler.js",
-    "content": "import { logger, io } from './server';\nimport FS from 'fs';\nimport _ from 'lodash';\nimport Config from './config';\n\n/**\n * The central/master sync data store for all of the components\n * @type {Object}\n */\nexport let dataStore = {};\nfor (let socket of Config.sockets)\n    dataStore[socket] = Config.initDataStore[socket] || {};\n\n/**\n * Emits a sync state for the named component\n * @param {string} socketName The name of the component\n * @param {Object} [delta] If present, will emit only this as a delta object\n */\nexport let emitSynf = (socketName, delta) => {\n    // Emit it over socket\n    io.emit(`${socketName}:synf`, delta || dataStore[socketName]);\n\n    // Log it\n    logger.debug(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);\n};\n\n/**\n * Emits a trigger message for the named component\n * @param {string} socketName The name of the component\n * @param {Object} msg The object to emit as accompanying data\n */\nexport let emitTrigger = (socketName, msg) => {\n    // Emit it over socket\n    io.emit(`${socketName}:trigger`, msg);\n\n    // Log it\n    logger.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);\n};\n\n/** Sets up a sixty-second tick interval to keep the system in sync */\nexport let setTick = () => {\n    // Every n seconds, emit a sync event for each socket\n    setInterval(() => {\n        logger.verbose('Tick');\n        for (let socketName of Config.sockets) emitSynf(socketName);\n    }, 60000);\n};\n\n/**\n * Called whenever a socket needs to be handled\n * @param {socket} socket The socket that needs to be handled\n */\nexport let handleSocket = socket => {\n    // Get the IP address that's connecting and log it\n    let address = socket.request.connection.remoteAddress;\n    logger.verbose(`Connection from ${address}`);\n    \n    // For each socket defined in config.json, set a method to handle it\n    for (let socketName of Config.sockets) {\n        // When a sync message is received...\n        socket.on(`${socketName}:sync`, msg => {\n            // Log it\n            logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);\n\n            // Assign the received message into the respective data store\n            _.assign(dataStore[socketName], msg);\n\n            // Emit it again on the same socket so other clients can pick it up\n            emitSynf(socketName, msg);\n        });\n\n        // When a get message is received...\n        socket.on(`${socketName}:get`, () => {\n            // Log it\n            logger.debug(`Get  on ${socketName}:get`);\n\n            // Emit the relevant state from the data store again\n            emitSynf(socketName);\n        });\n\n        // When a trigger message is received...\n        socket.on(`${socketName}:trigger`, msg => {\n            // Log it\n            logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);\n\n            // Pass it on\n            emitTrigger(socketName, msg);\n        });\n    }\n};\n",
+    "content": "import { logger, io } from './server';\nimport FS from 'fs';\nimport _ from 'lodash';\n\n/**\n * The central/master sync data store for all of the components\n * @type {Object}\n */\nlet dataStore = {};\nlet sockets = {};\n\n/**\n * Emits a sync state for the named component\n * @param {string} socketName The name of the component\n * @param {Object} [delta] If present, will emit only this as a delta object\n */\nlet emitSynf = (socketName, delta) => {\n    // Emit it over socket\n    io.emit(`${socketName}:synf`, delta || dataStore[socketName]);\n\n    // Log it\n    logger.debug(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);\n};\n\n/**\n * Emits a trigger message for the named component\n * @param {string} socketName The name of the component\n * @param {Object} msg The object to emit as accompanying data\n */\nlet emitTrigger = (socketName, msg) => {\n    // Emit it over socket\n    io.emit(`${socketName}:trigger`, msg);\n\n    // Log it\n    logger.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);\n};\n\n/** Sets up a sixty-second tick interval to keep the system in sync */\nlet setTick = () => {\n    // Every n seconds, emit a sync event for each socket\n    setInterval(() => {\n        logger.verbose('Tick');\n        for (let socketName of sockets) emitSynf(socketName);\n    }, 60000);\n};\n\nexport default class {\n    constructor(isockets, initDataStore) {\n        sockets = isockets;\n\n        for (let socket of sockets)\n            dataStore[socket] = initDataStore[socket] || {};\n\n        setTick();\n    }\n\n    getStore(id) {\n        return dataStore[id];\n    }\n\n    /**\n     * Called whenever a socket needs to be handled\n     * @param {socket} socket The socket that needs to be handled\n     */\n    handleSocket(socket) {\n        // Get the IP address that's connecting and log it\n        let address = socket.request.connection.remoteAddress;\n        logger.verbose(`Connection from ${address}`);\n        \n        // For each socket defined in config.json, set a method to handle it\n        for (let socketName of sockets) {\n            // When a sync message is received...\n            socket.on(`${socketName}:sync`, msg => {\n                // Log it\n                logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);\n\n                // Assign the received message into the respective data store\n                _.assign(dataStore[socketName], msg);\n\n                // Emit it again on the same socket so other clients can pick it up\n                emitSynf(socketName, msg);\n            });\n\n            // When a get message is received...\n            socket.on(`${socketName}:get`, () => {\n                // Log it\n                logger.debug(`Get  on ${socketName}:get`);\n\n                // Emit the relevant state from the data store again\n                emitSynf(socketName);\n            });\n\n            // When a trigger message is received...\n            socket.on(`${socketName}:trigger`, msg => {\n                // Log it\n                logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);\n\n                // Pass it on\n                emitTrigger(socketName, msg);\n            });\n        }\n    };\n}\n",
     "static": true,
     "longname": "/Users/harry/Developer/Builds/ugraphics/socketHandler.js",
     "access": "public",
@@ -2152,18 +2328,18 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 122,
+    "__docId__": 129,
     "kind": "variable",
     "name": "dataStore",
     "memberof": "ugraphics/socketHandler.js",
     "static": true,
     "longname": "ugraphics/socketHandler.js~dataStore",
     "access": "public",
-    "export": true,
+    "export": false,
     "importPath": "ugraphics/ugraphics/socketHandler.js",
-    "importStyle": "{dataStore}",
+    "importStyle": null,
     "description": "The central/master sync data store for all of the components",
-    "lineNumber": 10,
+    "lineNumber": 9,
     "type": {
       "nullable": null,
       "types": [
@@ -2171,10 +2347,32 @@
       ],
       "spread": false,
       "description": null
-    }
+    },
+    "ignore": true
   },
   {
-    "__docId__": 123,
+    "__docId__": 130,
+    "kind": "variable",
+    "name": "sockets",
+    "memberof": "ugraphics/socketHandler.js",
+    "static": true,
+    "longname": "ugraphics/socketHandler.js~sockets",
+    "access": "public",
+    "export": false,
+    "importPath": "ugraphics/ugraphics/socketHandler.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 131,
     "kind": "function",
     "name": "emitSynf",
     "memberof": "ugraphics/socketHandler.js",
@@ -2183,11 +2381,11 @@
     "static": true,
     "longname": "ugraphics/socketHandler.js~emitSynf",
     "access": "public",
-    "export": true,
+    "export": false,
     "importPath": "ugraphics/ugraphics/socketHandler.js",
-    "importStyle": "{emitSynf}",
+    "importStyle": null,
     "description": "Emits a sync state for the named component",
-    "lineNumber": 19,
+    "lineNumber": 17,
     "params": [
       {
         "nullable": null,
@@ -2210,10 +2408,11 @@
         "description": "If present, will emit only this as a delta object"
       }
     ],
-    "return": null
+    "return": null,
+    "ignore": true
   },
   {
-    "__docId__": 124,
+    "__docId__": 132,
     "kind": "function",
     "name": "emitTrigger",
     "memberof": "ugraphics/socketHandler.js",
@@ -2222,11 +2421,11 @@
     "static": true,
     "longname": "ugraphics/socketHandler.js~emitTrigger",
     "access": "public",
-    "export": true,
+    "export": false,
     "importPath": "ugraphics/ugraphics/socketHandler.js",
-    "importStyle": "{emitTrigger}",
+    "importStyle": null,
     "description": "Emits a trigger message for the named component",
-    "lineNumber": 32,
+    "lineNumber": 30,
     "params": [
       {
         "nullable": null,
@@ -2249,10 +2448,11 @@
         "description": "The object to emit as accompanying data"
       }
     ],
-    "return": null
+    "return": null,
+    "ignore": true
   },
   {
-    "__docId__": 125,
+    "__docId__": 133,
     "kind": "function",
     "name": "setTick",
     "memberof": "ugraphics/socketHandler.js",
@@ -2261,29 +2461,84 @@
     "static": true,
     "longname": "ugraphics/socketHandler.js~setTick",
     "access": "public",
-    "export": true,
+    "export": false,
     "importPath": "ugraphics/ugraphics/socketHandler.js",
-    "importStyle": "{setTick}",
+    "importStyle": null,
     "description": "Sets up a sixty-second tick interval to keep the system in sync",
-    "lineNumber": 41,
+    "lineNumber": 39,
     "params": [],
-    "return": null
+    "return": null,
+    "ignore": true
   },
   {
-    "__docId__": 126,
-    "kind": "function",
-    "name": "handleSocket",
+    "__docId__": 134,
+    "kind": "class",
+    "name": "socketHandler",
     "memberof": "ugraphics/socketHandler.js",
-    "generator": false,
-    "async": false,
     "static": true,
-    "longname": "ugraphics/socketHandler.js~handleSocket",
+    "longname": "ugraphics/socketHandler.js~socketHandler",
     "access": "public",
     "export": true,
     "importPath": "ugraphics/ugraphics/socketHandler.js",
-    "importStyle": "{handleSocket}",
+    "importStyle": "socketHandler",
+    "description": null,
+    "lineNumber": 47,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 135,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "ugraphics/socketHandler.js~socketHandler",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "ugraphics/socketHandler.js~socketHandler#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 48,
+    "undocument": true
+  },
+  {
+    "__docId__": 136,
+    "kind": "method",
+    "name": "getStore",
+    "memberof": "ugraphics/socketHandler.js~socketHandler",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "ugraphics/socketHandler.js~socketHandler#getStore",
+    "access": "public",
+    "description": null,
+    "lineNumber": 57,
+    "undocument": true,
+    "params": [
+      {
+        "name": "id",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 137,
+    "kind": "method",
+    "name": "handleSocket",
+    "memberof": "ugraphics/socketHandler.js~socketHandler",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "ugraphics/socketHandler.js~socketHandler#handleSocket",
+    "access": "public",
     "description": "Called whenever a socket needs to be handled",
-    "lineNumber": 53,
+    "lineNumber": 65,
     "params": [
       {
         "nullable": null,
@@ -2299,10 +2554,10 @@
     "return": null
   },
   {
-    "__docId__": 127,
+    "__docId__": 138,
     "kind": "file",
     "name": "ugraphics/stylesheet.js",
-    "content": "import Path from 'path';\nimport Cssnext from 'postcss-cssnext';\nimport Cssnano from 'cssnano';\nimport PostCSSMiddleware from 'postcss-middleware';\nimport Stylus from 'stylus';\nimport FS from 'fs';\n\nimport Config from './config';\nimport { Debug, CWD } from './shared';\n\n// - STYLESHEET PROCESSING -----------------------------------------------------\n/** The plugins that PostCSS should use when postprocessing */\nlet postCSSPlugins = [\n    Cssnext({\n        browsers: Config.frontend.browserSupport\n    })\n];\nif (Debug) postCSSPlugins.push(\n    Cssnano({\n        autoprefixer: false\n    })\n);\n\n/**\n * Sets up an Express app to serve up compiled and postprocessed Stylus stylesheets\n * @param {express} app The app to be configured\n */\nexport let Styl = app => {\n    app.use(Stylus.middleware({\n        src: Path.join(CWD, 'src'),\n        dest: Path.join(CWD, 'output'),\n        compile: (str, path) => Stylus(str)\n            .set('filename', path)\n            .set('include css', true)\n            .set('paths', Config.frontend.stylIncludePaths)\n    }));\n    app.use('/output/styl', PostCSSMiddleware({\n        src: req => Path.join(CWD, 'output', 'styl', req.url),\n        plugins: postCSSPlugins\n    }));\n}\n",
+    "content": "import Path from 'path';\nimport Cssnext from 'postcss-cssnext';\nimport Cssnano from 'cssnano';\nimport PostCSSMiddleware from 'postcss-middleware';\nimport Stylus from 'stylus';\nimport FS from 'fs';\n\nimport { Debug, CWD, Config, LoadConfig } from './shared';\n\n/**\n * Sets up an Express app to serve up compiled and postprocessed Stylus stylesheets\n * @param {express} app The app to be configured\n */\nexport let Styl = app => {\n    // - STYLESHEET PROCESSING -----------------------------------------------------\n    /** The plugins that PostCSS should use when postprocessing */\n    let postCSSPlugins = [\n        Cssnext({\n            browsers: Config.frontend.browserSupport\n        })\n    ];\n    if (Debug) postCSSPlugins.push(\n        Cssnano({\n            autoprefixer: false\n        })\n    );\n    app.use(Stylus.middleware({\n        src: Path.join(CWD, Config.frontend.stylSrcDir),\n        dest: Path.join(CWD, 'output'),\n        compile: (str, path) => Stylus(str)\n            .set('filename', path)\n            .set('include css', true)\n            .set('paths', Config.frontend.stylIncludePaths)\n    }));\n    app.use('/output/styl', PostCSSMiddleware({\n        src: req => Path.join(CWD, 'output', 'styl', req.url),\n        plugins: postCSSPlugins\n    }));\n}\n",
     "static": true,
     "longname": "/Users/harry/Developer/Builds/ugraphics/stylesheet.js",
     "access": "public",
@@ -2310,27 +2565,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 128,
-    "kind": "variable",
-    "name": "postCSSPlugins",
-    "memberof": "ugraphics/stylesheet.js",
-    "static": true,
-    "longname": "ugraphics/stylesheet.js~postCSSPlugins",
-    "access": "public",
-    "export": false,
-    "importPath": "ugraphics/ugraphics/stylesheet.js",
-    "importStyle": null,
-    "description": "The plugins that PostCSS should use when postprocessing",
-    "lineNumber": 13,
-    "type": {
-      "types": [
-        "undefined[]"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 129,
+    "__docId__": 139,
     "kind": "function",
     "name": "Styl",
     "memberof": "ugraphics/stylesheet.js",
@@ -2343,7 +2578,7 @@
     "importPath": "ugraphics/ugraphics/stylesheet.js",
     "importStyle": "{Styl}",
     "description": "Sets up an Express app to serve up compiled and postprocessed Stylus stylesheets",
-    "lineNumber": 28,
+    "lineNumber": 14,
     "params": [
       {
         "nullable": null,
@@ -2360,7 +2595,7 @@
   },
   {
     "kind": "index",
-    "content": "The application starts at `server.js` - read the comments there for a walkthrough\nof how it works under the hood\n\nDeveloped against node v8.9.4\n\n## Developing and running the graphics server\n\nSee below for Windows instructions\n\n### Prerequisite software\n\n- Node.js (download at nodejs.org, using a package manager for\nyour platform, e.g. Homebrew on macOS or Chocolatey on Windows,\nor using `nvm` or nvm for windows)\n- JSPM (install globally through Node's npm package manager by running\n`npm install -g jspm`)\n- Strongly recommended: Yarn, an alternative to the npm package manager (again,\nrecommended to install this through e.g. `brew` or `choco`)\n- For development: gulp (`npm install -g gulp-cli`)\n\n### Installing packages\n\n- At the terminal/command prompt, run `npm install` (or `yarn` if you have\nit installed), followed by `jspm install`\n\n### Running the server\n\n- Run `node server` to run the server\n- Run `gulp` to run the server with the debug environment variable,\nwatch for changes to essential files and reload the server (useful during\ndevelopment)\n- You can use the option `-p` or `--port` to choose the port the server listens\non (3000 by default)\n\n### Generating documentation\nTo generate documentation, use [ESDoc](https://esdoc.org).\n\n## Steps to make the thing work on Windows, from scratch\n\n- Open cmd/powershell\n- Install chocolatey from chocolatey.org\n- `choco install -y git nodejs yarn`\n- Close the cmd/powershell and open it again\n- `npm i -g typescript ts-node gulp-cli` (can leave `gulp-cli` out if not developing)\n- Make sure you're in the directory you want to be in\n- `git clone <repository>`\n- `cd <repository>`\n- `yarn` (if you don't have yarn, then `npm i`)\n- `jspm i`\n- Run it using `ts-node server`\n- Run it in debug mode using `gulp`\n\n## Files and directories\n```\n/.vscode - Visual Studio Code configuration\n/assets - Static assets\n    /assets/css - Static CSS stylesheets\n    /assets/fonts - Webfont files\n    /assets/img - Images (including SVG)\n/src - Client-side source files\n    /src/js - Client-side JavaScript (dash and character generator)\n        - config.js - SystemJS config\n    /src/scss - SCSS stylesheets for the dashboard (Gulp compiles these to the /assets/css directory)\n    /src/styl - Stylus stylesheets for the character generator (the server compiles these live)\n/views - Pug files (compiled to HTML live by the server)\n/*.ts - Server source\n/gulpfile.js - Gulp tasks\n/package.json - Package configuration\n/yarn.lock - Yarn package manager lockfile\n/config.json - Server configuration\n/index.js - A stub that uses babel-register to load server.js\n```\n",
+    "content": "# Forge Graphics Server Thing 3: Electric Boogal...ee\n\n**This readme is now quite outdated as the project has undergone some extensive changes over the last couple of days**\n\nThe application starts at `server.js` - read the comments there for a walkthrough\nof how it works under the hood\n\nDeveloped against node v8.9.4\n\n## Developing and running the graphics server\n\nSee below for Windows instructions\n\n### Prerequisite software\n\n- Node.js (download at nodejs.org, using a package manager for\nyour platform, e.g. Homebrew on macOS or Chocolatey on Windows,\nor using `nvm` or nvm for windows)\n- JSPM (install globally through Node's npm package manager by running\n`npm install -g jspm`)\n- Strongly recommended: Yarn, an alternative to the npm package manager (again,\nrecommended to install this through e.g. `brew` or `choco`)\n- For development: gulp (`npm install -g gulp-cli`)\n\n### Installing packages\n\n- At the terminal/command prompt, run `npm install` (or `yarn` if you have\nit installed), followed by `jspm install`\n\n### Running the server\n\n- Run `node server` to run the server\n- Run `gulp` to run the server with the debug environment variable,\nwatch for changes to essential files and reload the server (useful during\ndevelopment)\n- You can use the option `-p` or `--port` to choose the port the server listens\non (3000 by default)\n\n### Generating documentation\nTo generate documentation, use [ESDoc](https://esdoc.org).\n\n## Steps to make the thing work on Windows, from scratch\n\n- Open cmd/powershell\n- Install chocolatey from chocolatey.org\n- `choco install -y git nodejs yarn`\n- Close the cmd/powershell and open it again\n- `npm i -g typescript ts-node gulp-cli` (can leave `gulp-cli` out if not developing)\n- Make sure you're in the directory you want to be in\n- `git clone <repository>`\n- `cd <repository>`\n- `yarn` (if you don't have yarn, then `npm i`)\n- `jspm i`\n- Run it using `ts-node server`\n- Run it in debug mode using `gulp`\n\n## Files and directories\n```\n/.vscode - Visual Studio Code configuration\n/assets - Static assets\n    /assets/css - Static CSS stylesheets\n    /assets/fonts - Webfont files\n    /assets/img - Images (including SVG)\n/src - Client-side source files\n    /src/js - Client-side JavaScript (dash and character generator)\n        - config.js - SystemJS config\n    /src/scss - SCSS stylesheets for the dashboard (Gulp compiles these to the /assets/css directory)\n    /src/styl - Stylus stylesheets for the character generator (the server compiles these live)\n/views - Pug files (compiled to HTML live by the server)\n/*.ts - Server source\n/gulpfile.js - Gulp tasks\n/package.json - Package configuration\n/yarn.lock - Yarn package manager lockfile\n/config.json - Server configuration\n/index.js - A stub that uses babel-register to load server.js\n```\n",
     "longname": "/Users/harry/Developer/Builds/ugraphics/README.md",
     "name": "./README.md",
     "static": true,
@@ -2368,7 +2603,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"ugraphics\",\n  \"version\": \"0.0.1\",\n  \"main\": \"index.js\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"@types/express\": \"^4.11.1\",\n    \"@types/lodash\": \"^4.14.102\",\n    \"@types/node\": \"^9.4.6\",\n    \"@types/shelljs\": \"^0.7.8\",\n    \"@types/socket.io\": \"^1.4.31\",\n    \"@types/stylus\": \"^0.48.29\",\n    \"@types/winston\": \"^2.3.8\",\n    \"@types/yargs\": \"^11.0.0\",\n    \"babel-preset-env\": \"^1.6.1\",\n    \"babel-register\": \"^6.26.0\",\n    \"bootstrap\": \"4\",\n    \"caniuse-db\": \"^1.0.30000652\",\n    \"cssnano\": \"^3.10.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"express\": \"^4.15.2\",\n    \"gulp-clean\": \"^0.4.0\",\n    \"jquery\": \"^3.3.1\",\n    \"jspm\": \"^0.16.53\",\n    \"jspm-github\": \"0.13.18\",\n    \"lodash\": \"^4.17.5\",\n    \"material-design-icons\": \"^3.0.1\",\n    \"mdi\": \"^2.1.99\",\n    \"moment\": \"^2.18.1\",\n    \"popper.js\": \"^1.12.9\",\n    \"postcss-cssnext\": \"^2.10.0\",\n    \"postcss-middleware\": \"^1.1.3\",\n    \"pug\": \"^2.0.0-rc.1\",\n    \"shelljs\": \"^0.8.1\",\n    \"socket.io\": \"^2.0.4\",\n    \"stylus\": \"^0.54.5\",\n    \"vorpal\": \"^1.12.0\",\n    \"winston\": \"^3.0.0-rc2\",\n    \"yargs\": \"^8.0.1\"\n  },\n  \"jspm\": {\n    \"configFile\": \"src/js/config.js\",\n    \"dependencies\": {\n      \"axios\": \"npm:axios@^0.16.1\",\n      \"bootstrap\": \"npm:bootstrap@4.0.0\",\n      \"buffer\": \"github:jspm/nodelibs-buffer@^0.1.1\",\n      \"jquery\": \"npm:jquery@^3.2.1\",\n      \"lodash\": \"npm:lodash@^4.17.4\",\n      \"moment\": \"npm:moment@^2.21.0\",\n      \"navigo\": \"npm:navigo@^4.7.1\",\n      \"rivets\": \"npm:rivets@^0.9.6\",\n      \"socket.io-client\": \"npm:socket.io-client@^2.0.4\",\n      \"velocity\": \"github:julianshapiro/velocity@^1.5.0\"\n    },\n    \"devDependencies\": {\n      \"babel\": \"npm:babel-core@^5.8.24\",\n      \"babel-runtime\": \"npm:babel-runtime@^5.8.24\",\n      \"core-js\": \"npm:core-js@^1.1.4\"\n    }\n  },\n  \"devDependencies\": {\n    \"gulp\": \"^4.0.0\",\n    \"gulp-env\": \"^0.4.0\",\n    \"gulp-nodemon\": \"^2.2.1\",\n    \"gulp-postcss\": \"^7.0.1\",\n    \"gulp-sass\": \"^3.2.0\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"ugraphics\",\n  \"version\": \"0.0.1\",\n  \"main\": \"index.js\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"@types/express\": \"^4.11.1\",\n    \"@types/lodash\": \"^4.14.102\",\n    \"@types/node\": \"^9.4.6\",\n    \"@types/shelljs\": \"^0.7.8\",\n    \"@types/socket.io\": \"^1.4.31\",\n    \"@types/stylus\": \"^0.48.29\",\n    \"@types/winston\": \"^2.3.8\",\n    \"@types/yargs\": \"^11.0.0\",\n    \"babel-preset-env\": \"^1.6.1\",\n    \"babel-register\": \"^6.26.0\",\n    \"bootstrap\": \"4\",\n    \"caniuse-db\": \"^1.0.30000652\",\n    \"cssnano\": \"^3.10.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"express\": \"^4.15.2\",\n    \"gulp-clean\": \"^0.4.0\",\n    \"jquery\": \"^3.3.1\",\n    \"jspm\": \"^0.16.53\",\n    \"jspm-github\": \"0.13.18\",\n    \"lodash\": \"^4.17.5\",\n    \"material-design-icons\": \"^3.0.1\",\n    \"mdi\": \"^2.1.99\",\n    \"moment\": \"^2.18.1\",\n    \"popper.js\": \"^1.12.9\",\n    \"postcss-cssnext\": \"^2.10.0\",\n    \"postcss-middleware\": \"^1.1.3\",\n    \"pug\": \"^2.0.0-rc.1\",\n    \"shelljs\": \"^0.8.1\",\n    \"socket.io\": \"^2.0.4\",\n    \"stylus\": \"^0.54.5\",\n    \"vorpal\": \"^1.12.0\",\n    \"winston\": \"^3.0.0-rc2\",\n    \"yargs\": \"^8.0.1\"\n  },\n  \"jspm\": {\n    \"configFile\": \"core/js/config.js\",\n    \"dependencies\": {\n      \"axios\": \"npm:axios@^0.16.1\",\n      \"bootstrap\": \"npm:bootstrap@4.0.0\",\n      \"buffer\": \"github:jspm/nodelibs-buffer@^0.1.1\",\n      \"jquery\": \"npm:jquery@^3.2.1\",\n      \"lodash\": \"npm:lodash@^4.17.4\",\n      \"moment\": \"npm:moment@^2.21.0\",\n      \"navigo\": \"npm:navigo@^4.7.1\",\n      \"numeral\": \"npm:numeral@^2.0.6\",\n      \"rivets\": \"npm:rivets@^0.9.6\",\n      \"socket.io-client\": \"npm:socket.io-client@^2.0.4\",\n      \"velocity\": \"github:julianshapiro/velocity@^1.5.0\"\n    },\n    \"devDependencies\": {\n      \"babel\": \"npm:babel-core@^5.8.24\",\n      \"babel-runtime\": \"npm:babel-runtime@^5.8.24\",\n      \"core-js\": \"npm:core-js@^1.1.4\"\n    }\n  },\n  \"devDependencies\": {\n    \"gulp\": \"^4.0.0\",\n    \"gulp-env\": \"^0.4.0\",\n    \"gulp-nodemon\": \"^2.2.1\",\n    \"gulp-postcss\": \"^7.0.1\",\n    \"gulp-sass\": \"^3.2.0\"\n  }\n}\n",
     "longname": "/Users/harry/Developer/Builds/ugraphics/package.json",
     "name": "package.json",
     "static": true,

@@ -29,11 +29,9 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitTrigger">emitTrigger</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-handleSocket">handleSocket</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setTick">setTick</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -43,7 +41,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
@@ -80,12 +78,12 @@ import &apos;pug&apos;; // So that pkg works
 // Import config and modules from project
 import DashRouter from &apos;./dashrouter&apos;;
 import * as StylesheetMiddleware from &apos;./stylesheet&apos;;
-import * as SocketHandler from &apos;./socketHandler&apos;;
+import SHClass from &apos;./socketHandler&apos;;
 
 // -----------------------------------------------------------------------------
 // - SERVER OPTIONS ------------------------------------------------------------
 // -----------------------------------------------------------------------------
-console.log(&apos;Imports complete, configuring Winston&apos;);
+console.log(&apos;Configuring Winston&apos;);
 let consoleTransport = new Winston.transports.Console({
     format: Winston.format.combine(
         Winston.format.colorize(),
@@ -95,30 +93,6 @@ export let logger = Winston.createLogger({
     transports: [ consoleTransport ],
     level: Shared.Debug? &apos;silly&apos; : &apos;info&apos;
 });
-
-// Parse command line options with Yargs, taking defaults from config.json
-logger.silly(`Parsing command-line options`);
-/** The command-line arguments as read in with Yargs */
-let argv = Yargs
-    .option(&apos;config&apos;, {
-        alias: &apos;c&apos;,
-        describe: &apos;The config file to load&apos;,
-        type: &apos;string&apos;
-    })
-    .option(&apos;port&apos;, {
-        alias: &apos;p&apos;,
-        describe: &apos;Port to listen on&apos;,
-        type: &apos;number&apos;
-    })
-    .default({
-        port: 3000,
-        config: &apos;config.json&apos;
-    })
-    .usage(`Forge Graphics Server \nUsage: $0 [-c config] [-p port]`)
-    .help().alias(&apos;h&apos;, &apos;help&apos;)
-    .argv;
-
-Shared.LoadConfig(argv.config);
 
 logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
 logger.info(`Time of start: ${Moment().format(&apos;ddd DD MMM YYYY, HH:mm:ss ZZ&apos;)}`)
@@ -132,7 +106,7 @@ logger.silly(`Configuring Express app`);
 export let app = Express();
 /** The HTTP server that serves up {@link app} */
 export let server = HTTP.createServer(app);
-app.set(&apos;views&apos;, Shared.Config.viewDirectories);
+app.set(&apos;views&apos;, Shared.Config.frontend.viewDirectories);
 app.set(&apos;view engine&apos;, &apos;pug&apos;);
 app.set(&apos;view options&apos;, { debug: false });
 app.locals = _.assign(Shared.Config.locals, { ugr_debug: Shared.Debug, basedir: Shared.CWD });
@@ -170,16 +144,16 @@ export let io = SocketIOServer(server, {
     wsEngine: &quot;ws&quot;
 });
 
+let SocketHandler = new SHClass(Shared.Config.sockets, Shared.Config.initDataStore);
+
 // Start the Express app listening on the specified port
-server.listen(argv.port, () =&gt; {
+server.listen(Shared.argv.port, () =&gt; {
     // Log some stuff
-    logger.info(`Listening on port ${argv.port}`);
+    logger.info(`Listening on port ${Shared.argv.port}`);
     logger.debug(&apos;Debug enabled&apos;);
 
     // On any connection, handle it with the function defined in socketHandler.ts
     io.on(&apos;connection&apos;, SocketHandler.handleSocket);
-
-    SocketHandler.setTick();
 });
 
 // -----------------------------------------------------------------------------
@@ -191,7 +165,7 @@ vorpal.command(&apos;show &lt;store&gt;&apos;)
     .description(&apos;Show the contents of a module\&apos;s data store&apos;)
     .alias(&apos;s&apos;)
     .action((args, callback) =&gt; {
-        console.log(JSON.stringify(SocketHandler.dataStore[args.store] || &apos;Module not found&apos; ));
+        console.log(JSON.stringify(SocketHandler.getStore(args.store) || &apos;Module not found&apos; ));
         callback();
     });
 

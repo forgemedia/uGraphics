@@ -29,11 +29,9 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitTrigger">emitTrigger</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-handleSocket">handleSocket</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setTick">setTick</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -43,7 +41,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
@@ -60,11 +58,29 @@
 <div class="content" data-ice="content"><h1 data-ice="title">ugraphics/core/js/cg/modules/timer.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;;
 import _ from &apos;lodash&apos;;
+import Numeral from &apos;numeral&apos;;
 
 let timers = {};
+let elems = {};
+
+let padNum = (num, len) =&gt; {
+    return num.toString().padStart(len, &apos;0&apos;);
+}
+
+let format = seconds =&gt; {
+    if (seconds &lt; 0) seconds *= -1;
+    let minutes = Math.floor(seconds/60);
+    seconds %= 60;
+    return `${padNum(minutes, 2)}:${padNum(seconds, 2)}`;
+}
 
 let update = id =&gt; {
-    $(`[fg-timer=&apos;${id}&apos;]`).text(timers[id].counter);
+    let counter = timers[id].counter;
+    if (counter &lt; 0) elems[id].addClass(&apos;timer-negative&apos;);
+    else elems[id].removeClass(&apos;timer-negative&apos;);
+    elems[id].text(format(counter));
+    if (timers[id].lmode == &apos;hard&apos; &amp;&amp; counter == timers[id].limiter) clearInterval(timers[id].cinterval);
+    if (counter == timers[id].limiter) elems[id].addClass(&apos;timer-overtime&apos;);
 }
 
 let start = id =&gt; {
@@ -86,12 +102,23 @@ let down = id =&gt; {
 }
 
 let set = data =&gt; {
+    stop(data.id);
+    elems[data.id].removeClass(&apos;timer-overtime timer-negative&apos;);
     timers[data.id] = {
         counter: data.counter || 0,
         direction: data.direction || &apos;up&apos;,
-        cinterval: null
+        cinterval: null,
+        limiter: data.limiter || null,
+        lmode: data.lmode || &apos;soft&apos;
     }
     update(data.id);
+};
+
+let lset = data =&gt; {
+    if (!timers[data.id]) set(data);
+    if (data.limiter &lt; 0) timers[data.id].limiter = null;
+    timers[data.id].limiter = data.limiter || timers[data.id].limiter || null;
+    timers[data.id].lmode = data.lmode || timers[data.id].lmode || &apos;soft&apos;;
 };
 
 let stop = id =&gt; {
@@ -112,6 +139,7 @@ let add = data =&gt; {
 export default controller =&gt; {
     console.log(`${controller.name}: timer module`);
     controller.cgTriggerSubscribe(&apos;timer&apos;, data =&gt; {
+        elems[data.id] = controller.element.find(`[fg-timer=&apos;${data.id}&apos;]`);
         console.log(`${controller.name}: timer trigger ${JSON.stringify(data)}`);
         switch (data.op) {
             case &apos;start&apos;: start(data.id); break;
@@ -119,6 +147,7 @@ export default controller =&gt; {
             case &apos;stop&apos;: stop(data.id); break;
             case &apos;down&apos;: down(data.id); break;
             case &apos;add&apos;: add(data); break;
+            case &apos;lset&apos;: lset(data); break;
             default: break;
         }
     });

@@ -36,6 +36,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "ugraphics/ugraphics/shared.js~parseargs",
+    "function/index.html#static-function-ParseArgs",
+    "<span>ParseArgs</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/shared.js</span>",
+    "function"
+  ],
+  [
     "ugraphics/ugraphics/stylesheet.js~styl",
     "function/index.html#static-function-Styl",
     "<span>Styl</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/stylesheet.js</span>",
@@ -45,6 +51,12 @@ window.esdocSearchIndex = [
     "ugraphics/ugraphics/server.js~app",
     "variable/index.html#static-variable-app",
     "<span>app</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/server.js</span>",
+    "variable"
+  ],
+  [
+    "ugraphics/ugraphics/shared.js~argv",
+    "variable/index.html#static-variable-argv",
+    "<span>argv</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/shared.js</span>",
     "variable"
   ],
   [
@@ -69,30 +81,6 @@ window.esdocSearchIndex = [
     "ugraphics/ugraphics/core/js/dash/dashsetup.js~dashsetup",
     "function/index.html#static-function-dashsetup",
     "<span>dashsetup</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/core/js/dash/dashsetup.js</span>",
-    "function"
-  ],
-  [
-    "ugraphics/ugraphics/sockethandler.js~datastore",
-    "variable/index.html#static-variable-dataStore",
-    "<span>dataStore</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/socketHandler.js</span>",
-    "variable"
-  ],
-  [
-    "ugraphics/ugraphics/sockethandler.js~emitsynf",
-    "function/index.html#static-function-emitSynf",
-    "<span>emitSynf</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/socketHandler.js</span>",
-    "function"
-  ],
-  [
-    "ugraphics/ugraphics/sockethandler.js~emittrigger",
-    "function/index.html#static-function-emitTrigger",
-    "<span>emitTrigger</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/socketHandler.js</span>",
-    "function"
-  ],
-  [
-    "ugraphics/ugraphics/sockethandler.js~handlesocket",
-    "function/index.html#static-function-handleSocket",
-    "<span>handleSocket</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/socketHandler.js</span>",
     "function"
   ],
   [
@@ -126,10 +114,10 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "ugraphics/ugraphics/sockethandler.js~settick",
-    "function/index.html#static-function-setTick",
-    "<span>setTick</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/socketHandler.js</span>",
-    "function"
+    "ugraphics/ugraphics/sockethandler.js~sockethandler",
+    "class/ugraphics/socketHandler.js~socketHandler.html",
+    "<span>socketHandler</span> <span class=\"search-result-import-path\">ugraphics/ugraphics/socketHandler.js</span>",
+    "class"
   ],
   [
     "ugraphics/ugraphics/core/js/cg/modules/timer.js~timer",
@@ -628,6 +616,24 @@ window.esdocSearchIndex = [
     "file/ugraphics/socketHandler.js.html",
     "ugraphics/socketHandler.js",
     "file"
+  ],
+  [
+    "ugraphics/sockethandler.js~sockethandler#constructor",
+    "class/ugraphics/socketHandler.js~socketHandler.html#instance-constructor-constructor",
+    "ugraphics/socketHandler.js~socketHandler#constructor",
+    "method"
+  ],
+  [
+    "ugraphics/sockethandler.js~sockethandler#getstore",
+    "class/ugraphics/socketHandler.js~socketHandler.html#instance-method-getStore",
+    "ugraphics/socketHandler.js~socketHandler#getStore",
+    "method"
+  ],
+  [
+    "ugraphics/sockethandler.js~sockethandler#handlesocket",
+    "class/ugraphics/socketHandler.js~socketHandler.html#instance-method-handleSocket",
+    "ugraphics/socketHandler.js~socketHandler#handleSocket",
+    "method"
   ],
   [
     "ugraphics/stylesheet.js",
