@@ -10,5 +10,8 @@
         // font-weight bold
         line-height $bugsegment-height
 
-        &.timer-negative
-            @extend $red-texture-style
+        &.timer-negative::before
+            content: '-'
+
+        &.timer-overtime
+            @extend $orange-texture-style

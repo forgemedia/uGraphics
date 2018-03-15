@@ -3,6 +3,7 @@ import _ from 'lodash';
 import Numeral from 'numeral';
 
 let timers = {};
+let elems = {};
 
 let padNum = (num, len) => {
     return num.toString().padStart(len, '0');
@@ -17,11 +18,11 @@ let format = seconds => {
 
 let update = id => {
     let counter = timers[id].counter;
-    let elems = $(`[fg-timer='${id}']`);
-    if (counter < 0) elems.addClass('timer-negative');
-    else elems.removeClass('timer-negative');
-    elems.text(format(counter));
-    if (counter == timers[id].limiter) clearInterval(timers[id].cinterval);
+    if (counter < 0) elems[id].addClass('timer-negative');
+    else elems[id].removeClass('timer-negative');
+    elems[id].text(format(counter));
+    if (timers[id].lmode == 'hard' && counter == timers[id].limiter) clearInterval(timers[id].cinterval);
+    if (counter == timers[id].limiter) elems[id].addClass('timer-overtime');
 }
 
 let start = id => {
@@ -43,12 +44,14 @@ let down = id => {
 }
 
 let set = data => {
-    stop(data.id)
+    stop(data.id);
+    elems[data.id].removeClass('timer-overtime timer-negative');
     timers[data.id] = {
         counter: data.counter || 0,
         direction: data.direction || 'up',
         cinterval: null,
-        limiter: data.limiter || null
+        limiter: data.limiter || null,
+        lmode: data.lmode || 'soft'
     }
     update(data.id);
 };
@@ -57,6 +60,7 @@ let lset = data => {
     if (!timers[data.id]) set(data);
     if (data.limiter < 0) timers[data.id].limiter = null;
     timers[data.id].limiter = data.limiter || timers[data.id].limiter || null;
+    timers[data.id].lmode = data.lmode || timers[data.id].lmode || 'soft';
 };
 
 let stop = id => {
@@ -77,6 +81,7 @@ let add = data => {
 export default controller => {
     console.log(`${controller.name}: timer module`);
     controller.cgTriggerSubscribe('timer', data => {
+        elems[data.id] = controller.element.find(`[fg-timer='${data.id}']`);
         console.log(`${controller.name}: timer trigger ${JSON.stringify(data)}`);
         switch (data.op) {
             case 'start': start(data.id); break;

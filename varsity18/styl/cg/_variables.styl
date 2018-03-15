@@ -7,6 +7,7 @@ $bugsegment-height = 6vh
 $bugsegment-border-radius = 0.5vw
 
 $red = #d22630;
+$orange = #f26820;
 
 $grey1 = #2c2c2c;
 $grey3 = #5b5b5b;
@@ -17,6 +18,7 @@ $grey9 = #ededed;
 $grey1-gradient-tb = linear-gradient(to bottom, $grey1, darken($grey1, 20%));
 $grey9-gradient-tb = linear-gradient(to bottom, $grey9, darken($grey9, 20%));
 $red-gradient-tb = linear-gradient(to bottom, $red, darken($red, 20%));
+$orange-gradient-tb = linear-gradient(to bottom, $orange, darken($orange, 20%));
 
 $shadow_standard = 0 0.25vh 2vh 0 alpha(black, 0.25)
 
@@ -37,6 +39,13 @@ $red-texture-style
     background $red-gradient-tb
     border-top 1px solid lighten($red, 50%);
     border-bottom 1px solid darken($red, 50%)
+    color white
+    box-shadow $shadow_standard
+
+$orange-texture-style
+    background $orange-gradient-tb
+    border-top 1px solid lighten($orange, 50%);
+    border-bottom 1px solid darken($orange, 50%)
     color white
     box-shadow $shadow_standard
 
