@@ -7,8 +7,8 @@
         "docs/*",
         "index.js",
         "gulpfile.js",
-        "src/js/config.js",
-        "controllers/*"
+        "core/js/config.js",
+        "varsity18/"
     ],
     "destination": "./docs",
     "plugins": [

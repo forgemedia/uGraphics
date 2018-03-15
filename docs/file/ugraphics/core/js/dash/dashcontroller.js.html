@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">ugraphics/core/js/dash/dashcontroller.js | ugraphics</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitTrigger">emitTrigger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-handleSocket">handleSocket</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setTick">setTick</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-io">io</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-logger">logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-server">server</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CWD">CWD</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-dataStore">dataStore</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg-modules">core/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashsetup">dashsetup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash-modules">core/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/core/js/dash/dashcontroller.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;;
+import Rivets from &apos;rivets&apos;;
+import SocketIOClient from &apos;socket.io-client&apos;;
+import _ from &apos;lodash&apos;;
+
+let name;
+let io;
+let dataStore;
+
+/** The data store backing object */
+let dataStoreBacking = {};
+
+/** The method store backing object */
+let methodsBacking = {};
+
+/**
+ * Dashboard controller class
+ *
+ * Each dashboard tab corresponds to an instance of this controller
+ */
+export default class DashController {
+    /**
+     * @param {string} id The ID of the controller
+     */
+    constructor(id) {
+        console.log(`${id}: constructing controller`);
+
+        /** The element that will contain the contents of the controller template -
+         * has an `fg-panel` attribute corresponding to the ID of the controller
+         */
+        this.element = $(`[fg-panel=&apos;${id}&apos;]`);
+        name = this.name = id;
+        io = SocketIOClient.connect();
+
+        /** A proxy that writes to the methods store backing */
+        this.methods = new Proxy(methodsBacking, this.methodsStoreTraps);
+
+        /** A proxy that writes to the data store backing */
+        dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
+
+        /** A Rivets binding between the controller and its container element,
+         * which uses the data store proxy as its data model
+         */
+        this.view = Rivets.bind(this.element, this.dataStore);
+
+        // Set up functions that handle socket messages
+        this.setSocketHandlers();
+        
+        // Set up buttons that handle copying values of fg-copy elements
+        // into the main state data store
+        this.setButtons();
+
+        // When the document&apos;s ready ($()), emit a &apos;get&apos; socket message that will
+        // cause the server to emit a sync message with the component&apos;s state
+        $(() =&gt; io.emit(`${name}:get`));
+    }
+
+    /** Trap functions used by the data store proxy to
+     * handle access to the data store backing object
+     */
+    get dataStoreTraps() {
+        return {
+            set: function(target, property, value, receiver) {
+                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);
+                // Set the target&apos;s property to the value as normal
+                target[property] = value;
+
+                let obj = {};
+                obj[property] = value;
+
+                // Emit a socket message informing the server of changes
+                // and in turn causing it to sync other clients
+                io.emit(`${name}:sync`, obj);
+
+                // Return true, indicating success
+                console.log(`${name}: data store trap for ${property} complete`);
+                return true;
+            }
+        };
+    }
+
+    /** Trap functions used by the method store proxy
+     * to handle access to the method store backing object
+     */
+    get methodsStoreTraps() {
+        return {
+            set: function(target, property, value, receiver) {
+                console.log(`${name}: methods store trap, setting property ${property} to value ${value}`);
+                // If the value assigned is not a function, return false,
+                // indicating failure
+                if (typeof value !== &apos;function&apos;) {
+                    console.log(`${name}: methods store trap: ${value} is not a function`);
+                    return false;
+                }
+
+                // Set the target&apos;s property to the value as normal
+                target[property] = value;
+
+                // For any DOM element with an fg-click attribute set
+                // to the name of the method being assigned,
+                // disable any click event handler that is in place
+                // and add a new click event handler pointing to
+                // the new method
+                $(`[fg-click=&apos;${property}&apos;]`).off(&apos;click&apos;).click(target[property]).each(
+                    n =&gt; console.log(`${name}: reassigning click handler for ${n}`));
+
+                // Return true, indicating success
+                console.log(`${name}: methods store trap for ${property} complete`);
+                return true;
+            }
+        };
+    }
+
+    /** Manually sync up the data store in casws where we know the bindings won&apos;t work */
+    emitStore() {
+        console.log(`${name}: emitting store`);
+        io.emit(`${name}:sync`, dataStoreBacking);
+    }
+
+    /**
+     * Copies a value from an fg-copy element to the main state data store
+     * @param {string} id The ID of the value to copy
+     */
+    copyValue(id) {
+        console.log(`${name}: copying value ${id}`);
+
+        // Does what it says on the tin
+        this.dataStore[id] = $(`[fg-copy=&apos;${id}&apos;]`).val();
+    }
+
+    /**
+     * Sets up all the controller&apos;s elements with an `fg-copy-button` attribute
+     * to copy the corresponding value using {@link copyValue}
+     */
+    setButtons() {
+        console.log(`${name}: setting buttons`);
+
+        // For singular copy buttons
+        this.element.find(&apos;[fg-copy-button]&apos;).each((i, v) =&gt; {
+            // Find the element and get the name of the field it&apos;ll copy
+            let elem = $(v);
+            let copyId = elem.attr(&apos;fg-copy-button&apos;);
+
+            console.log(`${name}: found fg-copy-button for copyId ${copyId}`);
+            elem.click(() =&gt; {
+                console.log(`${name}: fg-copy-button clicked for copyId ${copyId}`);
+                
+                // On click, copy the field
+                this.copyValue(copyId);
+            });
+        });
+
+        this.element.find(&apos;[fg-copy-button-group]&apos;).each((i, v) =&gt; {
+            // Find the element and get the name of the group it copies
+            let elem = $(v);
+            let copyGroup = elem.attr(&apos;fg-copy-button-group&apos;);
+
+            console.log(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);
+            elem.click(() =&gt; {
+                // On click
+                console.log(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);
+
+                // Find all inputs that share that group
+                this.element.find(`[fg-copy-group=&quot;${copyGroup}&quot;]`).each((ia, va) =&gt; {
+                    // Find the element and get the name of the copy field it&apos;s bound to
+                    let elem_a = $(va);
+                    let copyId = elem_a.attr(&apos;fg-copy&apos;);
+
+                    console.log(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`);
+                    // Copy the field
+                    this.copyValue(copyId);
+                });
+            });
+        });
+
+        this.element.find(&apos;[fg-trigger-button-group]&apos;).each((i, v) =&gt; {
+            // Find the element and get the name of the trigger group it belongs to
+            let elem = $(v);
+            let triggerGroup = elem.attr(&apos;fg-trigger-button-group&apos;);
+
+            console.log(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);
+            elem.click(() =&gt; {
+                let data = {};
+                console.log(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);
+
+                this.element.find(`[fg-trigger-group=&quot;${triggerGroup}&quot;]`).each((ia, va) =&gt; {
+                    let elem_a = $(va);
+                    let triggerId = elem_a.attr(&apos;fg-trigger&apos;);
+
+                    console.log(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);
+                    data[triggerId] = $(`[fg-trigger=&apos;${triggerId}&apos;]`).val();
+                });
+
+                this.trigger(triggerGroup, data);
+            });
+        });
+
+        this.element.find(&apos;[fg-trigger]&apos;).each((i, v) =&gt; {
+            let elem = $(v);
+            let triggerId = elem.attr(&apos;fg-trigger&apos;);
+
+            console.log(`${name}: found fg-trigger for triggerId ${triggerId}`);
+            elem.click(() =&gt; {
+                console.log(`${name}: fg-trigger clicked for triggerId ${triggerId}`);
+
+                this.trigger(triggerId);
+            });
+        });
+    }
+
+    /** Sends a trigger message
+     * @param {string} id The ID of the message to send
+     * @param {Object} data The data to be sent
+     */
+    trigger(id, data) {
+        console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);
+        io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
+    }
+
+    /** Sets up socket message handler functions for the controller */
+    setSocketHandlers() {
+        // When a sync message is received...
+        io.on(`${name}:synf`, msg =&gt; {
+            console.log(`${name}: received synf, ${JSON.stringify(msg)}`);
+
+            // Use _.assign to merge the received state into the local data store
+            _.assign(dataStoreBacking, msg);
+
+            // Set the value of each fg-copy element to the corresponding value
+            // from the model
+            $(`[fg-copy]`).each((i, v) =&gt; {
+                let elem = $(v);
+                let model = elem.attr(&apos;fg-copy&apos;);
+                elem.val(this.dataStore[model]);
+            });
+        });
+    }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

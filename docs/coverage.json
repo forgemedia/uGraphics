@@ -1,0 +1,105 @@
+{
+  "coverage": "70.58%",
+  "expectCount": 68,
+  "actualCount": 48,
+  "files": {
+    "ugraphics/core/js/cg/cgAnimate.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "ugraphics/core/js/cg/cgcontroller.js": {
+      "expectCount": 15,
+      "actualCount": 12,
+      "undocumentLines": [
+        18,
+        20,
+        75
+      ]
+    },
+    "ugraphics/core/js/cg/cgsetup.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        10
+      ]
+    },
+    "ugraphics/core/js/cg/modules/clock.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "ugraphics/core/js/cg/modules/timer.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        6,
+        10,
+        19,
+        28,
+        37,
+        45,
+        52
+      ]
+    },
+    "ugraphics/core/js/dash/dashcontroller.js": {
+      "expectCount": 14,
+      "actualCount": 14,
+      "undocumentLines": []
+    },
+    "ugraphics/core/js/dash/dashsetup.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        14
+      ]
+    },
+    "ugraphics/core/js/dash/modules/queue.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "ugraphics/core/js/dash/modules/timer.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "ugraphics/dashrouter.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "ugraphics/server.js": {
+      "expectCount": 7,
+      "actualCount": 4,
+      "undocumentLines": [
+        29,
+        34,
+        128
+      ]
+    },
+    "ugraphics/shared.js": {
+      "expectCount": 4,
+      "actualCount": 2,
+      "undocumentLines": [
+        15,
+        17
+      ]
+    },
+    "ugraphics/socketHandler.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "ugraphics/stylesheet.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    }
+  }
+}

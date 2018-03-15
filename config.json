@@ -4,13 +4,13 @@
         "project": "Varsity Season 2018",
         "copyright": "Forge"
     },
-    "viewDirectories": [ "varsity18/views", "global/views" ],
+    "viewDirectories": [ "varsity18/views", "core/views" ],
     "publicDirs": {
-        "js": [ "global/js" ],
+        "js": [ "core/js" ],
         "js/local": [ "varsity18/js" ],
         "jspm_packages": [ "jspm_packages" ],
         "output": [ "output" ],
-        "assets": [ "varsity18/assets", "global/assets" ],
+        "assets": [ "varsity18/assets", "core/assets" ],
         "node_modules": [ "node_modules" ]
     },
     "log": {
