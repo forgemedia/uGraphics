@@ -13,7 +13,8 @@ export default controller => {
             controller.trigger(`timer`, {
                 op: op,
                 id: id,
-                counter: el.attr('fg-timer-counter') || 0
+                counter: el.attr('fg-timer-counter') || 0,
+                limiter: el.attr('fg-timer-limiter') || null
             });
         });
     });

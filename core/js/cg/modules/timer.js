@@ -17,6 +17,7 @@ let format = seconds => {
 
 let update = id => {
     let counter = timers[id].counter;
+    if (counter == timers[id].limiter) clearInterval(timers[id].cinterval);
     let elems = $(`[fg-timer='${id}']`);
     if (counter < 0) elems.addClass('timer-negative');
     else elems.removeClass('timer-negative');
@@ -46,7 +47,8 @@ let set = data => {
     timers[data.id] = {
         counter: data.counter || 0,
         direction: data.direction || 'up',
-        cinterval: null
+        cinterval: null,
+        limiter: data.limiter || null
     }
     update(data.id);
 };
