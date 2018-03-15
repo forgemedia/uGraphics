@@ -11,7 +11,7 @@ import Axios from 'axios';
 import Rivets from 'rivets';
 import Bootstrap from 'bootstrap';
 
-export default function(controllers) {
+export default controllers => {
     console.log('dash: begin');
 
     // Page elements

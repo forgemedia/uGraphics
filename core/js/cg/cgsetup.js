@@ -7,7 +7,7 @@
 import SocketIO from 'socket.io-client';
 import Rivets from 'rivets';
 
-export default function(controllers) {
+export default controllers => {
     console.log('cg: begin');
 
     // Hide all elements with an fg-show attribute to begin with
@@ -51,4 +51,4 @@ export default function(controllers) {
                 break;
         }
     });
-}
+};

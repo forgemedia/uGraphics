@@ -1564,9 +1564,9 @@
                 "line": 32,
                 "column": 33
               },
-              "identifierName": "CGController"
+              "identifierName": "cgController"
             },
-            "name": "CGController",
+            "name": "cgController",
             "leadingComments": null
           },
           "superClass": null,
@@ -14921,7 +14921,7 @@
         "postfix": false,
         "binop": null
       },
-      "value": "CGController",
+      "value": "cgController",
       "start": 743,
       "end": 755,
       "loc": {

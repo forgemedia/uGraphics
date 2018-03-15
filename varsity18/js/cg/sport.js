@@ -2,11 +2,11 @@ import $ from 'jquery';
 import Rivets from 'rivets';
 import _ from 'lodash';
 
-import CGController from 'js/cg/cgcontroller';
+import cgController from 'js/cg/cgController';
 import Timer from 'js/cg/modules/timer';
 
 /** @ignore */
-export default class extends CGController {
+export default class extends cgController {
     constructor() {
         super('sport');
         Timer(this);

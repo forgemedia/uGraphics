@@ -8,7 +8,7 @@
       "actualCount": 7,
       "undocumentLines": []
     },
-    "ugraphics/core/js/cg/cgcontroller.js": {
+    "ugraphics/core/js/cg/cgController.js": {
       "expectCount": 15,
       "actualCount": 12,
       "undocumentLines": [
@@ -17,7 +17,7 @@
         75
       ]
     },
-    "ugraphics/core/js/cg/cgsetup.js": {
+    "ugraphics/core/js/cg/cgSetup.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -47,12 +47,12 @@
         81
       ]
     },
-    "ugraphics/core/js/dash/dashcontroller.js": {
+    "ugraphics/core/js/dash/dashController.js": {
       "expectCount": 14,
       "actualCount": 14,
       "undocumentLines": []
     },
-    "ugraphics/core/js/dash/dashsetup.js": {
+    "ugraphics/core/js/dash/dashSetup.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [

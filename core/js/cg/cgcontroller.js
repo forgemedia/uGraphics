@@ -29,7 +29,7 @@ let animateElement = (property, show) => {
 /**
  * Character generator controller class
  */
-export default class CGController {
+export default class cgController {
     /**
      * @param {string} id The ID of the controller
      */

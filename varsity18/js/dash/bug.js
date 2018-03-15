@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import Rivets from 'rivets';
 
-import DashController from 'js/dash/dashController';
+import dashController from 'js/dash/dashController';
 
 /** @ignore */
-export default class extends DashController {
+export default class extends dashController {
     constructor() {
         super('bug');
     }

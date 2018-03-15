@@ -724,9 +724,9 @@
                 "line": 21,
                 "column": 35
               },
-              "identifierName": "DashController"
+              "identifierName": "dashController"
             },
-            "name": "DashController",
+            "name": "dashController",
             "leadingComments": null
           },
           "superClass": null,
@@ -18246,7 +18246,7 @@
         "postfix": false,
         "binop": null
       },
-      "value": "DashController",
+      "value": "dashController",
       "start": 419,
       "end": 433,
       "loc": {

@@ -14,7 +14,7 @@ div(fg-panel='bug')
                 ul.list-group.list-group-flush
                     li.list-group-item: +checkbox('Show bug', 'showBug')
                     li.list-group-item: +checkbox('Show clock', 'showClock')
-                    li.list-group-item
+                    li.list-group-item.py-1
                         - for (item of Shell.ls('varsity18/assets/img/bug/*.svg'))
                             +radio(Path.basename(item), 'bugLogo', '/' + item.replace('varsity18/', ''))(rv-disabled='showBug' class='mt-1 mb-1')
 

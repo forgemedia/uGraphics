@@ -42,13 +42,13 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html">CGController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html">cgController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgSetup">cgSetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg-modules">core/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashcontroller.js~DashController.html">DashController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashsetup">dashsetup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashController.js~dashController.html">dashController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashSetup">dashSetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash-modules">core/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
 </ul>
@@ -160,7 +160,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
         </p>
       </div>
       <div>
@@ -189,7 +189,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-cgSetup">cgSetup</a></span></span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
         </p>
       </div>
       <div>
@@ -247,7 +247,7 @@ with an fg-clock attribute to the current time, every second</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-dashsetup">dashsetup</a></span></span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-dashSetup">dashSetup</a></span></span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
         </p>
       </div>
       <div>
@@ -522,7 +522,7 @@ with an fg-clock attribute to the current time, every second</p>
     
     
     
-    <span class="code" data-ice="name">cgAnimate</span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
+    <span class="code" data-ice="name">cgAnimate</span><span class="code" data-ice="signature">(element: <span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html#instance-member-element">element</a></span>, show: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>)</span>
     <span class="right-info">
       
       
@@ -548,7 +548,7 @@ with an fg-clock attribute to the current time, every second</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">element</td>
-      <td data-ice="type" class="code"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~CGController.html#instance-member-element">element</a></span></td>
+      <td data-ice="type" class="code"><span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html#instance-member-element">element</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The element</p>
 </td>
@@ -583,22 +583,22 @@ with an fg-clock attribute to the current time, every second</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-cgsetup">
+  <h3 data-ice="anchor" id="static-function-cgSetup">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span class="code" data-ice="name">cgsetup</span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
+    <span class="code" data-ice="name">cgSetup</span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/core/js/cg/cgsetup.js.html#lineNumber10">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/core/js/cg/cgSetup.js.html#lineNumber10">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import cgsetup from &apos;<span><a href="file/ugraphics/core/js/cg/cgsetup.js.html#lineNumber10">ugraphics/ugraphics/core/js/cg/cgsetup.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import cgSetup from &apos;<span><a href="file/ugraphics/core/js/cg/cgSetup.js.html#lineNumber10">ugraphics/ugraphics/core/js/cg/cgSetup.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -716,22 +716,22 @@ with an fg-clock attribute to the current time, every second</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-dashsetup">
+  <h3 data-ice="anchor" id="static-function-dashSetup">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span class="code" data-ice="name">dashsetup</span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
+    <span class="code" data-ice="name">dashSetup</span><span class="code" data-ice="signature">(controllers: <span>*</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/ugraphics/core/js/dash/dashsetup.js.html#lineNumber14">source</a></span></span>
+      <span data-ice="source"><span><a href="file/ugraphics/core/js/dash/dashSetup.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import dashsetup from &apos;<span><a href="file/ugraphics/core/js/dash/dashsetup.js.html#lineNumber14">ugraphics/ugraphics/core/js/dash/dashsetup.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import dashSetup from &apos;<span><a href="file/ugraphics/core/js/dash/dashSetup.js.html#lineNumber14">ugraphics/ugraphics/core/js/dash/dashSetup.js</a></span>&apos;</code></pre></div>
   
   
   

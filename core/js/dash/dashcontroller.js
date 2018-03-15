@@ -18,7 +18,7 @@ let methodsBacking = {};
  *
  * Each dashboard tab corresponds to an instance of this controller
  */
-export default class DashController {
+export default class dashController {
     /**
      * @param {string} id The ID of the controller
      */
