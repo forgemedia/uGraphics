@@ -1,3 +1,7 @@
+# Forge Graphics Server Thing 3: Electric Boogal...ee
+
+**This readme is now quite outdated as the project has undergone some extensive changes over the last couple of days**
+
 The application starts at `server.js` - read the comments there for a walkthrough
 of how it works under the hood
 
