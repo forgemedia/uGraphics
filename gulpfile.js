@@ -15,7 +15,7 @@ let FS = require('fs');
 let Config = require('./config');
 
 Gulp.task('dashcss', () => {
-    return Gulp.src('./src/scss/dash.scss')
+    return Gulp.src('./global/scss/dash.scss')
         .pipe(Sass({
             prefix: '/css',
             includePaths: Config.frontend.sassIncludePaths
@@ -28,10 +28,10 @@ Gulp.task('dashcss', () => {
                 autoprefixer: false
             })
         ]))
-        .pipe(Gulp.dest('./assets/css/'));
+        .pipe(Gulp.dest('./global/assets/css/'));
 });
 
-Gulp.task('watchscss', () => Gulp.watch('./src/scss/*.scss', Gulp.series('dashcss')));
+Gulp.task('watchscss', () => Gulp.watch('./global/scss/*.scss', Gulp.series('dashcss')));
 
 Gulp.task('rundbg', () => {
     Env({
@@ -49,7 +49,8 @@ Gulp.task('rundbg', () => {
             'node_modules',
             'package.json',
             'gulpfile.js',
-            'src',
+            'varsity18',
+            'global',
             'output'
         ],
         restartable: false
@@ -61,7 +62,7 @@ Gulp.task('clean', () => {
         'output/',
         '*.log',
         'server-*',
-        'assets/css/',
+        'global/assets/css/',
         'node_modules/',
         'jspm_packages/'
     ], { read: false, allowEmpty: true }).pipe(Clean());

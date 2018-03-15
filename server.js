@@ -2,11 +2,11 @@
 // - IMPORTS -------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 console.log('Server entry point');
-import Config from './config';
-import { CWD as cwd, Debug as debug } from './shared';
+import * as Shared from './shared';
 
 // Import modules from npm/node
 import Path from 'path';
+import FS from 'fs';
 import HTTP from 'http';
 import Express from 'express';
 import Yargs from 'yargs';
@@ -14,7 +14,6 @@ import Winston from 'winston';
 import SocketIOServer from 'socket.io';
 import Moment from 'moment';
 import _ from 'lodash';
-import FS from 'fs';
 import Vorpal from 'vorpal';
 import 'pug'; // So that pkg works
 
@@ -34,10 +33,10 @@ let consoleTransport = new Winston.transports.Console({
 });
 export let logger = Winston.createLogger({
     transports: [ consoleTransport ],
-    level: debug? 'silly' : 'info'
+    level: Shared.Debug? 'silly' : 'info'
 });
 
-logger.info(`Forge Graphics Server Gen3 (${Config.locals.product} - ${Config.locals.project})`)
+logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
 logger.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
 
 // Parse command line options with Yargs, taking defaults from config.json
@@ -49,8 +48,8 @@ let argv = Yargs
         describe: 'Port to listen on',
         type: 'number'
     })
-    .default(Config.defaults)
-    .usage(`Forge Graphics Server (${Config.project})\nUsage: $0 [-p port]`)
+    .default(Shared.Config.defaults)
+    .usage(`Forge Graphics Server (${Shared.Config.project})\nUsage: $0 [-p port]`)
     .help().alias('h', 'help')
     .argv;
 
@@ -63,9 +62,10 @@ logger.silly(`Configuring Express app`);
 export let app = Express();
 /** The HTTP server that serves up {@link app} */
 export let server = HTTP.createServer(app);
+app.set('views', Shared.Config.viewDirectories);
 app.set('view engine', 'pug');
 app.set('view options', { debug: false });
-app.locals = _.assign(Config.locals, { ugr_debug: debug });
+app.locals = _.assign(Shared.Config.locals, { ugr_debug: Shared.Debug, basedir: Shared.CWD });
 
 // Pass the app to functions that install middleware which processes SCSS
 // and Stylus stylesheets on-demand
@@ -77,9 +77,10 @@ StylesheetMiddleware.Styl(app);
 // -----------------------------------------------------------------------------
 // Serve static directories
 logger.silly(`Configuring server routes`);
-for (let pub in Config.publicDirs)
-    app.use(`/${pub}`,
-        Express.static(Path.join(cwd, Config.publicDirs[pub])));
+for (let pub in Shared.Config.publicDirs)
+    for (let dir of Shared.Config.publicDirs[pub])
+        app.use(`/${pub}`,
+            Express.static(Path.join(Shared.CWD, dir)));
 
 // Use the dashboard router module to handle the dashboard view
 app.use(['/dash', '/dashboard'], DashRouter);

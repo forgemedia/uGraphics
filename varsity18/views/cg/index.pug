@@ -1,0 +1,13 @@
+doctype html
+html
+    head
+        title #{project} CG
+        link(rel='stylesheet', href='/output/styl/cg.css')
+    body(class=ugr_debug? 'debug':'')
+        #character-generator
+            include templates/bug
+            include templates/lowerThirds
+            include templates/sport
+        script(src='/jspm_packages/system.js')
+        script(src='/js/config.js')
+        script System.import('/js/local/cg')

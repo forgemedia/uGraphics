@@ -7,12 +7,14 @@
     "defaults": {
         "port": 3000
     },
+    "viewDirectories": [ "varsity18/views", "global/views" ],
     "publicDirs": {
-        "js": "src/js",
-        "jspm_packages": "jspm_packages",
-        "output": "output",
-        "assets": "assets",
-        "node_modules": "node_modules"
+        "js": [ "global/js" ],
+        "js/local": [ "varsity18/js" ],
+        "jspm_packages": [ "jspm_packages" ],
+        "output": [ "output" ],
+        "assets": [ "varsity18/assets", "global/assets" ],
+        "node_modules": [ "node_modules" ]
     },
     "log": {
         "file": false,
