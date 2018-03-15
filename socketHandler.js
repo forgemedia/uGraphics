@@ -54,6 +54,10 @@ export default class {
         setTick();
     }
 
+    getStore(id) {
+        return dataStore[id];
+    }
+
     /**
      * Called whenever a socket needs to be handled
      * @param {socket} socket The socket that needs to be handled

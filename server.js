@@ -107,7 +107,7 @@ vorpal.command('show <store>')
     .description('Show the contents of a module\'s data store')
     .alias('s')
     .action((args, callback) => {
-        console.log(JSON.stringify(SocketHandler.dataStore[args.store] || 'Module not found' ));
+        console.log(JSON.stringify(SocketHandler.getStore(args.store) || 'Module not found' ));
         callback();
     });
 
