@@ -1,5 +1,5 @@
 [fg-component="sport"]
-    #timer
+    [fg-timer='timer1']
         @extend $bugsegment
         @extend $grey9-texture-style
         border-radius $bugsegment-border-radius
@@ -10,6 +10,26 @@
         // font-weight bold
         line-height $bugsegment-height
 
+        &.timer-negative::before
+            content: '-'
+
+        &.timer-overtime
+            @extend $orange-texture-style
+        
+    [fg-timer='timer2']
+        @extend $bugsegment
+        @extend $grey1-texture-style
+        text-align center
+        right 0
+        font-size 3vh
+        height 5vh
+        line-height 5vh
+        border-bottom-left-radius $bugsegment-border-radius
+        border-bottom-right-radius $bugsegment-border-radius
+        width 8vw
+        margin-right 1vw
+        z-index -1
+        margin-top $bugsegment-height - 0.2vh
         &.timer-negative::before
             content: '-'
 

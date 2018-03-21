@@ -4,7 +4,7 @@ include /core/mixins/combo
 include /core/mixins/card
 div(fg-panel='sport')
     .container
-        +live-card('showTimer')
+        .row: .col-12: +live-card('showTimer')
             .card-header
                 h4.card-title Timer
                 p.card-text
@@ -48,3 +48,48 @@ div(fg-panel='sport')
                         button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='600') +10m
                         button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='1800') +30m
                         button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='3600') +60m
+
+        .row: .col-12: +live-card('showSubTimer')
+            .card-header
+                h4.card-title Sub-timer
+                p.card-text
+                | The sub timer appears below the main timer.
+                | Press 'Reset' to initialise the timer before you show it for the first time, or if it shows --:-- on screen.
+            ul.list-group.list-group-flush
+                li.list-group-item: +checkbox('Show sub-timer', 'showSubTimer')
+                li.list-group-item.py-1
+                    .input-group
+                        +textbox('Limiter (seconds)', 'timer2_limiter')
+                        .input-group-append: .btn-group
+                            button.btn.btn-warning.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set' fg-timer-lmode='soft' rv-fg-timer-limiter='timer2_limiter') Reset (soft limit)
+                            button.btn.btn-danger.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set' fg-timer-lmode='hard' rv-fg-timer-limiter='timer2_limiter') Reset (hard limit)
+                            button.btn.btn-success.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set') Reset (no limit)
+                li.list-group-item.py-1
+                    .btn-group.float-right
+                        button.btn.btn-success.mdi.mdi-step-backward(fg-timer-id='timer2' fg-timer-op='down')
+                        button.btn.btn-danger.mdi.mdi-pause(fg-timer-id='timer2' fg-timer-op='stop')
+                        button.btn.btn-success.mdi.mdi-step-forward(fg-timer-id='timer2' fg-timer-op='start')
+                li.list-group-item.list-group-item-info.py-1
+                    .btn-group.btn-group-sm
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-60') -1m
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-30') -30s
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-10') -10s
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-5') -5s
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-1') -1s
+                    .btn-group.btn-group-sm.float-right
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='1') +1s
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='5') +5s
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='10') +10s
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='30') +30s
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='60') +1m
+                li.list-group-item.list-group-item-info.py-1
+                    .btn-group.btn-group-sm
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-3600') -60m
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-1800') -30m
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-600') -10m
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='-300') -5m
+                    .btn-group.btn-group-sm.float-right
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='300') +5m
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='600') +10m
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='1800') +30m
+                        button.btn.btn-info(fg-timer-id='timer2' fg-timer-op='add' fg-timer-counter='3600') +60m
