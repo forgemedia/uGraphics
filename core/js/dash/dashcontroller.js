@@ -8,7 +8,9 @@ let io;
 let dataStore;
 
 /** The data store backing object */
-let dataStoreBacking = {};
+let dataStoreBacking = {
+    methods: {}
+};
 
 /** The method store backing object */
 let methodsBacking = {};
