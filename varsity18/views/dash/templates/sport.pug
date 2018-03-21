@@ -14,11 +14,12 @@ div(fg-panel='sport')
                 li.list-group-item: +checkbox('Show timer', 'showTimer')
                 li.list-group-item.py-1
                     .input-group
+                        .input-group-prepend: span.input-group-text Reset
                         +textbox('Limiter (seconds)', 'timer1_limiter')
                         .input-group-append: .btn-group
-                            button.btn.btn-warning.mdi.mdi-timer(fg-timer-id='timer1' fg-timer-op='set' fg-timer-lmode='soft' rv-fg-timer-limiter='timer1_limiter') Reset (soft limit)
-                            button.btn.btn-danger.mdi.mdi-timer(fg-timer-id='timer1' fg-timer-op='set' fg-timer-lmode='hard' rv-fg-timer-limiter='timer1_limiter') Reset (hard limit)
-                            button.btn.btn-success.mdi.mdi-timer(fg-timer-id='timer1' fg-timer-op='set') Reset (no limit)
+                            button.btn.btn-warning.mdi.mdi-timer(fg-timer-id='timer1' fg-timer-op='set' fg-timer-lmode='soft' rv-fg-timer-limiter='timer1_limiter') Soft limit
+                            button.btn.btn-danger.mdi.mdi-timer(fg-timer-id='timer1' fg-timer-op='set' fg-timer-lmode='hard' rv-fg-timer-limiter='timer1_limiter') Hard limit
+                            button.btn.btn-success.mdi.mdi-timer(fg-timer-id='timer1' fg-timer-op='set') No limit
                 li.list-group-item.py-1
                     .btn-group.float-right
                         button.btn.btn-success.mdi.mdi-step-backward(fg-timer-id='timer1' fg-timer-op='down')
@@ -49,6 +50,13 @@ div(fg-panel='sport')
                         button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='1800') +30m
                         button.btn.btn-info(fg-timer-id='timer1' fg-timer-op='add' fg-timer-counter='3600') +60m
 
+        .row.my-3: .col-12: .card
+            .card-body.py-2
+                .btn-group
+                    button.btn.btn-success.mdi.mdi-step-backward(rv-on-click='methods.timerOpBoth' fg-timer-op='down')
+                    button.btn.btn-danger.mdi.mdi-pause(rv-on-click='methods.timerOpBoth' fg-timer-op='stop')
+                    button.btn.btn-success.mdi.mdi-step-forward(rv-on-click='methods.timerOpBoth' fg-timer-op='start')
+
         .row: .col-12: +live-card('showSubTimer')
             .card-header
                 h4.card-title Sub-timer
@@ -59,11 +67,12 @@ div(fg-panel='sport')
                 li.list-group-item: +checkbox('Show sub-timer', 'showSubTimer')
                 li.list-group-item.py-1
                     .input-group
+                        .input-group-prepend: span.input-group-text Reset
                         +textbox('Limiter (seconds)', 'timer2_limiter')
                         .input-group-append: .btn-group
-                            button.btn.btn-warning.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set' fg-timer-lmode='soft' rv-fg-timer-limiter='timer2_limiter') Reset (soft limit)
-                            button.btn.btn-danger.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set' fg-timer-lmode='hard' rv-fg-timer-limiter='timer2_limiter') Reset (hard limit)
-                            button.btn.btn-success.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set') Reset (no limit)
+                            button.btn.btn-warning.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set' fg-timer-lmode='soft' rv-fg-timer-limiter='timer2_limiter') Soft limit
+                            button.btn.btn-danger.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set' fg-timer-lmode='hard' rv-fg-timer-limiter='timer2_limiter') Hard limit
+                            button.btn.btn-success.mdi.mdi-timer(fg-timer-id='timer2' fg-timer-op='set') No limit
                 li.list-group-item.py-1
                     .btn-group.float-right
                         button.btn.btn-success.mdi.mdi-step-backward(fg-timer-id='timer2' fg-timer-op='down')

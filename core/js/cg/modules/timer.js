@@ -84,12 +84,12 @@ export default controller => {
         elems[data.id] = controller.element.find(`[fg-timer='${data.id}']`);
         console.log(`${controller.name}: timer trigger ${JSON.stringify(data)}`);
         switch (data.op) {
-            case 'start': start(data.id); break;
-            case 'set': set(data); break;
-            case 'stop': stop(data.id); break;
-            case 'down': down(data.id); break;
-            case 'add': add(data); break;
-            case 'lset': lset(data); break;
+            case 'start': start(data.id); break; // Start op: go forward
+            case 'set': set(data); break; // Set op: stop, reset & reconfigure a timer
+            case 'stop': stop(data.id); break; // Stop op: pause a timer
+            case 'down': down(data.id); break; // Down op: go backwards
+            case 'add': add(data); break; // Add op: Add to the counter (or subtract with a negative)
+            case 'lset': lset(data); break; // Lset op: Set the timer's limiter without a full set op
             default: break;
         }
     });
