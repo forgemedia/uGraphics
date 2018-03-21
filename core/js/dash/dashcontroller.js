@@ -113,7 +113,7 @@ export default class dashController {
         };
     }
 
-    /** Manually sync up the data store in casws where we know the bindings won't work */
+    /** Manually sync up the data store in cases where we know the bindings won't work */
     emitStore() {
         console.log(`${name}: emitting store`);
         io.emit(`${name}:sync`, dataStoreBacking);
