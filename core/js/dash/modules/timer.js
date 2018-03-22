@@ -4,22 +4,20 @@ export default controller => {
     console.debug(`${controller.name}: timer module`);
     controller.element.find('[fg-timer-id]').each((i, v) => {
         let el = $(v);
-        let id = el.attr('fg-timer-id');
-        let op = el.attr('fg-timer-op');
-        let counter = el.attr('fg-timer-counter');
-        if (!op) return;
-        
+
         el.click(() => {
-            controller.mechanism(`timer`, {
+            let id = el.attr('fg-timer-id');
+            let op = el.attr('fg-timer-op');
+            if (!id || !op) return;
+
+            let request = {
                 op: op,
                 id: id,
-                counter: el.attr('fg-timer-counter') || 0,
-                limiter: el.attr('fg-timer-limiter') || null,
-                lmode: el.attr('fg-timer-lmode') || 'soft'
-            });
+                settings: {}
+            };
+
+            let counter = el.attr('fg-timer-counter'); if (counter) request.settings.counter = counter;
+            controller.mechanism('timer', request);
         });
     });
-    controller.replySubscribe('timer', data => {
-        console.log(`Timer reply: ${JSON.stringify(data)}`);
-    })
 };

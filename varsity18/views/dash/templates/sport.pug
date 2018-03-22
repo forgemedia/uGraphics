@@ -10,15 +10,15 @@ div(fg-panel='sport')
                 h4 Scoreboard
             ul.list-group-item: +checkbox('Show', 'showScoreboard')
 
-        .row: .col-12: +timer-ui('Main timer', 'showTimer', 'timer1')
+        .row.mb-3: .col-12: +timer-ui('Main timer', 'showTimer', 'timer1')
             p.card-text Appears in the top right corner
 
-        .row.my-3: .col-12: .card
-            .card-body.py-2
-                .btn-group
-                    button.btn.btn-success.mdi.mdi-step-backward(rv-on-click='methods.timerOpBoth' fg-timer-op='down')
-                    button.btn.btn-danger.mdi.mdi-pause(rv-on-click='methods.timerOpBoth' fg-timer-op='stop')
-                    button.btn.btn-success.mdi.mdi-step-forward(rv-on-click='methods.timerOpBoth' fg-timer-op='start')
+        //- .row.my-3: .col-12: .card
+        //-     .card-body.py-2
+        //-         .btn-group
+        //-             button.btn.btn-success.mdi.mdi-step-backward(rv-on-click='methods.timerOpBoth' fg-timer-op='down')
+        //-             button.btn.btn-danger.mdi.mdi-pause(rv-on-click='methods.timerOpBoth' fg-timer-op='stop')
+        //-             button.btn.btn-success.mdi.mdi-step-forward(rv-on-click='methods.timerOpBoth' fg-timer-op='start')
 
         .row: .col-12: +timer-ui('Sub-timer', 'showSubTimer', 'timer2')
             p.card-text Appears below the main timer

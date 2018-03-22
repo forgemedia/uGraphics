@@ -8,13 +8,31 @@ let io;
 let dataStore;
 let subscriptions = {};
 
+/** Manually sync up the data store in cases where we know the bindings won't work */
+let emitStore = () => {
+    console.debug(`${name}: emitting store`);
+    io.emit(`${name}:sync`, dataStoreBacking);
+};
+
 /** The data store backing object */
 let dataStoreBacking = {
-    methods: {}
+    methods: {
+        emitStore: emitStore
+    }
 };
 
 /** The method store backing object */
 let methodsBacking = {};
+
+let padNum = (num, len) => num.toString().padStart(len, '0');
+let formatMinutes = seconds => {
+    if (seconds === null || seconds === undefined) return 'Uninitialised';
+    let negative = seconds < 0;
+    if (negative) seconds *= -1;
+    let minutes = Math.floor(seconds / 60);
+    seconds %= 60;
+    return `${negative? '-' : ''}${padNum(minutes || 0, 2)}:${padNum(seconds || 0, 2)}`;
+};
 
 /**
  * Dashboard controller class
@@ -40,6 +58,9 @@ export default class dashController {
 
         /** A proxy that writes to the data store backing */
         dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
+
+        Rivets.formatters.not = value => !value;
+        Rivets.formatters.minutes = formatMinutes;
 
         /** A Rivets binding between the controller and its container element,
          * which uses the data store proxy as its data model
@@ -114,11 +135,6 @@ export default class dashController {
         };
     }
 
-    /** Manually sync up the data store in cases where we know the bindings won't work */
-    emitStore() {
-        console.debug(`${name}: emitting store`);
-        io.emit(`${name}:sync`, dataStoreBacking);
-    }
 
     /**
      * Copies a value from an fg-copy element to the main state data store

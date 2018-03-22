@@ -46,8 +46,10 @@ footer {
 }
 
 .card-live {
-    background-color: $red;
-    color: $white;
+    .card-header {
+        background-color: $red;
+        color: $white;
+    }
 }
 
 .custom-checkbox, .custom-radio {

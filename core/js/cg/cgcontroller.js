@@ -190,7 +190,7 @@ export default class cgController {
         return {
             // On assignment
             set: function (target, property, value, receiver) {
-                console.debug(`${name}: data store trap, setting property ${property} to value ${value}`);
+                console.debug(`${name}: data store trap, setting property ${property} to value ${JSON.stringify(value)}`);
                 // Assign the value to the target object's property as usual
                 target[property] = value;
 
