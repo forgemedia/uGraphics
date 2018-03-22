@@ -10,7 +10,7 @@ export default controller => {
         if (!op) return;
         
         el.click(() => {
-            controller.trigger(`timer`, {
+            controller.mechanism(`timer`, {
                 op: op,
                 id: id,
                 counter: el.attr('fg-timer-counter') || 0,

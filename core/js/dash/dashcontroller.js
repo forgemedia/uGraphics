@@ -220,6 +220,11 @@ export default class dashController {
         io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
     }
 
+    mechanism(id, data) {
+        console.debug(`${name}: mechanism id ${id}, data ${JSON.stringify(data)}`);
+        io.emit(`${name}:mechanism`, _.assign({ id: id, data: data || null }));
+    }
+
     replySubscribe(id, callback) {
         if (!subscriptions[id]) subscriptions[id] = [];
         return subscriptions[id].push(callback);

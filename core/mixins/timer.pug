@@ -15,8 +15,8 @@ mixin timer-ui(name, showid, tid)
                         button.btn.btn-success.mdi.mdi-timer(fg-timer-id=tid fg-timer-op='set') No limit
             li.list-group-item.py-1
                 .btn-group.float-right
-                    if ugr_debug
-                        button.btn.btn-warning(fg-timer-id=tid fg-timer-op='query') Query
+                    //- if ugr_debug
+                        //- button.btn.btn-warning(fg-timer-id=tid fg-timer-op='query') Query
                     button.btn.btn-success.mdi.mdi-step-backward(fg-timer-id=tid fg-timer-op='down')
                     button.btn.btn-danger.mdi.mdi-pause(fg-timer-id=tid fg-timer-op='stop')
                     button.btn.btn-success.mdi.mdi-step-forward(fg-timer-id=tid fg-timer-op='start')

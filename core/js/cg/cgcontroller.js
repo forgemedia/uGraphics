@@ -25,7 +25,9 @@ let animateElement = (property, show) => {
         // });
         cgAnimate(v, show)
     });
-}
+};
+
+let padNum = (num, len) => num.toString().padStart(len, '0');
 
 /**
  * Character generator controller class
@@ -62,6 +64,13 @@ export default class cgController {
         };
 
         Rivets.formatters.not = value => !value;
+        Rivets.formatters.minutes = seconds => {
+            let negative = seconds < 0;
+            if (negative) seconds *= -1;
+            let minutes = Math.floor(seconds / 60);
+            seconds %= 60;
+            return `${negative? '-' : ''}${padNum(minutes || 0, 2)}:${padNum(seconds || 0, 2)}`;
+        };
 
         // Bind the controller to the element, using the data store proxy
         // as the data model

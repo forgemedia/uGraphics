@@ -34,7 +34,7 @@ let consoleTransport = new Winston.transports.Console({
 let transportArray = [ consoleTransport ];
 export let logger = Winston.createLogger({
     transports: transportArray,
-    level: Shared.Debug? 'verbose' : 'info'
+    level: Shared.Debug? 'debug' : 'info'
 });
 
 logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
@@ -108,7 +108,15 @@ vorpal.command('show <store>')
     .description('Show the contents of a controller\'s data store')
     .alias('s')
     .action((args, callback) => {
-        logger.error(JSON.stringify(SocketHandler.getStore(args.store) || 'Controller not found' ));
+        let store = SocketHandler.getStore(args.store) || null;
+        if (store) logger.info(JSON.stringify(store)); else logger.error('Store not found');
+        callback();
+    });
+
+vorpal.command('stores')
+    .description('List the data stores available')
+    .action((args, callback) => {
+        logger.info(SocketHandler.listStores());
         callback();
     });
 

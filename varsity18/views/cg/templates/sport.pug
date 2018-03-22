@@ -1,5 +1,5 @@
 div(fg-component='sport'): .mcontainer
-    div(rv-fgshow='showTimer' fg-anim='slide-y' fg-translateY='-10vh' fg-timer='timer1' fg-delay-out='200' rv-class-no-round-left='showScoreboard') --:--
+    div(rv-fgshow='showTimer' fg-anim='slide-y' fg-translateY='-10vh' fg-timer='timer1' fg-delay-out='200' rv-class-no-round-left='showScoreboard') {timer.timer1.counter | minutes}
     div(rv-fgshow='methods.and | call showTimer showSubTimer' fg-anim='slide-y' fg-translateY='-6vh' fg-timer='timer2' fg-delay-in='200') --:--
     div#scoreboard(rv-fgshow='showScoreboard' fg-anim='slide-y' fg-translateY='-10vh' rv-class-noclock='showTimer | not')
         span.scs#uos UOS
