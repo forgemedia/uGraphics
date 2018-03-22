@@ -1,4 +1,47 @@
 [fg-component="sport"]
+    .no-round-right
+        border-top-right-radius 0 !important
+        border-bottom-right-radius 0 !important
+    
+    .no-round-left
+        border-top-left-radius 0 !important
+        border-bottom-left-radius 0 !important
+
+    #scoreboard
+        @extend $bugsegment 
+        // @extend $grey1-texture-style
+        // border-radius $bugsegment-border-radius
+        right 10vw
+        // width 20vw
+        // font-size 4.5vh
+        // line-height $bugsegment-height
+        transition right 0.5s ease-in-out 0.5s, border-radius 0.5s ease-in-out 0.5s
+
+        &.noclock
+            right 0
+
+        .scs
+            font-size 3.5vh
+            font-weight bold
+            text-align center
+            line-height $bugsegment-height
+            display inline-block
+            width 5vw
+            position relative
+            height $bugsegment-height
+
+            &#uos
+                border-top-left-radius $bugsegment-border-radius
+                border-bottom-left-radius $bugsegment-border-radius
+                @extend $gold-texture-style
+                color black
+
+            &#shu
+                border-top-right-radius $bugsegment-border-radius
+                border-bottom-right-radius $bugsegment-border-radius
+                @extend $hallam-texture-style
+                color white
+
     [fg-timer='timer1']
         @extend $bugsegment
         @extend $grey9-texture-style
@@ -9,6 +52,7 @@
         text-align center
         // font-weight bold
         line-height $bugsegment-height
+        z-index 10
 
         &.timer-negative::before
             content: '-'

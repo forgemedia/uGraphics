@@ -22,7 +22,11 @@ let update = id => {
     else elems[id].removeClass('timer-negative');
     elems[id].text(format(counter));
     if (timers[id].lmode == 'hard' && counter == timers[id].limiter) clearInterval(timers[id].cinterval);
-    if (counter == timers[id].limiter) elems[id].addClass('timer-overtime');
+    else if (timers[id].lmode == 'soft' && timers[id].cinterval) {
+        if (timers[id].direction == 'up' && timers[id].counter > timers[id].limiter) elems[id].addClass('timer-overtime');
+        else if (timers[id].direction == 'down' && timers[id].counter < timers[id].limiter) elems[id].addClass('timer-overtime');
+    }
+    else elems[id].removeClass('timer-overtime');
 }
 
 let start = id => {

@@ -5,9 +5,13 @@ $width-x = 100vw - ($margin-x * 2)
 
 $bugsegment-height = 6vh
 $bugsegment-border-radius = 0.5vw
+$txs-border-width = 0.15vh
 
 $red = #d22630;
 $orange = #f26820;
+
+$hallam = #ac145a
+$gold = #ffdc00
 
 $grey1 = #2c2c2c;
 $grey3 = #5b5b5b;
@@ -19,34 +23,50 @@ $grey1-gradient-tb = linear-gradient(to bottom, $grey1, darken($grey1, 20%));
 $grey9-gradient-tb = linear-gradient(to bottom, $grey9, darken($grey9, 20%));
 $red-gradient-tb = linear-gradient(to bottom, $red, darken($red, 20%));
 $orange-gradient-tb = linear-gradient(to bottom, $orange, darken($orange, 20%));
+$gold-gradient-tb = linear-gradient(to bottom, $gold, darken($gold, 20%));
+$hallam-gradient-tb = linear-gradient(to bottom, $hallam, darken($hallam, 20%));
 
-$shadow_standard = 0 0.25vh 2vh 0 alpha(black, 0.25)
+$shadow_standard = 0 $txs-border-width 2vh 0 alpha(black, 0.25)
 
 $grey1-texture-style
     background $grey1-gradient-tb
-    border-top 1px solid $grey3
+    border-top $txs-border-width solid $grey3
     color white
     box-shadow $shadow_standard
 
 $grey9-texture-style
     background $grey9-gradient-tb
-    border-top 1px solid white
-    border-bottom 1px solid $grey5
+    border-top $txs-border-width solid white
+    border-bottom $txs-border-width solid $grey5
     color $grey1
     box-shadow $shadow_standard
 
 $red-texture-style
     background $red-gradient-tb
-    border-top 1px solid lighten($red, 50%);
-    border-bottom 1px solid darken($red, 50%)
+    border-top $txs-border-width solid lighten($red, 50%);
+    border-bottom $txs-border-width solid darken($red, 50%)
     color white
     box-shadow $shadow_standard
 
 $orange-texture-style
     background $orange-gradient-tb
-    border-top 1px solid lighten($orange, 50%);
-    border-bottom 1px solid darken($orange, 50%)
+    border-top $txs-border-width solid lighten($orange, 50%);
+    border-bottom $txs-border-width solid darken($orange, 50%)
     color white
+    box-shadow $shadow_standard
+
+$hallam-texture-style
+    background $hallam-gradient-tb
+    border-top $txs-border-width solid lighten($hallam, 50%);
+    border-bottom $txs-border-width solid darken($hallam, 50%)
+    color white
+    box-shadow $shadow_standard
+
+$gold-texture-style
+    background $gold-gradient-tb
+    border-top $txs-border-width solid lighten($gold, 50%);
+    border-bottom $txs-border-width solid darken($gold, 50%)
+    color black
     box-shadow $shadow_standard
 
 $bugsegment
