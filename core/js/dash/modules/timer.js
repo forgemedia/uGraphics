@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 export default controller => {
-    console.log(`${controller.name}: timer module`);
+    console.debug(`${controller.name}: timer module`);
     controller.element.find('[fg-timer-id]').each((i, v) => {
         let el = $(v);
         let id = el.attr('fg-timer-id');

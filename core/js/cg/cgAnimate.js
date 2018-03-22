@@ -26,7 +26,7 @@ let getProps = v => {
         props[`${prop}-in`] = v.attr(`fg-${prop}-in`) || props[prop];
         props[`${prop}-out`] = v.attr(`fs-${prop}-out`) || props[out];
     }
-    console.log(`animate: the pre-program props (classic) are ${JSON.stringify(props)}`);
+    console.debug(`animate: the pre-program props (classic) are ${JSON.stringify(props)}`);
     return props;
 };
 
@@ -40,7 +40,7 @@ let getPropsInOut = (v, show) => {
     for (let prop in propDescriptor)
         props[prop] = v.attr(`fg-${prop}`) || v.attr(`fg-${prop}-${show? 'in' : 'out'}`) || propDescriptor[prop];
     props.easing = `ease${show? 'Out' : 'In'}${props.easing}`;
-    console.log(`animate: the pre-program props (inOut, show ${show}) are ${JSON.stringify(props)}`);
+    console.debug(`animate: the pre-program props (inOut, show ${show}) are ${JSON.stringify(props)}`);
     return props;
 };
 
@@ -48,7 +48,7 @@ let getPropsInOut = (v, show) => {
 
 /** Animation program: fade */
 let apr_fade = (v, show) => {
-    console.log(`animate: fading (${show})`);
+    console.debug(`animate: fading (${show})`);
     let p = getPropsInOut(v, show);
     v.velocity({
         opacity: show? p.opacity : 0
@@ -63,7 +63,7 @@ let apr_fade = (v, show) => {
  * Animation program: slide x
  */
 let apr_slide_x = (v, show) => {
-    console.log(`animate: sliding x (${show})`);
+    console.debug(`animate: sliding x (${show})`);
     let p = getPropsInOut(v, show);
     v.velocity({
         opacity: show? p.opacity : p['out-opacity'],
@@ -77,7 +77,7 @@ let apr_slide_x = (v, show) => {
 
 /** Animation program: slide y */
 let apr_slide_y = (v, show) => {
-    console.log(`animate: sliding y (${show})`);
+    console.debug(`animate: sliding y (${show})`);
     let p = getPropsInOut(v, show);
     v.velocity({
         opacity: show? p.opacity : p['out-opacity'],
@@ -97,7 +97,7 @@ let apr_slide_y = (v, show) => {
 export default (element, show) => {
     // Get a jQuery object for the element
     let elem = $(element);
-    console.log(`animate: ANIMATING ${elem.prop('id')} (${show})`);
+    console.debug(`animate: ANIMATING ${elem.prop('id')} (${show})`);
 
     // Get the fg-anim animation program for each element, or 'none' if there is
     // no fg-anim attribute
@@ -108,7 +108,7 @@ export default (element, show) => {
     if (show && animInAttr) animationProgram = animInAttr;
     else if (!show && animOutAttr) animationProgram = animOutAttr;
     else animationProgram = elem.attr('fg-anim') || 'none';
-    console.log(`animate: the animation program is ${animationProgram}`);
+    console.debug(`animate: the animation program is ${animationProgram}`);
 
     // Make sure the element is actually visible
     elem.show();

@@ -50,13 +50,13 @@ export default class cgController {
         /** The ID of the controller */
         this.name = id;
 
-        console.log(`constructing controller with name ${this.name}, dataStoreBacking ${JSON.stringify(dataStoreBacking)}`);
+        console.debug(`constructing controller with name ${this.name}, dataStoreBacking ${JSON.stringify(dataStoreBacking)}`);
 
         /** The socket.io client */
         this.io = SocketIOClient.connect();
 
         Rivets.binders.fgshow = (el, value) => {
-            console.log(`animate: fgshow binder for ${$(el).prop('id')}, value ${JSON.stringify(value)}`)
+            console.debug(`animate: fgshow binder for ${$(el).prop('id')}, value ${JSON.stringify(value)}`)
             cgAnimate(el, value);
         };
 
@@ -82,7 +82,7 @@ export default class cgController {
         // When a sync message is received...
         this.io.on(`${this.name}:synf`, msg => {
             // Send a log to the console for debugging purposes
-            console.log(`${this.name}: received ${this.name}:synf, ${JSON.stringify(msg)}`);
+            console.debug(`${this.name}: received ${this.name}:synf, ${JSON.stringify(msg)}`);
 
             // Use _.assign to merge the received state into the local data store
             _.assign(this.dataStore, msg);
@@ -91,7 +91,7 @@ export default class cgController {
         // When a trigger message is received...
         this.io.on(`${this.name}:trigger`, msg => {
             // Send a log to the console for debugging purposes
-            console.log(`${this.name}: received ${this.name}:trigger, ${JSON.stringify(msg)}`);
+            console.debug(`${this.name}: received ${this.name}:trigger, ${JSON.stringify(msg)}`);
 
             // Keep a record of the event id contained in the msg object
             let id = msg.id;
@@ -136,14 +136,14 @@ export default class cgController {
         // is a marker saying this graphic is currently
         // in progress
         if (hideDelay < 50 || inProgress[id]) {
-            console.log(`${this.name}: the graphic ${id} is currently in progress`);
+            console.debug(`${this.name}: the graphic ${id} is currently in progress`);
             return;
         }
 
         // Otherwise, start by marking this graphic as in progress
         inProgress[id] = true;
 
-        console.log(`${this.name}: cgTriggerAnimate for id ${id}, hideDelay ${hideDelay}`);
+        console.debug(`${this.name}: cgTriggerAnimate for id ${id}, hideDelay ${hideDelay}`);
 
         // Automatically set the values of relevant DOM elements
         for (let item in data) {
@@ -171,7 +171,7 @@ export default class cgController {
         return {
             // On assignment
             set: function (target, property, value, receiver) {
-                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);
+                console.debug(`${name}: data store trap, setting property ${property} to value ${value}`);
                 // Assign the value to the target object's property as usual
                 target[property] = value;
 
@@ -180,7 +180,7 @@ export default class cgController {
                 animateElement(property, value);
 
                 // Return true, indicating success
-                console.log(`${name}: data store trap for ${property} complete`);
+                console.debug(`${name}: data store trap for ${property} complete`);
                 return true;
             }
         }

@@ -25,7 +25,7 @@ export default class dashController {
      * @param {string} id The ID of the controller
      */
     constructor(id) {
-        console.log(`${id}: constructing controller`);
+        console.debug(`${id}: constructing controller`);
 
         /** The element that will contain the contents of the controller template -
          * has an `fg-panel` attribute corresponding to the ID of the controller
@@ -63,7 +63,7 @@ export default class dashController {
     get dataStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
-                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);
+                console.debug(`${name}: data store trap, setting property ${property} to value ${value}`);
                 // Set the target's property to the value as normal
                 target[property] = value;
 
@@ -75,7 +75,7 @@ export default class dashController {
                 io.emit(`${name}:sync`, obj);
 
                 // Return true, indicating success
-                console.log(`${name}: data store trap for ${property} complete`);
+                console.debug(`${name}: data store trap for ${property} complete`);
                 return true;
             }
         };
@@ -87,11 +87,11 @@ export default class dashController {
     get methodsStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
-                console.log(`${name}: methods store trap, setting property ${property} to value ${value}`);
+                console.debug(`${name}: methods store trap, setting property ${property} to value ${value}`);
                 // If the value assigned is not a function, return false,
                 // indicating failure
                 if (typeof value !== 'function') {
-                    console.log(`${name}: methods store trap: ${value} is not a function`);
+                    console.debug(`${name}: methods store trap: ${value} is not a function`);
                     return false;
                 }
 
@@ -104,10 +104,10 @@ export default class dashController {
                 // and add a new click event handler pointing to
                 // the new method
                 $(`[fg-click='${property}']`).off('click').click(target[property]).each(
-                    n => console.log(`${name}: reassigning click handler for ${n}`));
+                    n => console.debug(`${name}: reassigning click handler for ${n}`));
 
                 // Return true, indicating success
-                console.log(`${name}: methods store trap for ${property} complete`);
+                console.debug(`${name}: methods store trap for ${property} complete`);
                 return true;
             }
         };
@@ -115,7 +115,7 @@ export default class dashController {
 
     /** Manually sync up the data store in cases where we know the bindings won't work */
     emitStore() {
-        console.log(`${name}: emitting store`);
+        console.debug(`${name}: emitting store`);
         io.emit(`${name}:sync`, dataStoreBacking);
     }
 
@@ -124,7 +124,7 @@ export default class dashController {
      * @param {string} id The ID of the value to copy
      */
     copyValue(id) {
-        console.log(`${name}: copying value ${id}`);
+        console.debug(`${name}: copying value ${id}`);
 
         // Does what it says on the tin
         this.dataStore[id] = $(`[fg-copy='${id}']`).val();
@@ -135,7 +135,7 @@ export default class dashController {
      * to copy the corresponding value using {@link copyValue}
      */
     setButtons() {
-        console.log(`${name}: setting buttons`);
+        console.debug(`${name}: setting buttons`);
 
         // For singular copy buttons
         this.element.find('[fg-copy-button]').each((i, v) => {
@@ -143,9 +143,9 @@ export default class dashController {
             let elem = $(v);
             let copyId = elem.attr('fg-copy-button');
 
-            console.log(`${name}: found fg-copy-button for copyId ${copyId}`);
+            console.debug(`${name}: found fg-copy-button for copyId ${copyId}`);
             elem.click(() => {
-                console.log(`${name}: fg-copy-button clicked for copyId ${copyId}`);
+                console.debug(`${name}: fg-copy-button clicked for copyId ${copyId}`);
                 
                 // On click, copy the field
                 this.copyValue(copyId);
@@ -157,10 +157,10 @@ export default class dashController {
             let elem = $(v);
             let copyGroup = elem.attr('fg-copy-button-group');
 
-            console.log(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);
+            console.debug(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);
             elem.click(() => {
                 // On click
-                console.log(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);
+                console.debug(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);
 
                 // Find all inputs that share that group
                 this.element.find(`[fg-copy-group="${copyGroup}"]`).each((ia, va) => {
@@ -168,7 +168,7 @@ export default class dashController {
                     let elem_a = $(va);
                     let copyId = elem_a.attr('fg-copy');
 
-                    console.log(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`);
+                    console.debug(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`);
                     // Copy the field
                     this.copyValue(copyId);
                 });
@@ -180,16 +180,16 @@ export default class dashController {
             let elem = $(v);
             let triggerGroup = elem.attr('fg-trigger-button-group');
 
-            console.log(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);
+            console.debug(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);
             elem.click(() => {
                 let data = {};
-                console.log(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);
+                console.debug(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);
 
                 this.element.find(`[fg-trigger-group="${triggerGroup}"]`).each((ia, va) => {
                     let elem_a = $(va);
                     let triggerId = elem_a.attr('fg-trigger');
 
-                    console.log(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);
+                    console.debug(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);
                     data[triggerId] = $(`[fg-trigger='${triggerId}']`).val();
                 });
 
@@ -201,9 +201,9 @@ export default class dashController {
             let elem = $(v);
             let triggerId = elem.attr('fg-trigger');
 
-            console.log(`${name}: found fg-trigger for triggerId ${triggerId}`);
+            console.debug(`${name}: found fg-trigger for triggerId ${triggerId}`);
             elem.click(() => {
-                console.log(`${name}: fg-trigger clicked for triggerId ${triggerId}`);
+                console.debug(`${name}: fg-trigger clicked for triggerId ${triggerId}`);
 
                 this.trigger(triggerId);
             });
@@ -215,7 +215,7 @@ export default class dashController {
      * @param {Object} data The data to be sent
      */
     trigger(id, data) {
-        console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);
+        console.debug(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);
         io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
     }
 
@@ -223,7 +223,7 @@ export default class dashController {
     setSocketHandlers() {
         // When a sync message is received...
         io.on(`${name}:synf`, msg => {
-            console.log(`${name}: received synf, ${JSON.stringify(msg)}`);
+            console.debug(`${name}: received synf, ${JSON.stringify(msg)}`);
 
             // Use _.assign to merge the received state into the local data store
             _.assign(dataStoreBacking, msg);

@@ -27,18 +27,18 @@ let update = id => {
 
 let start = id => {
     if (!timers[id] || timers[id].cinterval) return;
-    console.log(`- Timer start ${id}`);
+    console.debug(`- Timer start ${id}`);
     timers[id].cinterval = setInterval(() => {
-        console.log(`- Timer ctick ${id}, ${timers[id].counter++}`);
+        console.debug(`- Timer uptick ${id}, ${timers[id].counter++}`);
         update(id);
     }, 1000);
 };
 
 let down = id => {
     if (!timers[id] || timers[id].cinterval) return;
-    console.log(`- Timer down ${id}`);
+    console.debug(`- Timer down ${id}`);
     timers[id].cinterval = setInterval(() => {
-        console.log(`- Timer dtick ${id}, ${timers[id].counter--}`);
+        console.debug(`- Timer dntick ${id}, ${timers[id].counter--}`);
         update(id);
     }, 1000);
 }
@@ -64,7 +64,7 @@ let lset = data => {
 };
 
 let stop = id => {
-    console.log(`- Timer stop ${id}`);
+    console.debug(`- Timer stop ${id}`);
     if (timers[id] && timers[id].cinterval) {
         clearInterval(timers[id].cinterval);
         timers[id].cinterval = null;
@@ -73,16 +73,16 @@ let stop = id => {
 
 let add = data => {
     if (!timers[data.id]) return;
-    console.log(`- Timer add ${data.id}, ${data.counter}`);
+    console.debug(`- Timer add ${data.id}, ${data.counter}`);
     timers[data.id].counter += parseInt(data.counter) || 0;
     update(data.id);
 }
 
 export default controller => {
-    console.log(`${controller.name}: timer module`);
+    console.debug(`${controller.name}: timer module`);
     controller.cgTriggerSubscribe('timer', data => {
         elems[data.id] = controller.element.find(`[fg-timer='${data.id}']`);
-        console.log(`${controller.name}: timer trigger ${JSON.stringify(data)}`);
+        console.debug(`${controller.name}: timer trigger ${JSON.stringify(data)}`);
         switch (data.op) {
             case 'start': start(data.id); break; // Start op: go forward
             case 'set': set(data); break; // Set op: stop, reset & reconfigure a timer
