@@ -19,7 +19,7 @@ let emitSynf = (socketName, delta) => {
     io.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 
     // Log it
-    logger.debug(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
+    logger.silly(`Emitted ${socketName}:synf: ${delta? '(delta) ' + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
 };
 
 /**
@@ -72,7 +72,7 @@ export default class {
             // When a sync message is received...
             socket.on(`${socketName}:sync`, msg => {
                 // Log it
-                logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
+                logger.silly(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
 
                 // Assign the received message into the respective data store
                 _.assign(dataStore[socketName], msg);
