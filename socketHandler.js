@@ -35,6 +35,19 @@ let emitTrigger = (socketName, msg) => {
     logger.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
 };
 
+/**
+ * Emits a reply message for the named component
+ * @param {string} socketName The name of the component
+ * @param {Object} msg The object to emit as accompanying data
+ */
+let emitReply = (socketName, msg) => {
+    // Emit it over socket
+    io.emit(`${socketName}:reply`, msg);
+
+    // Log it
+    logger.debug(`Emitted ${socketName}:reply: ${JSON.stringify(msg)}`);
+};
+
 /** Sets up a sixty-second tick interval to keep the system in sync */
 let setTick = () => {
     // Every n seconds, emit a sync event for each socket
@@ -98,6 +111,11 @@ export default class {
                 // Pass it on
                 emitTrigger(socketName, msg);
             });
+
+            socket.on(`${socketName}:reply`, msg => {
+                logger.debug(`Rply on ${socketName}:reply: ${msg.id}, ${msg.data}`);
+                emitReply(socketName, msg);
+            })
         }
     };
 }

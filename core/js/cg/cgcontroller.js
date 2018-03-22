@@ -16,6 +16,7 @@ let dataStoreBacking = {
 let inProgress = {};
 
 let subscriptions = {};
+let name = '';
 
 let animateElement = (property, show) => {
     $(`[fg-show=${property}]`).each((i, v) => {
@@ -48,7 +49,7 @@ export default class cgController {
         this.methods = {};
 
         /** The ID of the controller */
-        this.name = id;
+        name = this.name = id;
 
         console.debug(`constructing controller with name ${this.name}, dataStoreBacking ${JSON.stringify(dataStoreBacking)}`);
 
@@ -162,6 +163,15 @@ export default class cgController {
             cgAnimate(elem, false);
             inProgress[id] = false;
         }, hideDelay);
+    }
+
+    /** Sends a reply message
+     * @param {string} id The ID of the message to send
+     * @param {Object} data The data to be sent
+     */
+    reply(id, data) {
+        console.debug(`${this.name}: reply id ${id}, data ${JSON.stringify(data)}`);
+        this.io.emit(`${this.name}:reply`, _.assign({ id: id, data: data || null}));
     }
 
     /** Trap functions used by the data store proxy to

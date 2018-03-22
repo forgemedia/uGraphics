@@ -6,6 +6,7 @@ import _ from 'lodash';
 let name;
 let io;
 let dataStore;
+let subscriptions = {};
 
 /** The data store backing object */
 let dataStoreBacking = {
@@ -219,6 +220,11 @@ export default class dashController {
         io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
     }
 
+    replySubscribe(id, callback) {
+        if (!subscriptions[id]) subscriptions[id] = [];
+        return subscriptions[id].push(callback);
+    }
+
     /** Sets up socket message handler functions for the controller */
     setSocketHandlers() {
         // When a sync message is received...
@@ -235,6 +241,14 @@ export default class dashController {
                 let model = elem.attr('fg-copy');
                 elem.val(this.dataStore[model]);
             });
+        });
+
+        io.on(`${name}:reply`, msg => {
+            console.debug(`${name}: received reply, ${JSON.stringify(msg)}`);
+            let id = msg.id;
+            if (subscriptions[id])
+                for (let callback of subscriptions[id])
+                    callback(msg.data);
         });
     }
 }

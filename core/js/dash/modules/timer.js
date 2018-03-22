@@ -19,4 +19,7 @@ export default controller => {
             });
         });
     });
+    controller.replySubscribe('timer', data => {
+        console.log(`Timer reply: ${JSON.stringify(data)}`);
+    })
 };

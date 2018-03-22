@@ -78,6 +78,11 @@ let add = data => {
     update(data.id);
 }
 
+let query = (id, controller) => {
+    console.debug(`- Timer query ${id}, ${JSON.stringify(timers[id] || 'timer not set')}`);
+    controller.reply('timer', { query: id, timer: timers[id] || null });
+}
+
 export default controller => {
     console.debug(`${controller.name}: timer module`);
     controller.cgTriggerSubscribe('timer', data => {
@@ -90,6 +95,7 @@ export default controller => {
             case 'down': down(data.id); break; // Down op: go backwards
             case 'add': add(data); break; // Add op: Add to the counter (or subtract with a negative)
             case 'lset': lset(data); break; // Lset op: Set the timer's limiter without a full set op
+            case 'query': query(data.id, controller); break;
             default: break;
         }
     });
