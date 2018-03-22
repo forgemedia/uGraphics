@@ -31,9 +31,10 @@ let consoleTransport = new Winston.transports.Console({
         Winston.format.colorize(),
         Winston.format.printf(info => `${info.level}: ${info.message}`))
 });
+let transportArray = [ consoleTransport ];
 export let logger = Winston.createLogger({
-    transports: [ consoleTransport ],
-    level: Shared.Debug? 'silly' : 'info'
+    transports: transportArray,
+    level: Shared.Debug? 'verbose' : 'info'
 });
 
 logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
@@ -104,12 +105,29 @@ server.listen(Shared.argv.port, () => {
 let vorpal = Vorpal();
 
 vorpal.command('show <store>')
-    .description('Show the contents of a module\'s data store')
+    .description('Show the contents of a controller\'s data store')
     .alias('s')
     .action((args, callback) => {
-        console.log(JSON.stringify(SocketHandler.getStore(args.store) || 'Module not found' ));
+        logger.error(JSON.stringify(SocketHandler.getStore(args.store) || 'Controller not found' ));
         callback();
     });
+
+vorpal.command('loglevel <level>')
+    .description('Show or set the Winston log level (use \'show\' to show)')
+    .validate(args => ['error', 'warn', 'info', 'verbose', 'debug', 'silly', 'show'].includes(args.level) || 'Invalid log level')
+    .action((args, callback) => {
+        if (args.level == 'show') console.log(`'${logger.level}'`);
+        else for (let transport of logger.transports) transport.level = args.level;
+        callback();
+    });
+
+vorpal.command('debug')
+    .description('Toggle the server debug mode')
+    .action((args, callback) => {
+        Shared.Debug = !Shared.Debug;
+        app.locals.ugr_debug = Shared.Debug;
+        callback();
+    })
 
 vorpal.delimiter('uGraphics>').show();
 consoleTransport.on('logged', () => vorpal.ui.redraw.done());
