@@ -26,7 +26,7 @@ let methodsBacking = {};
 
 let padNum = (num, len) => num.toString().padStart(len, '0');
 let formatMinutes = seconds => {
-    if (seconds === null || seconds === undefined) return 'Uninitialised';
+    if (seconds === null || seconds === undefined) return '--:--';
     let negative = seconds < 0;
     if (negative) seconds *= -1;
     let minutes = Math.floor(seconds / 60);

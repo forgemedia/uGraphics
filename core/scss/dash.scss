@@ -52,6 +52,12 @@ footer {
     }
 }
 
+span.timer-overtime {
+    background: $orange;
+    color: white;
+    border-color: darken($orange, 10%);
+}
+
 .custom-checkbox, .custom-radio {
     margin: 0px;
     width: 100%;

@@ -7,6 +7,12 @@ let timerIntervals = {};
 export default (data, dataStore, callback) => {
     if (!dataStore.timer) dataStore.timer = {};
 
+    let halt = id => {
+        logger.verbose(`Timer mechanism: halt timer ${id}`);
+        clearInterval(timerIntervals[id]);
+        timerIntervals[id] = null;
+    };
+
     let methods = {
         init: data => {
             logger.verbose(`Timer mechanism: Init timer ${data.id}`);
@@ -14,7 +20,14 @@ export default (data, dataStore, callback) => {
             dataStore.timer[data.id] = {
                 counter: 0,
                 direction: '>',
-                limiter: null
+                limiter: 0,
+                lmode: 'none',
+                get overtime() {
+                    return this.lmode == 'soft'
+                    && (this.direction == '>'?
+                        this.counter > this.limiter
+                    :   this.counter < this.limiter);
+                }
             };
         },
         set: data => {
@@ -28,16 +41,19 @@ export default (data, dataStore, callback) => {
             timerIntervals[data.id] = setInterval(() => {
                 let timer = dataStore.timer[data.id];
                 switch (timer.direction) {
-                    case '>': timer.counter++; break;
-                    case '<': default: timer.counter--; break;
+                    case '>':
+                        timer.counter++;
+                        break;
+                    case '<': default:
+                        timer.counter--;
+                        break;
                 }
+                if (timer.counter == timer.limiter && timer.lmode == 'hard') halt(data.id);
                 callback(true);
             }, 1000);
         },
         halt: data => {
-            logger.verbose(`Timer mechanism: halt timer ${data.id}`);
-            clearInterval(timerIntervals[data.id]);
-            timerIntervals[data.id] = null;
+            halt(data.id);
         }
     };
 
