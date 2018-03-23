@@ -7,7 +7,7 @@ export default (data, dataStore, callback) => {
     let init = data => {
         dataStore.timer[data.id] = {
             counter: 0,
-            direction: 'up'
+            direction: '>'
         };
     };
 

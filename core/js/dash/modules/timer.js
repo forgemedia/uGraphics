@@ -17,6 +17,7 @@ export default controller => {
             };
 
             let counter = el.attr('fg-timer-counter'); if (counter) request.settings.counter = counter;
+            let direction = el.attr('fg-timer-direction'); if (direction) request.settings.direction = direction;
             controller.mechanism('timer', request);
         });
     });

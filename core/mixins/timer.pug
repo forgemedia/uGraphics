@@ -14,5 +14,7 @@ mixin timer-ui(name, showid, tid)
                     button.btn.btn-primary(fg-timer-id=tid fg-timer-op='init' rv-hide=tobj) Initialise
                     button.btn.btn-warning(rv-show=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-counter=tid + '_counter') Set
             li.list-group-item.py-1
-                +radio('Down', 'timer.' + tid + '.direction', 'down')
-                +radio('Up', 'timer.' + tid + '.direction', 'up')
+                .input-group
+                    .input-group-prepend: button.btn.btn-secondary(fg-timer-id=tid fg-timer-op='set' fg-timer-direction='<') Down
+                    span.input-group-text { timer.#{tid}.direction }
+                    .input-group-append: button.btn.btn-secondary(fg-timer-id=tid fg-timer-op='set' fg-timer-direction='>') Up

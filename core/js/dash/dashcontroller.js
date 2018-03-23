@@ -17,7 +17,9 @@ let emitStore = () => {
 /** The data store backing object */
 let dataStoreBacking = {
     methods: {
-        emitStore: emitStore
+        emitStore: emitStore,
+        eq: (a, b) => a == b,
+        cond: (i, a, b) => i? a : b
     }
 };
 
