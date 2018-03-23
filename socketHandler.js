@@ -19,7 +19,7 @@ let queues = {};
  * @param {string} socketName The name of the component
  * @param {Object} [delta] If present, will emit only this as a delta object
  */
-let emitSynf = (socketName, delta) => {
+export let emitSynf = (socketName, delta) => {
     // Emit it over socket
     io.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 
@@ -71,9 +71,9 @@ let unlockDataStore = dataStoreId => {
 };
 
 let mechanismCallbackFactory = dataStoreId => {
-    return () => {
-        logger.debug(`Mechanism callback on ${dataStoreId}`);
-        unlockDataStore(dataStoreId);
+    return (updateOnly) => {
+        logger.silly(`Mechanism callback on ${dataStoreId}${updateOnly? ', update only' : ''}`);
+        if (!updateOnly) unlockDataStore(dataStoreId);
         emitSynf(dataStoreId);
     };
 };
@@ -82,8 +82,10 @@ export default class {
     constructor(isockets, initDataStore) {
         sockets = isockets;
 
-        for (let socket of sockets)
+        for (let socket of sockets) {
             dataStore[socket] = initDataStore[socket] || {};
+            emitSynf(socket);
+        }
 
         setTick();
     }

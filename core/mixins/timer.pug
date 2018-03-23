@@ -7,14 +7,21 @@ mixin timer-ui(name, showid, tid)
         ul.list-group.list-group-flush
             li.list-group-item: +checkbox('Show', showid)
             li.list-group-item.py-1: .input-group
-                .input-group-prepend
-                    span.input-group-text { #{tobj}.counter | minutes }
+                .input-group-prepend: span.input-group-text { #{tobj}.counter | minutes }
                 +textbox('Counter (seconds)', tid + '_counter')(rv-enabled=tobj)
                 .input-group-append
-                    button.btn.btn-primary(fg-timer-id=tid fg-timer-op='init' rv-hide=tobj) Initialise
-                    button.btn.btn-warning(rv-show=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-counter=tid + '_counter') Set
-            li.list-group-item.py-1
-                .input-group
-                    .input-group-prepend: button.btn.btn-secondary(fg-timer-id=tid fg-timer-op='set' fg-timer-direction='<') Down
-                    span.input-group-text { timer.#{tid}.direction }
-                    .input-group-append: button.btn.btn-secondary(fg-timer-id=tid fg-timer-op='set' fg-timer-direction='>') Up
+                    button.btn.btn-warning(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-counter=tid + '_counter') Set
+            li.list-group-item.py-1: .input-group
+                .input-group-prepend: span.input-group-text { #{tobj}.limiter | minutes }
+                +textbox('Limiter (seconds)', tid + '_limiter')(rv-enabled=tobj)
+                .input-group-append
+                    button.btn.btn-warning(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-limiter=tid + '_limiter') Set
+            li.list-group-item.py-1: .row
+                .col-6: .input-group
+                    .input-group-prepend: button.btn.btn-secondary(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' fg-timer-direction='<') Down
+                    span.input-group-text { timer.#{tid}.direction | shc '-' }
+                    .input-group-append: button.btn.btn-secondary(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' fg-timer-direction='>') Up
+                .col-6(rv-hide=tobj): button.btn.btn-primary.float-right(fg-timer-id=tid fg-timer-op='init' rv-hide=tobj) Initialise
+                .col-6(rv-show=tobj): .btn-group.float-right
+                    button.btn.btn-danger(rv-enabled=tobj fg-timer-id=tid fg-timer-op='halt') Halt
+                    button.btn.btn-success(rv-enabled=tobj fg-timer-id=tid fg-timer-op='run') Run

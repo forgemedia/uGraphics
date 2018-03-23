@@ -17,9 +17,7 @@ let emitStore = () => {
 /** The data store backing object */
 let dataStoreBacking = {
     methods: {
-        emitStore: emitStore,
-        eq: (a, b) => a == b,
-        cond: (i, a, b) => i? a : b
+        emitStore: emitStore
     }
 };
 
@@ -61,7 +59,9 @@ export default class dashController {
         /** A proxy that writes to the data store backing */
         dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
 
-        Rivets.formatters.not = value => !value;
+        Rivets.formatters.not = value => !value; // Not
+        Rivets.formatters.shc = (i, a) => i || a; // Or short circuit
+        Rivets.formatters.cond = (i, a, b) => i? a : b; // Ternary conditional
         Rivets.formatters.minutes = formatMinutes;
 
         /** A Rivets binding between the controller and its container element,
