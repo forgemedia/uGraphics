@@ -3,6 +3,34 @@ import { logger } from '../server';
 import { emitSynf } from '../socketHandler';
 
 let timerIntervals = {};
+let timerSubscriptions = {};
+let timerGlobalTick = setInterval(() => {
+    for (let sub in timerSubscriptions) {
+        let subscription = timerSubscriptions[sub];
+        let timer = subscription.timerStore;
+        switch (timer.direction) {
+            case '>':
+                timer.counter++;
+                break;
+            case '<': default:
+                timer.counter--;
+                break;
+        }
+        if (timer.counter == timer.limiter && timer.lmode == 'hard') unsubscribe(subscription.data.id);
+        subscription.callback(true);
+    }
+}, 1000);
+let subscribe = (data, dataStore, callback) => {
+    if (timerSubscriptions[data.id]) return;
+    timerSubscriptions[data.id] = {
+        data: data,
+        timerStore: dataStore.timer[data.id],
+        callback: callback
+    };
+};
+let unsubscribe = id => {
+    delete timerSubscriptions[id];
+};
 
 export default (data, dataStore, callback) => {
     if (!dataStore.timer) dataStore.timer = {};
@@ -36,24 +64,10 @@ export default (data, dataStore, callback) => {
             _.assign(dataStore.timer[data.id], data.settings);
         },
         run: data => {
-            if (timerIntervals[data.id]) return;
-            logger.verbose(`Timer mechanism: run timer ${data.id}`);
-            timerIntervals[data.id] = setInterval(() => {
-                let timer = dataStore.timer[data.id];
-                switch (timer.direction) {
-                    case '>':
-                        timer.counter++;
-                        break;
-                    case '<': default:
-                        timer.counter--;
-                        break;
-                }
-                if (timer.counter == timer.limiter && timer.lmode == 'hard') halt(data.id);
-                callback(true);
-            }, 1000);
+            subscribe(data, dataStore, callback);
         },
         halt: data => {
-            halt(data.id);
+            unsubscribe(data.id);
         }
     };
 
