@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../../">
-  <title data-ice="title">ugraphics/core/js/cg/cgController.js | ugraphics</title>
+  <title data-ice="title">ugraphics/core/js/cg/cgcontroller.js | ugraphics</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -30,8 +30,10 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Handle">Handle</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -42,20 +44,20 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html">cgController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~cgController.html">cgController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgSetup">cgSetup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg-modules">core/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashController.js~dashController.html">dashController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashSetup">dashSetup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashcontroller.js~dashController.html">dashController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashsetup">dashsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash-modules">core/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#mechanism">mechanism</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/core/js/cg/cgController.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/core/js/cg/cgcontroller.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;;
 import SocketIOClient from &apos;socket.io-client&apos;;
 import Rivets from &apos;rivets&apos;;
@@ -74,6 +76,7 @@ let dataStoreBacking = {
 let inProgress = {};
 
 let subscriptions = {};
+let name = &apos;&apos;;
 
 let animateElement = (property, show) =&gt; {
     $(`[fg-show=${property}]`).each((i, v) =&gt; {
@@ -82,7 +85,9 @@ let animateElement = (property, show) =&gt; {
         // });
         cgAnimate(v, show)
     });
-}
+};
+
+let padNum = (num, len) =&gt; num.toString().padStart(len, &apos;0&apos;);
 
 /**
  * Character generator controller class
@@ -106,19 +111,26 @@ export default class cgController {
         this.methods = {};
 
         /** The ID of the controller */
-        this.name = id;
+        name = this.name = id;
 
-        console.log(`constructing controller with name ${this.name}, dataStoreBacking ${JSON.stringify(dataStoreBacking)}`);
+        console.debug(`constructing controller with name ${this.name}, dataStoreBacking ${JSON.stringify(dataStoreBacking)}`);
 
         /** The socket.io client */
         this.io = SocketIOClient.connect();
 
         Rivets.binders.fgshow = (el, value) =&gt; {
-            console.log(`animate: fgshow binder for ${$(el).prop(&apos;id&apos;)}, value ${JSON.stringify(value)}`)
+            console.debug(`animate: fgshow binder for ${$(el).prop(&apos;id&apos;)}, value ${JSON.stringify(value)}`)
             cgAnimate(el, value);
         };
 
         Rivets.formatters.not = value =&gt; !value;
+        Rivets.formatters.minutes = seconds =&gt; {
+            let negative = seconds &lt; 0;
+            if (negative) seconds *= -1;
+            let minutes = Math.floor(seconds / 60);
+            seconds %= 60;
+            return `${negative? &apos;-&apos; : &apos;&apos;}${padNum(minutes || 0, 2)}:${padNum(seconds || 0, 2)}`;
+        };
 
         // Bind the controller to the element, using the data store proxy
         // as the data model
@@ -140,7 +152,7 @@ export default class cgController {
         // When a sync message is received...
         this.io.on(`${this.name}:synf`, msg =&gt; {
             // Send a log to the console for debugging purposes
-            console.log(`${this.name}: received ${this.name}:synf, ${JSON.stringify(msg)}`);
+            console.debug(`${this.name}: received ${this.name}:synf, ${JSON.stringify(msg)}`);
 
             // Use _.assign to merge the received state into the local data store
             _.assign(this.dataStore, msg);
@@ -149,7 +161,7 @@ export default class cgController {
         // When a trigger message is received...
         this.io.on(`${this.name}:trigger`, msg =&gt; {
             // Send a log to the console for debugging purposes
-            console.log(`${this.name}: received ${this.name}:trigger, ${JSON.stringify(msg)}`);
+            console.debug(`${this.name}: received ${this.name}:trigger, ${JSON.stringify(msg)}`);
 
             // Keep a record of the event id contained in the msg object
             let id = msg.id;
@@ -194,14 +206,14 @@ export default class cgController {
         // is a marker saying this graphic is currently
         // in progress
         if (hideDelay &lt; 50 || inProgress[id]) {
-            console.log(`${this.name}: the graphic ${id} is currently in progress`);
+            console.debug(`${this.name}: the graphic ${id} is currently in progress`);
             return;
         }
 
         // Otherwise, start by marking this graphic as in progress
         inProgress[id] = true;
 
-        console.log(`${this.name}: cgTriggerAnimate for id ${id}, hideDelay ${hideDelay}`);
+        console.debug(`${this.name}: cgTriggerAnimate for id ${id}, hideDelay ${hideDelay}`);
 
         // Automatically set the values of relevant DOM elements
         for (let item in data) {
@@ -222,6 +234,15 @@ export default class cgController {
         }, hideDelay);
     }
 
+    /** Sends a reply message
+     * @param {string} id The ID of the message to send
+     * @param {Object} data The data to be sent
+     */
+    reply(id, data) {
+        console.debug(`${this.name}: reply id ${id}, data ${JSON.stringify(data)}`);
+        this.io.emit(`${this.name}:reply`, _.assign({ id: id, data: data || null}));
+    }
+
     /** Trap functions used by the data store proxy to
      * handle access to the data store backing object
      */
@@ -229,7 +250,7 @@ export default class cgController {
         return {
             // On assignment
             set: function (target, property, value, receiver) {
-                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);
+                console.debug(`${name}: data store trap, setting property ${property} to value ${JSON.stringify(value)}`);
                 // Assign the value to the target object&apos;s property as usual
                 target[property] = value;
 
@@ -238,7 +259,7 @@ export default class cgController {
                 animateElement(property, value);
 
                 // Return true, indicating success
-                console.log(`${name}: data store trap for ${property} complete`);
+                console.debug(`${name}: data store trap for ${property} complete`);
                 return true;
             }
         }

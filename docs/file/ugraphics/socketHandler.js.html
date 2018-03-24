@@ -30,8 +30,10 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Handle">Handle</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -42,15 +44,15 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html">cgController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~cgController.html">cgController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgSetup">cgSetup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg-modules">core/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashController.js~dashController.html">dashController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashSetup">dashSetup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashcontroller.js~dashController.html">dashController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashsetup">dashsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash-modules">core/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#mechanism">mechanism</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -59,6 +61,9 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { logger, io } from &apos;./server&apos;;
 import FS from &apos;fs&apos;;
 import _ from &apos;lodash&apos;;
+import * as MechanismRegister from &apos;./mechanismRegister&apos;;
+
+const lockingEnabled = false;
 
 /**
  * The central/master sync data store for all of the components
@@ -66,18 +71,20 @@ import _ from &apos;lodash&apos;;
  */
 let dataStore = {};
 let sockets = {};
+let locks = {};
+let queues = {};
 
 /**
  * Emits a sync state for the named component
  * @param {string} socketName The name of the component
  * @param {Object} [delta] If present, will emit only this as a delta object
  */
-let emitSynf = (socketName, delta) =&gt; {
+export let emitSynf = (socketName, delta) =&gt; {
     // Emit it over socket
     io.emit(`${socketName}:synf`, delta || dataStore[socketName]);
 
     // Log it
-    logger.debug(`Emitted ${socketName}:synf: ${delta? &apos;(delta) &apos; + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
+    logger.silly(`Emitted ${socketName}:synf: ${delta? &apos;(delta) &apos; + JSON.stringify(delta) : JSON.stringify(dataStore[socketName])}`);
 };
 
 /**
@@ -93,6 +100,19 @@ let emitTrigger = (socketName, msg) =&gt; {
     logger.debug(`Emitted ${socketName}:trigger: ${JSON.stringify(msg)}`);
 };
 
+/**
+ * Emits a reply message for the named component
+ * @param {string} socketName The name of the component
+ * @param {Object} msg The object to emit as accompanying data
+ */
+let emitReply = (socketName, msg) =&gt; {
+    // Emit it over socket
+    io.emit(`${socketName}:reply`, msg);
+
+    // Log it
+    logger.debug(`Emitted ${socketName}:reply: ${JSON.stringify(msg)}`);
+};
+
 /** Sets up a sixty-second tick interval to keep the system in sync */
 let setTick = () =&gt; {
     // Every n seconds, emit a sync event for each socket
@@ -102,18 +122,40 @@ let setTick = () =&gt; {
     }, 60000);
 };
 
+let unlockDataStore = dataStoreId =&gt; {
+    if (!locks[dataStoreId]) return;
+    logger.debug(`Unlocking ${dataStoreId}, ${queues[dataStoreId].length} messages to process`);
+    while (queues[dataStoreId].length &gt; 0) _.assign(dataStore[dataStoreId], queues[dataStoreId].pop);
+    locks[dataStoreId] = false;
+    logger.debug(`Unlocked data store ${dataStoreId}`);
+};
+
+let mechanismCallbackFactory = dataStoreId =&gt; {
+    return (updateOnly) =&gt; {
+        logger.silly(`Mechanism callback on ${dataStoreId}${updateOnly? &apos;, update only&apos; : &apos;&apos;}`);
+        if (!updateOnly) unlockDataStore(dataStoreId);
+        emitSynf(dataStoreId);
+    };
+};
+
 export default class {
     constructor(isockets, initDataStore) {
         sockets = isockets;
 
-        for (let socket of sockets)
+        for (let socket of sockets) {
             dataStore[socket] = initDataStore[socket] || {};
+            emitSynf(socket);
+        }
 
         setTick();
     }
 
     getStore(id) {
         return dataStore[id];
+    }
+
+    listStores(id) {
+        return _.keys(dataStore);
     }
 
     /**
@@ -127,13 +169,18 @@ export default class {
         
         // For each socket defined in config.json, set a method to handle it
         for (let socketName of sockets) {
+            queues[socketName] = [];
             // When a sync message is received...
             socket.on(`${socketName}:sync`, msg =&gt; {
                 // Log it
-                logger.debug(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
+                logger.silly(`Sync on ${socketName}:sync: ${JSON.stringify(msg)}`);
 
                 // Assign the received message into the respective data store
-                _.assign(dataStore[socketName], msg);
+                if (!locks[socketName]) _.assign(dataStore[socketName], msg);
+                else {
+                    logger.debug(`Queuing sync message for ${socketName}`);
+                    queues[socketName].push(msg);
+                }
 
                 // Emit it again on the same socket so other clients can pick it up
                 emitSynf(socketName, msg);
@@ -151,11 +198,25 @@ export default class {
             // When a trigger message is received...
             socket.on(`${socketName}:trigger`, msg =&gt; {
                 // Log it
-                logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${msg.data}`);
+                logger.debug(`Trig on ${socketName}:trigger: ${msg.id}, ${JSON.stringify(msg.data)}`);
 
                 // Pass it on
                 emitTrigger(socketName, msg);
             });
+
+            socket.on(`${socketName}:reply`, msg =&gt; {
+                logger.debug(`Rply on ${socketName}:reply: ${msg.id}, ${JSON.stringify(msg.data)}`);
+                emitReply(socketName, msg);
+            })
+
+            socket.on(`${socketName}:mechanism`, msg =&gt; {
+                if (lockingEnabled) {
+                    logger.debug(`Mechanism: locking data store ${socketName}`);
+                    locks[socketName] = true;
+                }
+                logger.debug(`Mech on ${socketName}:mechanism: ${msg.id}, ${JSON.stringify(msg.data)}`);
+                MechanismRegister.Handle(msg, dataStore[socketName], mechanismCallbackFactory(socketName));
+            })
         }
     };
 }

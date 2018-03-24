@@ -30,8 +30,10 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Handle">Handle</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -42,15 +44,15 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html">cgController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~cgController.html">cgController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgSetup">cgSetup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg-modules">core/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashController.js~dashController.html">dashController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashSetup">dashSetup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashcontroller.js~dashController.html">dashController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashsetup">dashsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash-modules">core/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#mechanism">mechanism</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -89,9 +91,10 @@ let consoleTransport = new Winston.transports.Console({
         Winston.format.colorize(),
         Winston.format.printf(info =&gt; `${info.level}: ${info.message}`))
 });
+let transportArray = [ consoleTransport ];
 export let logger = Winston.createLogger({
-    transports: [ consoleTransport ],
-    level: Shared.Debug? &apos;silly&apos; : &apos;info&apos;
+    transports: transportArray,
+    level: Shared.Debug? &apos;debug&apos; : &apos;info&apos;
 });
 
 logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
@@ -162,12 +165,37 @@ server.listen(Shared.argv.port, () =&gt; {
 let vorpal = Vorpal();
 
 vorpal.command(&apos;show &lt;store&gt;&apos;)
-    .description(&apos;Show the contents of a module\&apos;s data store&apos;)
+    .description(&apos;Show the contents of a controller\&apos;s data store&apos;)
     .alias(&apos;s&apos;)
     .action((args, callback) =&gt; {
-        console.log(JSON.stringify(SocketHandler.getStore(args.store) || &apos;Module not found&apos; ));
+        let store = SocketHandler.getStore(args.store) || null;
+        if (store) logger.info(JSON.stringify(store)); else logger.error(&apos;Store not found&apos;);
         callback();
     });
+
+vorpal.command(&apos;stores&apos;)
+    .description(&apos;List the data stores available&apos;)
+    .action((args, callback) =&gt; {
+        logger.info(SocketHandler.listStores());
+        callback();
+    });
+
+vorpal.command(&apos;loglevel &lt;level&gt;&apos;)
+    .description(&apos;Show or set the Winston log level (use \&apos;show\&apos; to show)&apos;)
+    .validate(args =&gt; [&apos;error&apos;, &apos;warn&apos;, &apos;info&apos;, &apos;verbose&apos;, &apos;debug&apos;, &apos;silly&apos;, &apos;show&apos;].includes(args.level) || &apos;Invalid log level&apos;)
+    .action((args, callback) =&gt; {
+        if (args.level == &apos;show&apos;) console.log(`&apos;${logger.level}&apos;`);
+        else for (let transport of logger.transports) transport.level = args.level;
+        callback();
+    });
+
+vorpal.command(&apos;debug&apos;)
+    .description(&apos;Toggle the server debug mode&apos;)
+    .action((args, callback) =&gt; {
+        Shared.Debug = !Shared.Debug;
+        app.locals.ugr_debug = Shared.Debug;
+        callback();
+    })
 
 vorpal.delimiter(&apos;uGraphics&gt;&apos;).show();
 consoleTransport.on(&apos;logged&apos;, () =&gt; vorpal.ui.redraw.done());

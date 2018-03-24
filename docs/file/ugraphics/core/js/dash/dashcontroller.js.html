@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../../">
-  <title data-ice="title">ugraphics/core/js/dash/dashController.js | ugraphics</title>
+  <title data-ice="title">ugraphics/core/js/dash/dashcontroller.js | ugraphics</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -30,8 +30,10 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/socketHandler.js~socketHandler.html">socketHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Handle">Handle</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LoadConfig">LoadConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ParseArgs">ParseArgs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-emitSynf">emitSynf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Styl">Styl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-router">router</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-app">app</a></span></span></li>
@@ -42,20 +44,20 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Config">Config</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-argv">argv</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgController.js~cgController.html">cgController</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg">core/js/cg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/cg/cgcontroller.js~cgController.html">cgController</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgAnimate">cgAnimate</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgSetup">cgSetup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-cgsetup">cgsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-cg-modules">core/js/cg/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clock">clock</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashController.js~dashController.html">dashController</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashSetup">dashSetup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash">core/js/dash</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/ugraphics/core/js/dash/dashcontroller.js~dashController.html">dashController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dashsetup">dashsetup</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-js-dash-modules">core/js/dash/modules</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-queue">queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#mechanism">mechanism</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-timer">timer</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/core/js/dash/dashController.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">ugraphics/core/js/dash/dashcontroller.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;;
 import Rivets from &apos;rivets&apos;;
 import SocketIOClient from &apos;socket.io-client&apos;;
@@ -64,12 +66,33 @@ import _ from &apos;lodash&apos;;
 let name;
 let io;
 let dataStore;
+let subscriptions = {};
+
+/** Manually sync up the data store in cases where we know the bindings won&apos;t work */
+let emitStore = () =&gt; {
+    console.debug(`${name}: emitting store`);
+    io.emit(`${name}:sync`, dataStoreBacking);
+};
 
 /** The data store backing object */
-let dataStoreBacking = {};
+let dataStoreBacking = {
+    methods: {
+        emitStore: emitStore
+    }
+};
 
 /** The method store backing object */
 let methodsBacking = {};
+
+let padNum = (num, len) =&gt; num.toString().padStart(len, &apos;0&apos;);
+let formatMinutes = seconds =&gt; {
+    if (seconds === null || seconds === undefined) return &apos;--:--&apos;;
+    let negative = seconds &lt; 0;
+    if (negative) seconds *= -1;
+    let minutes = Math.floor(seconds / 60);
+    seconds %= 60;
+    return `${negative? &apos;-&apos; : &apos;&apos;}${padNum(minutes || 0, 2)}:${padNum(seconds || 0, 2)}`;
+};
 
 /**
  * Dashboard controller class
@@ -81,7 +104,7 @@ export default class dashController {
      * @param {string} id The ID of the controller
      */
     constructor(id) {
-        console.log(`${id}: constructing controller`);
+        console.debug(`${id}: constructing controller`);
 
         /** The element that will contain the contents of the controller template -
          * has an `fg-panel` attribute corresponding to the ID of the controller
@@ -95,6 +118,11 @@ export default class dashController {
 
         /** A proxy that writes to the data store backing */
         dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
+
+        Rivets.formatters.not = value =&gt; !value; // Not
+        Rivets.formatters.shc = (i, a) =&gt; i || a; // Or short circuit
+        Rivets.formatters.cond = (i, a, b) =&gt; i? a : b; // Ternary conditional
+        Rivets.formatters.minutes = formatMinutes;
 
         /** A Rivets binding between the controller and its container element,
          * which uses the data store proxy as its data model
@@ -119,7 +147,7 @@ export default class dashController {
     get dataStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
-                console.log(`${name}: data store trap, setting property ${property} to value ${value}`);
+                console.debug(`${name}: data store trap, setting property ${property} to value ${value}`);
                 // Set the target&apos;s property to the value as normal
                 target[property] = value;
 
@@ -131,7 +159,7 @@ export default class dashController {
                 io.emit(`${name}:sync`, obj);
 
                 // Return true, indicating success
-                console.log(`${name}: data store trap for ${property} complete`);
+                console.debug(`${name}: data store trap for ${property} complete`);
                 return true;
             }
         };
@@ -143,11 +171,11 @@ export default class dashController {
     get methodsStoreTraps() {
         return {
             set: function(target, property, value, receiver) {
-                console.log(`${name}: methods store trap, setting property ${property} to value ${value}`);
+                console.debug(`${name}: methods store trap, setting property ${property} to value ${value}`);
                 // If the value assigned is not a function, return false,
                 // indicating failure
                 if (typeof value !== &apos;function&apos;) {
-                    console.log(`${name}: methods store trap: ${value} is not a function`);
+                    console.debug(`${name}: methods store trap: ${value} is not a function`);
                     return false;
                 }
 
@@ -160,27 +188,22 @@ export default class dashController {
                 // and add a new click event handler pointing to
                 // the new method
                 $(`[fg-click=&apos;${property}&apos;]`).off(&apos;click&apos;).click(target[property]).each(
-                    n =&gt; console.log(`${name}: reassigning click handler for ${n}`));
+                    n =&gt; console.debug(`${name}: reassigning click handler for ${n}`));
 
                 // Return true, indicating success
-                console.log(`${name}: methods store trap for ${property} complete`);
+                console.debug(`${name}: methods store trap for ${property} complete`);
                 return true;
             }
         };
     }
 
-    /** Manually sync up the data store in casws where we know the bindings won&apos;t work */
-    emitStore() {
-        console.log(`${name}: emitting store`);
-        io.emit(`${name}:sync`, dataStoreBacking);
-    }
 
     /**
      * Copies a value from an fg-copy element to the main state data store
      * @param {string} id The ID of the value to copy
      */
     copyValue(id) {
-        console.log(`${name}: copying value ${id}`);
+        console.debug(`${name}: copying value ${id}`);
 
         // Does what it says on the tin
         this.dataStore[id] = $(`[fg-copy=&apos;${id}&apos;]`).val();
@@ -191,7 +214,7 @@ export default class dashController {
      * to copy the corresponding value using {@link copyValue}
      */
     setButtons() {
-        console.log(`${name}: setting buttons`);
+        console.debug(`${name}: setting buttons`);
 
         // For singular copy buttons
         this.element.find(&apos;[fg-copy-button]&apos;).each((i, v) =&gt; {
@@ -199,9 +222,9 @@ export default class dashController {
             let elem = $(v);
             let copyId = elem.attr(&apos;fg-copy-button&apos;);
 
-            console.log(`${name}: found fg-copy-button for copyId ${copyId}`);
+            console.debug(`${name}: found fg-copy-button for copyId ${copyId}`);
             elem.click(() =&gt; {
-                console.log(`${name}: fg-copy-button clicked for copyId ${copyId}`);
+                console.debug(`${name}: fg-copy-button clicked for copyId ${copyId}`);
                 
                 // On click, copy the field
                 this.copyValue(copyId);
@@ -213,10 +236,10 @@ export default class dashController {
             let elem = $(v);
             let copyGroup = elem.attr(&apos;fg-copy-button-group&apos;);
 
-            console.log(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);
+            console.debug(`${name}: found fg-copy-button for copyGroup ${copyGroup}`);
             elem.click(() =&gt; {
                 // On click
-                console.log(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);
+                console.debug(`${name}: fg-copy-button-group clicked for copyGroup ${copyGroup}`);
 
                 // Find all inputs that share that group
                 this.element.find(`[fg-copy-group=&quot;${copyGroup}&quot;]`).each((ia, va) =&gt; {
@@ -224,7 +247,7 @@ export default class dashController {
                     let elem_a = $(va);
                     let copyId = elem_a.attr(&apos;fg-copy&apos;);
 
-                    console.log(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`);
+                    console.debug(`${name}: find fg-copy-group= copyGroup ${copyGroup}, copyId ${copyId}`);
                     // Copy the field
                     this.copyValue(copyId);
                 });
@@ -236,16 +259,16 @@ export default class dashController {
             let elem = $(v);
             let triggerGroup = elem.attr(&apos;fg-trigger-button-group&apos;);
 
-            console.log(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);
+            console.debug(`${name}: found fg-trigger-button for triggerGroup ${triggerGroup}`);
             elem.click(() =&gt; {
                 let data = {};
-                console.log(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);
+                console.debug(`${name}: fg-trigger-button-group clicked for triggerGroup ${triggerGroup}`);
 
                 this.element.find(`[fg-trigger-group=&quot;${triggerGroup}&quot;]`).each((ia, va) =&gt; {
                     let elem_a = $(va);
                     let triggerId = elem_a.attr(&apos;fg-trigger&apos;);
 
-                    console.log(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);
+                    console.debug(`${name}: find fg-trigger-group triggerGroup ${triggerGroup}, triggerId ${triggerId}`);
                     data[triggerId] = $(`[fg-trigger=&apos;${triggerId}&apos;]`).val();
                 });
 
@@ -257,9 +280,9 @@ export default class dashController {
             let elem = $(v);
             let triggerId = elem.attr(&apos;fg-trigger&apos;);
 
-            console.log(`${name}: found fg-trigger for triggerId ${triggerId}`);
+            console.debug(`${name}: found fg-trigger for triggerId ${triggerId}`);
             elem.click(() =&gt; {
-                console.log(`${name}: fg-trigger clicked for triggerId ${triggerId}`);
+                console.debug(`${name}: fg-trigger clicked for triggerId ${triggerId}`);
 
                 this.trigger(triggerId);
             });
@@ -271,15 +294,25 @@ export default class dashController {
      * @param {Object} data The data to be sent
      */
     trigger(id, data) {
-        console.log(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);
+        console.debug(`${name}: trigger id ${id}, data ${JSON.stringify(data)}`);
         io.emit(`${name}:trigger`, _.assign({ id: id, data: data || null}));
+    }
+
+    mechanism(id, data) {
+        console.debug(`${name}: mechanism id ${id}, data ${JSON.stringify(data)}`);
+        io.emit(`${name}:mechanism`, _.assign({ id: id, data: data || null }));
+    }
+
+    replySubscribe(id, callback) {
+        if (!subscriptions[id]) subscriptions[id] = [];
+        return subscriptions[id].push(callback);
     }
 
     /** Sets up socket message handler functions for the controller */
     setSocketHandlers() {
         // When a sync message is received...
         io.on(`${name}:synf`, msg =&gt; {
-            console.log(`${name}: received synf, ${JSON.stringify(msg)}`);
+            console.debug(`${name}: received synf, ${JSON.stringify(msg)}`);
 
             // Use _.assign to merge the received state into the local data store
             _.assign(dataStoreBacking, msg);
@@ -291,6 +324,14 @@ export default class dashController {
                 let model = elem.attr(&apos;fg-copy&apos;);
                 elem.val(this.dataStore[model]);
             });
+        });
+
+        io.on(`${name}:reply`, msg =&gt; {
+            console.debug(`${name}: received reply, ${JSON.stringify(msg)}`);
+            let id = msg.id;
+            if (subscriptions[id])
+                for (let callback of subscriptions[id])
+                    callback(msg.data);
         });
     }
 }

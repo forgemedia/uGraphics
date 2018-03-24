@@ -1,23 +1,25 @@
 {
-  "coverage": "60.25%",
-  "expectCount": 78,
-  "actualCount": 47,
+  "coverage": "53.93%",
+  "expectCount": 89,
+  "actualCount": 48,
   "files": {
     "ugraphics/core/js/cg/cgAnimate.js": {
       "expectCount": 7,
       "actualCount": 7,
       "undocumentLines": []
     },
-    "ugraphics/core/js/cg/cgController.js": {
-      "expectCount": 15,
+    "ugraphics/core/js/cg/cgcontroller.js": {
+      "expectCount": 17,
       "actualCount": 12,
       "undocumentLines": [
         18,
-        20,
-        75
+        19,
+        21,
+        30,
+        85
       ]
     },
-    "ugraphics/core/js/cg/cgSetup.js": {
+    "ugraphics/core/js/cg/cgsetup.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -29,30 +31,18 @@
       "actualCount": 1,
       "undocumentLines": []
     },
-    "ugraphics/core/js/cg/modules/timer.js": {
-      "expectCount": 12,
-      "actualCount": 0,
+    "ugraphics/core/js/dash/dashcontroller.js": {
+      "expectCount": 19,
+      "actualCount": 14,
       "undocumentLines": [
-        5,
-        6,
-        8,
-        12,
-        19,
+        9,
+        27,
         28,
-        37,
-        46,
-        59,
-        66,
-        74,
-        81
+        241,
+        246
       ]
     },
-    "ugraphics/core/js/dash/dashController.js": {
-      "expectCount": 14,
-      "actualCount": 14,
-      "undocumentLines": []
-    },
-    "ugraphics/core/js/dash/dashSetup.js": {
+    "ugraphics/core/js/dash/dashsetup.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -78,14 +68,35 @@
       "actualCount": 1,
       "undocumentLines": []
     },
+    "ugraphics/mechanism/timer.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        6,
+        7,
+        23,
+        31,
+        35
+      ]
+    },
+    "ugraphics/mechanismRegister.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        7
+      ]
+    },
     "ugraphics/server.js": {
-      "expectCount": 7,
+      "expectCount": 8,
       "actualCount": 3,
       "undocumentLines": [
         29,
         34,
-        89,
-        104
+        35,
+        90,
+        105
       ]
     },
     "ugraphics/shared.js": {
@@ -99,13 +110,19 @@
       ]
     },
     "ugraphics/socketHandler.js": {
-      "expectCount": 9,
-      "actualCount": 5,
+      "expectCount": 16,
+      "actualCount": 6,
       "undocumentLines": [
-        10,
-        47,
-        48,
-        57
+        6,
+        13,
+        14,
+        15,
+        65,
+        73,
+        81,
+        82,
+        93,
+        97
       ]
     },
     "ugraphics/stylesheet.js": {
