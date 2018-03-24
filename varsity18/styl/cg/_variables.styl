@@ -73,3 +73,8 @@ $bugsegment
     position absolute
     top $margin-y
     height $bugsegment-height
+
+checkerboard_background(size, colour)
+    background-image linear-gradient(45deg, colour 25%, transparent 25%), linear-gradient(-45deg, colour 25%, transparent 25%), linear-gradient(45deg, transparent 75%, colour 75%), linear-gradient(-45deg, transparent 75%, colour 75%)
+    background-size size size
+    background-position 0 0, 0 (size/2), (size/2) (size/-2), (size/-2) 0px
