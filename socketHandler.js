@@ -157,7 +157,7 @@ export default class {
                     locks[socketName] = true;
                 }
                 logger.debug(`Mech on ${socketName}:mechanism: ${msg.id}, ${JSON.stringify(msg.data)}`);
-                MechanismRegister.Handle(msg, dataStore[socketName], mechanismCallbackFactory(socketName));
+                if (!MechanismRegister.Handle(msg, dataStore[socketName], mechanismCallbackFactory(socketName))) logger.error(`- Mechanism ${msg.id} not found`);
             })
         }
     };
