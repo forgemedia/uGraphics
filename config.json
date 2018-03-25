@@ -16,6 +16,9 @@
         "browserSupport": [
             "Chrome > 40"
         ],
+        "sassIncludePaths": [
+            "node_modules/bootstrap/scss"
+        ],
         "stylIncludePaths": [
             "node_modules/"
         ],
