@@ -31,6 +31,9 @@
         "maintenance",
         "sport"
     ],
+    "mechanisms": {
+        "timer": "mechanism/timer"
+    },
     "initDataStore": {
         "bug": {
             "bugLogo": "/assets/img/bug/forge.svg",
