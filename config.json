@@ -12,16 +12,9 @@
         "assets": [ "varsity18/assets", "core/assets" ],
         "node_modules": [ "node_modules" ]
     },
-    "log": {
-        "file": false,
-        "path": "fg.log"
-    },
     "frontend": {
         "browserSupport": [
             "Chrome > 40"
-        ],
-        "sassIncludePaths": [
-            "node_modules/bootstrap/scss"
         ],
         "stylIncludePaths": [
             "node_modules/"

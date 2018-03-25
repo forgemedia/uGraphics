@@ -64,6 +64,8 @@ export default class cgController {
         };
 
         Rivets.formatters.not = value => !value;
+        Rivets.formatters.shc = (i, a) => i || a; // Or short circuit
+        Rivets.formatters.cond = (i, a, b) => i? a : b; // Ternary conditional
         Rivets.formatters.minutes = seconds => {
             let negative = seconds < 0;
             if (negative) seconds *= -1;

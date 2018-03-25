@@ -70,11 +70,13 @@ let unlockDataStore = dataStoreId => {
     logger.debug(`Unlocked data store ${dataStoreId}`);
 };
 
+let debouncedEmitSynf = _.debounce(emitSynf, 50);
+
 let mechanismCallbackFactory = dataStoreId => {
     return (updateOnly) => {
         logger.silly(`Mechanism callback on ${dataStoreId}${updateOnly? ', update only' : ''}`);
         if (!updateOnly) unlockDataStore(dataStoreId);
-        emitSynf(dataStoreId);
+        debouncedEmitSynf(dataStoreId);
     };
 };
 

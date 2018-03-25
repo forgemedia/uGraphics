@@ -60,8 +60,12 @@ export default class dashController {
         dataStore = this.dataStore = new Proxy(dataStoreBacking, this.dataStoreTraps);
 
         Rivets.formatters.not = value => !value; // Not
+        Rivets.formatters.and = (a, b) => a && b;
+        Rivets.formatters.or = (a, b) => a || b;
         Rivets.formatters.shc = (i, a) => i || a; // Or short circuit
         Rivets.formatters.cond = (i, a, b) => i? a : b; // Ternary conditional
+        Rivets.formatters.capitalise = i => _.upperFirst(i);
+        Rivets.formatters.shcapitalise = (i, a) => _.upperFirst(i || a);
         Rivets.formatters.minutes = formatMinutes;
 
         /** A Rivets binding between the controller and its container element,

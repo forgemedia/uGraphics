@@ -51,10 +51,10 @@ export default (data, dataStore, callback) => {
                 limiter: 0,
                 lmode: 'none',
                 get overtime() {
-                    return this.lmode == 'soft'
+                    return this.lmode != 'none'
                     && (this.direction == '>'?
-                        this.counter > this.limiter
-                    :   this.counter < this.limiter);
+                        this.counter >= this.limiter
+                    :   this.counter <= this.limiter);
                 }
             };
         },

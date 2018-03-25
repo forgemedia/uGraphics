@@ -13,12 +13,12 @@ div(fg-panel='sport')
         .row.mb-3: .col-12: +timer-ui('Main timer', 'showTimer', 'timer1')
             p.card-text Appears in the top right corner
 
-        //- .row.my-3: .col-12: .card
-        //-     .card-body.py-2
-        //-         .btn-group
-        //-             button.btn.btn-success.mdi.mdi-step-backward(rv-on-click='methods.timerOpBoth' fg-timer-op='down')
-        //-             button.btn.btn-danger.mdi.mdi-pause(rv-on-click='methods.timerOpBoth' fg-timer-op='stop')
-        //-             button.btn.btn-success.mdi.mdi-step-forward(rv-on-click='methods.timerOpBoth' fg-timer-op='start')
+        .row.mb-3: .col-12: .card
+            .card-header.py-1: h6.mb-0 Both timers
+            .card-body.py-2
+                .btn-group.btn-group-sm
+                    button.btn.btn-danger(rv-enabled='timer.timer1 | and timer.timer2' rv-on-click='methods.timerOpBoth' fg-timer-op='halt') Halt
+                    button.btn.btn-success(rv-enabled='timer.timer1 | and timer.timer2' rv-on-click='methods.timerOpBoth' fg-timer-op='run') Run
 
         .row: .col-12: +timer-ui('Sub-timer', 'showSubTimer', 'timer2')
             p.card-text Appears below the main timer

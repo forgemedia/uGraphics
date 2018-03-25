@@ -1,6 +1,6 @@
 div(fg-component='sport'): .mcontainer
-    div#mainTimer(rv-fgshow='showTimer' fg-anim='slide-y' fg-translateY='-10vh' fg-delay-out='200' rv-class-no-round-left='showScoreboard' rv-class-timer-overtime='timer.timer1.overtime') {timer.timer1.counter | minutes}
+    div#mainTimer(rv-fgshow='showTimer' fg-anim='slide-y' fg-translateY='-10vh' rv-fg-delay-in='showScoreboard | cond 1200 0' fg-delay-out='200' rv-class-timer-overtime='timer.timer1.overtime') {timer.timer1.counter | minutes}
     div#subTimer(rv-fgshow='methods.and | call showTimer showSubTimer' fg-anim='slide-y' fg-translateY='-6vh' fg-delay-in='200' rv-class-timer-overtime='timer.timer2.overtime') {timer.timer2.counter | minutes}
     div#scoreboard(rv-fgshow='showScoreboard' fg-anim='slide-y' fg-translateY='-10vh' rv-class-noclock='showTimer | not')
         span.scs#uos UOS
-        span.scs#shu(rv-class-no-round-right='showTimer') SHU
+        span.scs#shu SHU
