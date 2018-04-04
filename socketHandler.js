@@ -108,6 +108,10 @@ export default class {
         // Get the IP address that's connecting and log it
         let address = socket.request.connection.remoteAddress;
         logger.verbose(`Connection from ${address}`);
+
+        socket.on('telegram', msg => {
+            logger.debug(`TELEGRAM: ${msg}`);
+        });
         
         // For each socket defined in config.json, set a method to handle it
         for (let socketName of sockets) {
@@ -149,7 +153,7 @@ export default class {
             socket.on(`${socketName}:reply`, msg => {
                 logger.debug(`Rply on ${socketName}:reply: ${msg.id}, ${JSON.stringify(msg.data)}`);
                 emitReply(socketName, msg);
-            })
+            });
 
             socket.on(`${socketName}:mechanism`, msg => {
                 if (lockingEnabled) {
@@ -158,7 +162,7 @@ export default class {
                 }
                 logger.debug(`Mech on ${socketName}:mechanism: ${msg.id}, ${JSON.stringify(msg.data)}`);
                 if (!MechanismRegister.Handle(msg, dataStore[socketName], mechanismCallbackFactory(socketName))) logger.error(`- Mechanism ${msg.id} not found`);
-            })
+            });
         }
     };
 }

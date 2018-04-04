@@ -10,7 +10,14 @@ import Rivets from 'rivets';
 export default controllers => {
     console.debug('cg: begin');
 
-    // Hide all elements with an fg-show attribute to begin with
+    // Connect to sockets
+    console.debug('cg: connecting socket.io');
+    /** The socket.io client */
+    let io = SocketIO.connect();
+
+    io.emit('telegram', `CG is alive\nUser-Agent: ${navigator.userAgent}`);
+
+    // Hide all elements with an fg-how attribute to begin with
     console.debug(`cg: hiding all [fg-show] elements`);
     $('[fg-show]').each((i, v) => $(v).hide());
 
@@ -22,11 +29,6 @@ export default controllers => {
         console.debug(`cg: setting binding for id ${id} to new controller for ${id}`);
         bindings[id] = new controllers[id](id);
     }
-
-    // Connect to sockets
-    console.debug('cg: connecting socket.io');
-    /** The socket.io client */
-    let io = SocketIO.connect();
 
     // When the document is ready ($()), show the body element,
     // which is hidden in CSS
