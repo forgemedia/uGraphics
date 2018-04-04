@@ -15,6 +15,7 @@ import SocketIOServer from 'socket.io';
 import Moment from 'moment';
 import _ from 'lodash';
 import Vorpal from 'vorpal';
+import Morgan from 'morgan';
 import 'pug'; // So that pkg works
 
 // Import config and modules from project
@@ -40,6 +41,12 @@ export let logger = Winston.createLogger({
 logger.info(`Forge Graphics Server Gen3 (${Shared.Config.locals.product} - ${Shared.Config.locals.project})`)
 logger.info(`Time of start: ${Moment().format('ddd DD MMM YYYY, HH:mm:ss ZZ')}`)
 
+let logStream = {
+    write: text => {
+        logger.silly(_.trimEnd(text));
+    }
+};
+
 // -----------------------------------------------------------------------------
 // - EXPRESS APP ---------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -62,6 +69,8 @@ StylesheetMiddleware.Styl(app);
 // -----------------------------------------------------------------------------
 // - SERVER --------------------------------------------------------------------
 // -----------------------------------------------------------------------------
+app.use(Morgan('combined', { stream: logStream }));
+
 // Serve static directories
 logger.silly(`Configuring server routes`);
 for (let pub in Shared.Config.publicDirs)
@@ -138,4 +147,5 @@ vorpal.command('debug')
     })
 
 vorpal.delimiter('uGraphics>').show();
-consoleTransport.on('logged', () => vorpal.ui.redraw.done());
+let redrawDebounced = _.debounce(() => { vorpal.ui.redraw.done(); }, 500);
+consoleTransport.on('logged', redrawDebounced);
