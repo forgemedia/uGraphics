@@ -4,10 +4,13 @@ html
         title #{project} CG
         link(rel='stylesheet', href='/output/cg.css')
     body(class=ugr_debug? 'debug':'')
+        #errormsg
+            span AN ERROR OCCURRED
         #character-generator
             include templates/bug
             include templates/lowerThirds
             include templates/sport
+        script(src='/js/cgerror.js')
         script(src='/jspm_packages/system.js')
         script(src='/js/config.js')
-        script System.import('/js/local/cg')
+        script System.import('/js/local/cg').catch(error => errormsg(error))
