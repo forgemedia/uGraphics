@@ -1,5 +1,5 @@
 mixin timer-ui(name, showid, tid)
-    - let tobj = 'timer.' + tid
+    - let tobj = `timer.${tid}`
     +live-card(showid)
         .card-header
             h4.card-title= name
@@ -7,15 +7,17 @@ mixin timer-ui(name, showid, tid)
         ul.list-group.list-group-flush
             li.list-group-item: +checkbox('Show', showid)
             li.list-group-item.py-1: .input-group
-                .input-group-prepend: span.input-group-text(rv-class-timer-overtime=tobj + '.overtime') { #{tobj}.counter | minutes }
-                +textbox('Counter (seconds)', tid + '_counter')(rv-enabled=tobj)
+                .input-group-prepend: span.input-group-text(rv-class-timer-overtime=`${tobj}.overtime`) { #{tobj}.counter | minutes }
+                +textbox('Counter (minutes)', `${tid}_counter_min`)(rv-enabled=tobj)
+                +textbox('Counter (seconds)', `${tid}_counter_sec`)(rv-enabled=tobj)
                 .input-group-append
-                    button.btn.btn-warning(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-counter=tid + '_counter | shc 0' ) Set
+                    button.btn.btn-warning(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-counter=`${tid}_counter_min | minmul ${tid}_counter_sec`) Set
             li.list-group-item.py-1: .input-group
                 .input-group-prepend: span.input-group-text { #{tobj}.limiter | minutes }
-                +textbox('Limiter (seconds)', tid + '_limiter')(rv-enabled=tobj)
+                +textbox('Limiter (minutes)', `${tid}_limiter_min`)(rv-enabled=tobj)
+                +textbox('Limiter (seconds)', `${tid}_limiter_sec`)(rv-enabled=tobj)
                 .input-group-append
-                    button.btn.btn-warning(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-limiter=tid + '_limiter | shc 0') Set
+                    button.btn.btn-warning(rv-enabled=tobj fg-timer-id=tid fg-timer-op='set' rv-fg-timer-limiter=`${tid}_limiter_min | minmul ${tid}_limiter_sec`) Limit
             li.list-group-item.py-1: .row
                 .col-4: .input-group
                     .input-group-prepend

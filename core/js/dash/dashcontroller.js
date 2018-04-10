@@ -66,6 +66,13 @@ export default class dashController {
         Rivets.formatters.cond = (i, a, b) => i? a : b; // Ternary conditional
         Rivets.formatters.capitalise = i => _.upperFirst(i);
         Rivets.formatters.shcapitalise = (i, a) => _.upperFirst(i || a);
+        Rivets.formatters.minmul = (min, sec) => {
+            sec *= 1;
+            min *= 1;
+            let result = sec + (min * 60);
+            console.debug(`minmul (min ${min}, sec ${sec}): result ${result}`);
+            return result;
+        };
         Rivets.formatters.minutes = formatMinutes;
 
         /** A Rivets binding between the controller and its container element,
